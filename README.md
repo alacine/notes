@@ -10,6 +10,7 @@
  | git directory(Repository)   |版本库    |
 
 * git中文件的四种状态
+
  | English       |说明                                             |
  |---------------|-------------------------------------------------|
  | Untracked     |未被追踪的                                        |
@@ -62,3 +63,4 @@ git commit --amend         //撤销上一次提交 并将暂存区的文件重�
 git checkout -- filename   //拉取暂存区的文件并将其替换工作区的文件
 git reset HEAD -- filename //拉去最近一次提交的版本库中的文件到暂存区(不影响工作区)
 ```
+

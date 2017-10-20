@@ -57,10 +57,22 @@ git config --list
 地址~/.gitconfig
 ```
 
-* GIT撤销操作
+* 撤销操作
 ```sh
 git commit --amend         //撤销上一次提交 并将暂存区的文件重新提交
 git checkout -- filename   //拉取暂存区的文件并将其替换工作区的文件
 git reset HEAD -- filename //拉去最近一次提交的版本库中的文件到暂存区(不影响工作区)
+```
+
+* 文件删除
+```sh
+git rm -f filename        //删除暂存区和工作区的文件
+git rm --cached filename  //仅删除暂存区的文件
+
+```
+
+* 文件重命名
+```sh
+git mv oldname newname    //将工作区和暂存区的文件一起重命名
 ```
 

@@ -118,12 +118,12 @@ git stash drop stash@num    //git stash apply 只是运用存储信息,并不�
 
 * GitHub 上的仓库
 
-  - 创建仓库
-  - clone 仓库到本地
-  - 本地 push 到仓库
-  - pull 代码到本地
-  - ignoring files
-  - fork and pull request
+  + 创建仓库
+  + clone 仓库到本地
+  + 本地 push 到仓库
+  + pull 代码到本地
+  + ignoring files
+  + fork and pull request
 
 * 远程服务器上的仓库
   ```sh

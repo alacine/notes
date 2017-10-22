@@ -62,13 +62,15 @@ git config --list
 git commit --amend         //撤销上一次提交 并将暂存区的文件重新提交
 git checkout -- filename   //拉取暂存区的文件并将其替换工作区的文件
 git reset HEAD -- filename //拉去最近一次提交的版本库中的文件到暂存区(不影响工作区)
+git reset --option 版本号   //--hard 将版本库、暂存区和工作区的文件恢复到相应版本号中的状态
+                           //--mixed 将版本库、暂存区的文件恢复到相应版本号中的状态
+                           //--soft 将版本库、暂存区的文件恢复到相应版本号中的状态
 ```
 
 * 文件删除
 ```sh
 git rm -f filename        //删除暂存区和工作区的文件
 git rm --cached filename  //仅删除暂存区的文件
-
 ```
 
 * 文件重命名
@@ -114,22 +116,31 @@ git stash drop stash@num    //git stash apply 只是运用存储信息,并不�
 
 ### GIT 远程仓库
 
-* 生成 ssh-key
-```sh
-ssh-keygen
-```
+* GitHub 上的仓库
+  - 创建仓库
+  - clone 仓库到本地
+  - 本地 push 到仓库
+  - pull 代码到本地
+  - ignoring files
+  - fork and pull request
 
-* 推送至 GitHub 仓库
-```sh
-git push url master
-```
+* 远程服务器上的仓库
+  ```sh
+  git init --bare
+  git remote add name path
+  git remote rm name
+  git remote rename oldname newname
+  git fetch
+  ```
+  
+* Git ssh 免密登陆
+  ```sh
+  ssh-keygen             //生成sshkey
+  ssh-copy-id user@host  //将本地的公钥复制到远程服务器的 authorized.keys 文件中
+  ```
+  如果发现不是自己的服务器，可以将本地公钥发给服务器管理员添加在 authorized.keys 文件中
 
-* 从 GitHub 拉取到本地
-```sh
-git pull url master
-```
-
-* 远程地址重命名
-```sh
-git remote add newname url
-```
+* Git 帮助文档的使用
+  - git help
+  - git help command
+  - [官方文档地址](https://git-scm.com/docs)

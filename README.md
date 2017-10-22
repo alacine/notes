@@ -1,9 +1,9 @@
 ## GIT
-### GIT的结构和状态
+### GIT 结构和状态
 
 * GIT的三层结构
 
- | English                     |   说明   |
+ |          结构               |   说明   |
  |-----------------------------|----------|
  | working directory           |工作区    |
  | staging index               |暂存区    |
@@ -11,7 +11,7 @@
 
 * git中文件的四种状态
 
- | English       |说明                                             |
+ |   状态        |                       说明                       |
  |---------------|-------------------------------------------------|
  | Untracked     |未被追踪的                                        |
  | Modified      |表示工作区修改了某个文件但是还没有添加到暂存区       |
@@ -19,7 +19,7 @@
  | Committed     |表示数据被安全的储存在本地库中                      |
 
 
-### GIT基本命令
+### GIT 基本命令
 
 *  初始化git仓库
 ```sh
@@ -76,12 +76,12 @@ git rm --cached filename  //仅删除暂存区的文件
 git mv oldname newname    //将工作区和暂存区的文件一起重命名
 ```
 
-### Git分支
+### Git 分支
 
 * git分支的创建、修改、切换、删除
 ```sh
-git branch   //查看分支
-git branch branchname  //创建分支
+git branch                     //查看分支
+git branch branchname          //创建分支
 git branch -m oldname newname  //修改分支名称
 git checkout [-b] branchname   //切换分支
 git branch -d branchname       //产出分支
@@ -100,10 +100,19 @@ git diff 分支 分支     //比较两个分支的最新提交版本的差异
 
 * 合并
 ```sh
-git merge branchname    //合并分支到master(合并之前需要先切换到master分支,快速合并和冲突合并)
+git merge branchname    //合并分支到 master (合并之前需要先切换到master分支,快速合并和冲突合并)
 ```
 
 * 储存变更
 ```sh
-
+git stash                   //暂存工作区到当前分支
+git stash list
+git stash apply stash@num   //apply 后面不加名字则应用最近一次的储存信息
+git stash drop stash@num    //git stash apply 只是运用存储信息,并不删除它，drop 命令可以删除它
 ```
+
+
+### GIT 远程仓库
+
+* 
+

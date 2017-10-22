@@ -76,3 +76,34 @@ git rm --cached filename  //仅删除暂存区的文件
 git mv oldname newname    //将工作区和暂存区的文件一起重命名
 ```
 
+### Git分支
+
+* git分支的创建、修改、切换、删除
+```sh
+git branch   //查看分支
+git branch branchname  //创建分支
+git branch -m oldname newname  //修改分支名称
+git checkout [-b] branchname   //切换分支
+git branch -d branchname       //产出分支
+```
+
+* 分支的合并
+HEAD 指针指向当前工作区，在切换分支的时候指向新的分支
+
+* 比较
+```sh
+git diff              //比较
+git diff --staged     //比较暂存区和版本库的文件差异
+git diff 版本号 版本号 //比较分之内的两个版本的差异
+git diff 分支 分支     //比较两个分支的最新提交版本的差异
+```
+
+* 合并
+```sh
+git merge branchname    //合并分支到master(合并之前需要先切换到master分支,快速合并和冲突合并)
+```
+
+* 储存变更
+```sh
+
+```

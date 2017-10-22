@@ -117,13 +117,12 @@ git stash drop stash@num    //git stash apply 只是运用存储信息,并不�
 ### GIT 远程仓库
 
 * GitHub 上的仓库
-
-  -  创建仓库
-  -  clone 仓库到本地
-  ** 本地 push 到仓库
-  ** pull 代码到本地
-  ** ignoring files
-  ** fork and pull request
+    - 创建仓库
+    - clone 仓库到本地
+    - 本地 push 到仓库
+    - pull 代码到本地
+    - ignoring files
+    - fork and pull request
 
 * 远程服务器上的仓库
   ```sh
@@ -140,11 +139,9 @@ git stash drop stash@num    //git stash apply 只是运用存储信息,并不�
   ssh-keygen             //生成sshkey
   ssh-copy-id user@host  //将本地的公钥复制到远程服务器的 authorized.keys 文件中
   ```
-  
-  -   如果发现不是自己的服务器，可以将本地公钥发给服务器管理员添加在 authorized.keys 文件中
+    - 如果发现不是自己的服务器，可以将本地公钥发给服务器管理员添加在 authorized.keys 文件中
 
 * Git 帮助文档的使用
-
-  -   git help
-  -   git help command
-  -   [官方文档地址](https://git-scm.com/docs)
+    - git help
+    - git help command
+    - [官方文档地址](https://git-scm.com/docs)

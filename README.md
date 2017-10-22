@@ -114,5 +114,22 @@ git stash drop stash@num    //git stash apply 只是运用存储信息,并不�
 
 ### GIT 远程仓库
 
-* 
+* 生成 ssh-key
+```sh
+ssh-keygen
+```
 
+* 推送至 GitHub 仓库
+```sh
+git push url master
+```
+
+* 从 GitHub 拉取到本地
+```sh
+git pull url master
+```
+
+* 远程地址重命名
+```sh
+git remote add newname url
+```

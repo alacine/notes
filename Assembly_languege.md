@@ -51,7 +51,7 @@ MOV AL, 'A'         ;字符 'A' 的 ASCII 码是 41H, 相当于立即数
 &emsp;&emsp;&emsp;&emsp;IN AX, PORT(字)\
 操作：AL <- (PORT)\
 &emsp;&emsp;&emsp;AX <- (PORT)\
-其中 PORT 为端口号，端口号范围为00\~FFH时，可以使用长格式指令。所谓长格式指令是指其机器指令长度为 2 个字节（端口号占 1 个字节）。
+其中 PORT 为端口号，端口号范围为00\~FFH时，可以使用长格式指令。所谓长格式指令是指其机器指令长度为 2 个字节（端口号占 1 个字节）。\
 **短格式**：IN AL, DX(字节)\
 &emsp;&emsp;&emsp;&emsp;IN AX, DX(字)\
 操作：AL <- ((DX))\

@@ -62,7 +62,7 @@ MOV AL, 'A'         ;字符 'A' 的 ASCII 码是 41H, 相当于立即数
 把累加器的数据输出到端口 PORT 或由 DX 指向的端口。与输入指令相同，根据端口号的长度，分为长格式和短格式两种形式。\
 **长格式**：OUT PORT, AL(字节)\
 &emsp;&emsp;&emsp;&emsp;OUT PORT, AX(字节)\
-操作：(DX) <- AL
+操作：(DX) <- AL\
 &emsp;&emsp;&emsp;PORT <- AX\
 **短格式**：OUT DX, AL(字节)\
 &emsp;&emsp;&emsp;&emsp;OUT DX, AL(字节)\

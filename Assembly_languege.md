@@ -2,11 +2,11 @@
 
 ### 通用数据传送指令
 
-* MOV 传送
+* MOV 传送\
 格式: MOV DST, SRC
 操作: (DST) <- (SRC) , 将源操作数传送到目的操作数
 1. 双操作数的长度必须一致, 即必须同时为8位或16位。
-2. 目的操作数与源操作数不能同时为错初期, 不允许在两个存储单元之间传送数据。
+2. 目的操作数与源操作数不能同时为存储器, 不允许在两个存储单元之间传送数据。
 3. 目的操作数不能为 CS 或 IP, 因为 CS:IP 指向的是当前要执行的指令所在位置。
 4. 目的操作数不可以是立即数。
 ```sh
@@ -55,8 +55,41 @@ MOV AL, 'A'         ;字符 'A' 的 ASCII 码是 41H, 相当于立即数
 **短格式**：IN AL, DX(字节)\
 &emsp;&emsp;&emsp;&emsp;IN AX, DX(字)\
 操作：AL <- ((DX))\
-&emsp;&emsp;&emsp;AX <- ((DX))
+&emsp;&emsp;&emsp;AX <- ((DX))\
 其中 PORT 为端口号，端口号范围为00\~FFH时，必须使用短格式指令。短格式指令长度为一个字节，因为端口号存放在 DX 寄存器中。
 
 * OUT 输出\
-把累加器的数据输出到端口 PORT 或由 DX 指向的端口。与输入指令相同，根据端口号的长度，分为长格式和短格式两种形式。
+把累加器的数据输出到端口 PORT 或由 DX 指向的端口。与输入指令相同，根据端口号的长度，分为长格式和短格式两种形式。\
+**长格式**：OUT PORT, AL(字节)\
+&emsp;&emsp;&emsp;&emsp;OUT PORT, AX(字节)\
+操作：(DX) <- AL
+&emsp;&emsp;&emsp;PORT <- AX\
+**短格式**：OUT DX, AL(字节)\
+&emsp;&emsp;&emsp;&emsp;OUT DX, AL(字节)\
+操作：(DX) <- AL\
+&emsp;&emsp;&emsp;(DX) <- AX
+
+* XLAT 换码\
+格式：XLAT\
+操作：AL <- (BX + AL)\
+把 BX+AL 的值作为有效地址，取出其中的一个字节送 AL。
+
+### 地址传送指令
+
+* LEA 有效地址送寄存器\
+LEA REG, SRC\
+REG <- SRC
+> 把源操作数的有效地址 EA 送到指定的寄存器。
+
+* LDS 指针送寄存器和 DS\
+LDS REG, (SRC)\
+DS <- (SRC + 2)
+> 把操作数 SRC 所指向的内存单元中2个字送到指定的寄存器 REG 和 ES。
+
+### 标志寄存器传送指令
+
+* LAHF(Load AH with Flags)  标志送 AH 寄存器
+* SAHF(Store AH into Flags) AH 送标志寄存器
+* PUSHF(Push Flags)         标志入栈
+* POPF(Pop Flags)           标志出栈
+*以上4条指令的格式相同，只有操作码部分，操作数为固定默认值，如表2.2所示，且传送类指令（除 SAHF、POPF 外）均不影响标志位*

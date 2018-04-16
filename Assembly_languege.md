@@ -93,3 +93,114 @@ DS <- (SRC + 2)
 * PUSHF(Push Flags)         标志入栈
 * POPF(Pop Flags)           标志出栈
 *以上4条指令的格式相同，只有操作码部分，操作数为固定默认值，如表2.2所示，且传送类指令（除 SAHF、POPF 外）均不影响标志位*
+
+## 算数运算指令
+
+### 类型扩展指令
+
+* CBW 字节扩展成字 (convert byte to word)
+* CWD 字扩展成双字 (convert word to double word)
+
+这两条指令的格式相同，只有操作码部分，无操作数部分。操作数默认为累加器，无需在指令中给出。当执行 CBW 时，默认将 AL 寄存器的内容扩展到 AX 寄存器中，扩展方法为符号扩展，即如果 AL 的最高为是 1（负数），则 CBW 指令扩展时使 AH=FFH，如果 AL 的最高为为 0 （正数），则 CBW 指令扩展时使 AH=00H。当执行 CWD 时，默认将 AX 寄存器的内容扩展到（DX, AX）中，其中 DX 存放双字中的低位。如果 AX 的最高位为 1（负数），则 CWD 指令扩展时使 DX=FFFFH，如果 AX 的最高位为 0（正数），则 CWD 指令扩展时使 DX=0000H
+
+### 加法指令
+
+* ADD (add) 加法\
+ADD DST, SRC\
+(DST) <- (DST) + (SRC)
+
+ADD 指令将源操作数与目的操作数相加，结果存入目的操作数中。特别需要注意，加法指令执行后会影响标志寄存器中的 CF 和 OF 标志位。
+*无符号数发生溢出时，CF 标志位置 1；有符号数发生溢出时，OF 标志位置 1。*
+
+* ADC (add with carry) 带进位加法\
+ADD DST, SRC\
+(DST) <- (DST) + (SRC) + CF\
+
+上式中的 CF 为运算前 CF 标志位的值。
+
+* INC (increment) 加一\
+INC OPR\
+(OPR) <- (OPR) + 1\
+
+该指令不影响 CF 标志位
+
+### 减法指令
+
+*减法运算的标志位情况与加法类似，CF 标志位指明无符号数的溢出，OF 标志位指明有符号数溢出*
+
+* SUB (subtract) 减法\
+SUB DST, SRC\
+(DST) <- (DST) - (SRC)
+
+* SBB (subtract with borrow) 带借位减法\
+SBB DST, SRC\
+(DST) <- (DST) - (SRC) -CF
+
+* DEC (decrement) 减一\
+DEC OPR\
+(OPR) <- (OPR) - 1
+
+该指令不会影响 CF 标志位
+
+* NEG (negate) 求补\
+NEG OPR\
+(OPR) <- -(OPR)
+
+* CMP (compare) 比较\
+CMP OPR1, OPR2
+(OPR1) - (OPR2)
+
+### 除法指令
+
+* DIV (unsigned divide) 无符号数除法\
+DIV SRC\
+操作：\
+SRC 为字节时，(AL) <- (AX)/(SRC) 的商，(AH) <- (AX)/(SRC) 的余数。\
+SRC 为字时，(AX) <- (DX, AX)/(SRC) 的商，(DX) <- (DX, AX)/(SRC) 的余数。\
+*该指令将参与运算的数据默认为无符号数，则商和余数都是无符号数*
+
+* IDIV (signed divide) 有符号数除法\
+指令格式和无符号数除法相同，用来作有符号数除法。最终商的符号应是两个操作数的异或，而余数的符号和被除数符号一致。
+
+在除法指令里，目的操作数必须是累加器 AX 和 DX，不必写在指令中。被除数长度应为除数长的的两倍，余数放在目的操作数的高位，商放在目的操作数的低位。其中 SRC 不能是立即数。\
+当除数是字节类型时，除法指令要求商为 8 位。此时如果被除数的高 8 位绝对值 >= 除数的绝对值，则商会产生溢出。\
+当除数是字类型时，除法指令要求商为 16 位。此时如果被除数的高 16 位绝对值 >= 除数的绝对值，则商会产生溢出。\
+除法溢出会使程序退出，回到操作系统。必须在做除法前对溢出做出判断。
+
+### BCD 码的十进制调整指令
+
+* DAA (Decimal Adjust for Addition) 加法的十进制调整指令
+DAA\
+操作：\
+加法指令中，以 AL 为目的操作数，当加法运算结束后，使用本指令可以把 AL 中的和调整为正确的 BCD 码格式。即：
+1. 如果 AL 低 4 位 > 9，或 AF = 1，则 AL = AL + 6;
+2. 如果 AL 高 4 位 > 9，或 CF = 1，则 AL = AL + 60H, CF = 1。
+
+例如 AL = 28(BCD), BL = 65H = 65(BCD)。
+```
+ADD AL, BL   ; AL = 28H + 65H = 8DH
+DAA          ; AL = AL + 6H = 8DH + 6H = 93H = 93(BCD)
+```
+AL 和 BL 中都是用 BCD 码表示的十进制数，含义分别是 28 和 65，ADD 指令作二进制加法后得到 8DH，不是 BCD 码，DAA 指令作用后，把和调整为 93H，但它表示的是十进制数 93 的 BCD 码。
+
+再例如 AX = 88H = 88(BCD), BX = 89H = 89(BCD)。
+```
+ADD AL, BL   ; AL = 88H + 89H = 11H, AF = 1, CF = 1
+DAA          ; AL = AL + 66H = 11H + 66H = 77H = 77(BCD), CF = 1
+ADC AH, 0    ; AX = 177H = 177(BCD)
+```
+第一条加法指令中的低四位产生了向高四位的进位，这使得辅助进位 AF 置 1，高四位加产生的进位使得 CF 置 1，因此使用 DAA 指令后，根据 AF 的值需要加 6H，根据 CF 的值需要加 60H，因此将 AL 的内容加上 66H，把和调整为 77H，CF=1，最后 ADC 指令使 AX 中得到177H，即十进制数 177 的 BCD 码。
+
+* DAS (Decimal Adjust for Subtraction) 减法的十进制调整指令
+DAS
+减法结束后使用，类似 DAA。即：
+1. 如果 AL 低 4 位 > 9，或 AF = 1，则 AL = AL - 6, AF = 1;
+2. 如果 AL 高 4 位 > 9，或 CF = 1，则 AL = AL - 60H, CF = 1。
+
+例如 AL = 93H = 93(BCD), BL = 65H = 65(BCD)。
+```
+SUB AL, BL   ; AL = 93H -65H =2EH
+DAS          ; AL = AL -6H = 2EH - 6H =28H = 28(BCD)
+```
+
+## 逻辑与位移指令

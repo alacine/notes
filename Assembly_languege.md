@@ -147,6 +147,18 @@ NEG OPR\
 CMP OPR1, OPR2
 (OPR1) - (OPR2)
 
+### 乘法指令
+
+* MUL (unsigned mulutiple) 无符号数乘法\
+MUL SRC\
+当操作数为字节时，(AX) <- (AL) * (SRC)\
+当操作数为字时，(DX, AX) <- (AX) * (SRC)
+
+* IMUL (signed mulutiple) 有符号数乘法\
+格式与 MUL 相同，用来作有符号数乘法。\
+目的操作数默认为 AX，根据 SRC 的长度，默认参与运算的是 AL 寄存器的值，或者是 AX 寄存器的值。*SRC 可以是寄存器或变量，但不能是立即数*，因为立即数的长度不明确。\
+运算结果乘积的长度默认是乘数的两倍，不会出现溢出的情况。和加减法指令不同的是，在作乘法运算时需根据参与运算的是无符号还是有符号数，选择不同的指令。
+
 ### 除法指令
 
 * DIV (unsigned divide) 无符号数除法\
@@ -201,3 +213,82 @@ DAS          ; AL = AL -6H = 2EH - 6H =28H = 28(BCD)
 ```
 
 ## 逻辑与位移指令
+
+### 逻辑指令
+
+* AND 与\
+AND DST, SRC\
+(DST) <- (DST) && (SRC)
+
+* OR 或
+OR DST, SRC\
+(DST) <- (DST) || (SRC)
+
+* NOT 非
+NOT OPR\
+(OPR) <- (OPR)
+
+* XOR 异或
+XOR DST, SRC\
+(DST) <- (DST) ^ (SRC)
+
+* TEST 测试
+TEST OPR1, OPR2\
+(OPR1) ^ (OPR2)\
+TEST 指令的两个操作数的结果不保存，只根据结果置标志位。
+
+逻辑运算指令只会对部分标志位产生影响，其中 NOT 指令不影响任何标志位，其他指令将使 CF 位和 OF 位为 0，AF 位无定义，其他位则根据运算结果设置。\
+逻辑指令除了常规的逻辑运算功能外，通常可以用来对操作数的某些位进行处理，例如屏蔽某些位（将这些位置 0），或使某些位置 1，或测试某些位等。
+
+### 移位指令
+
+* SHL (Shift Logical Left) 逻辑左移
+* SAL (Shift Arithmentic Left) 算术左移
+* SHR (Shift Logical Right) 逻辑右移
+* SAR (Shift Arithmentic Right) 算术右移
+* ROL (Rotat Left) 循环左移
+* ROR (Rotat Right) 循环右移
+* RCL (Rotat Left with Carry) 带进位循环左移
+* RCR (Rotat Right with Carry) 带进位循环右移
+
+移位指令均是双操作数指令，指令的格式相同，以 SHL 为例\
+SHL OPR, 1\
+SHL OPR, CL, 其中 CL 寄存器的值大于 1。
+
+*其中 OPR 为寄存器或内存单元，移位次数可以是 1 或 CL寄存器，如需移位的次数大于 1，则可以在该移位指令前把移位次数先送 CL 寄存器中。*
+
+## 串操作指令
+
+* MOVS (Move String) 串传送
+* CMPS (Compare String) 串比较
+* SCAS (Scan String) 串扫描
+* STOS (Store in to String) 存入串
+* LODS (Load from String) 从串取
+
+用以处理内存中的数据串，每一次执行处理的只是单个字节或字，对于完整的数据串来说，需要重复执行串操作指令才能处理完整个串。串操作指令的重复有特定的前缀指令配合，如下：
+
+* REP (repeat) 重复\
+重复执行串操作指令，知道寄存器 CX=0 为止，CX 自动减 1。
+
+* REPE/REPZ (repeat while equal/zero) 相等/为零则重复\
+只有当 CX 寄存器的值不等于 0 并且标志位 ZF=1 时，重复执行串操作指令。
+
+* REPNE/REPNZ (repeat while not equal/not zero) 不相等/为零则重复\
+只有当 CX 寄存器的值不等于 0 并且标志位 ZF=0 时，重复执行串操作指令。
+
+### MOVS 串传送指令
+
+格式有三种：
+1. MOVSB: 以字节为单位传送；
+2. MOVSW: 以字为单位传送；
+3. MOVS DST, SRC: 将源串 SRC 传送到目的串 DST 中。
+
+和串传送指令想同，串比较指令也是涉及两个串，目的串地址位 ES:[DI], 源地址为 DS:[SI]。
+1. 字节（CMPSB）操作：\
+(ES:DI) - (DS:SI), DI +- 1, SI +- 1
+
+2. 字（CMPSW）操作：\
+(ES:DI) - (DS:SI), DI +- 2, SI +- 2
+
+---------------------------
+**暂时摸到这里，多的一批，过两天再说......**

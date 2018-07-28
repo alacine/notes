@@ -237,3 +237,43 @@ yum软件组管理命令
 umask 0022 # 临时生效
 vim /etc/profile # 永久
 ```
+
+### ACL权限
+
+为了解决用户身份不够用的问题
+
+查看分区的ACL权限是否开启  
+```bash
+dumpe2fs -h /dev/sda5
+# 查询指定分区详细文件系统信息
+# -h 仅显示超级快中信息，而不显示磁盘块组的详细信息
+```
+
+临时开启分区ACL权限
+```bash
+mount -o remount,acl /
+# 重新挂载根分区，并挂载加入ACL权限
+```
+
+永久开启分区ACL 权限
+```bash
+vim /etc/fstab
+# default后加acl
+mount -o remount /
+# 重新挂载文件系统或者重启系统，使修改生效
+```
+
+查看ACL命令
+```bash
+getfacl 文件名
+# 查看ACL权限
+```
+
+设定ACL权限  
+setfacl 选项 文件名
+* -m 设定ACL权限
+* -x 删除指定的ACL权限
+* -b 删除所有的ACL权限
+* -d 设定默认ACL权限
+* -k 删除默认ACL权限
+* -R 递归设定ACL 权限

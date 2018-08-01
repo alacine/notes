@@ -366,3 +366,46 @@ user1 ALL=/usr/bin/passwd [A-Za-z]*, !/usr/bin/passwd "", !/usr/bin/passwd root
         * a (append)  
         只能在文件中添加或增加数据，但是不能删除也不能修改数据；如果对目录设置a属性，那么只允许在目录中建立和修改文件，但是不允许删除
     - ```lsattr [-d] 文件名(目录) # 查看attr权限，目录加-d，显示所有-a```
+
+## 计划任务Crontab
+
+* 被周期性执行的任务称为Cron Job
+* 周期性执行的任务列表称为Cron Table
+
+### Crontab 的配置文件
+
+```bash
+* * * * * command
+```
+分钟0~59  
+小时0~23  
+日期1~31  
+月份1~12  
+星期0~7(0,7均表示星期天)
+
+```bash
+# 每晚的21:30重启apache
+30 21 * * * service httpd restart
+
+# 每月的1、10、22日的4:45重启apache
+45 4 1,10,22 * * service httpd restart
+
+# 每月的1到10日的4:45重启apache
+45 4 1-10 * * service httpd restart
+
+# 每隔两分钟重启Apache服务器
+*/2 * * * * service httpd restart
+1-59/2 * * * * service httpd restart
+
+# 晚上11点到早上7点之间，每隔一小时重启apache
+0 23-7/1 * * * service httpd restart
+
+# 每天18:00至23:00之间每隔30分钟重启apache
+0,30 18-23 * * * service httpd restart
+0-59/30 18-23 * * * service httpd restart
+```
+
+* \*表示任何时候都匹配
+* 用"A,B,C"表示A或者B或者C时执行命令
+* 用"A-B"表示A到B之间执行命令
+* 用"*/A"表示每A分钟(小时等)执行一次命令

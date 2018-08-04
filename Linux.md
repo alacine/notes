@@ -421,4 +421,14 @@ user1 ALL=/usr/bin/passwd [A-Za-z]*, !/usr/bin/passwd "", !/usr/bin/passwd root
 |5|图形界面|
 |6|重启动|
 
+```/etc/inittab # 系统默认运行级别配置文件，现在把功能分散在不同的配置文件中```
 
+### 服务的分类
+
+* Linux服务
+    - rpm包默认安装服务
+        * 独立的服务
+        * 基于xinetd服务 (逐渐淘汰)
+    -源码包安装的服务
+
+```chkconfig --list # 查看服务运行状态```

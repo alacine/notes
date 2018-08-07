@@ -432,3 +432,4 @@ user1 ALL=/usr/bin/passwd [A-Za-z]*, !/usr/bin/passwd "", !/usr/bin/passwd root
     -源码包安装的服务
 
 ```chkconfig --list # 查看服务运行状态```
+

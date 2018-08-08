@@ -121,6 +121,9 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 map <C-n> :NERDTreeToggle<CR>
 " 显示隐藏文件
 let NERDTreeShowHidden=1
+" 显示行号
+let NERDTreeShowLineNumbers=1
+let NERDTreeAutoCenter=1
 " git 信息显示
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
@@ -134,5 +137,6 @@ let g:NERDTreeIndicatorMapCustom = {
     \ 'Ignored'   : '☒',
     \ "Unknown"   : "?"
     \ }
+set updatetime=100
 " end of 2018-08-07
-```
+``

@@ -1,5 +1,6 @@
-## VIM 配置文件
-```bash
+### VIM配置文件
+
+```vim
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -33,6 +34,11 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'git@github.com:rakr/vim-one.git'
 " line
 " end of 2018-08-07
+
+" add Plugin at 2018-08-08
+Plugin 'git@github.com:scrooloose/nerdtree.git'
+Plugin 'git@github.com:Xuyuanp/nerdtree-git-plugin.git'
+" end of 2018-08-08
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -105,5 +111,28 @@ set background=dark " for the dark version
 " set background=light " for the light version
 colorscheme one
 
+" end of 2018-08-07
+" add at 2018-08-08
+" 启动vim时自动打开NERDTree
+autocmd vimenter * NERDTree
+" 自动退出
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" 设置Ctrl-n来开启或关闭NERDTree
+map <C-n> :NERDTreeToggle<CR>
+" 显示隐藏文件
+let NERDTreeShowHidden=1
+" git 信息显示
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
 " end of 2018-08-07
 ```

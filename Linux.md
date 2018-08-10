@@ -405,7 +405,7 @@ user1 ALL=/usr/bin/passwd [A-Za-z]*, !/usr/bin/passwd "", !/usr/bin/passwd root
 0-59/30 18-23 * * * service httpd restart
 ```
 
-* \*表示任何时候都匹配
+* *表示任何时候都匹配
 * 用"A,B,C"表示A或者B或者C时执行命令
 * 用"A-B"表示A到B之间执行命令
 * 用"*/A"表示每A分钟(小时等)执行一次命令
@@ -429,7 +429,10 @@ user1 ALL=/usr/bin/passwd [A-Za-z]*, !/usr/bin/passwd "", !/usr/bin/passwd root
     - rpm包默认安装服务
         * 独立的服务
         * 基于xinetd服务 (逐渐淘汰)
-    -源码包安装的服务
+    - 源码包安装的服务
 
-```chkconfig --list # 查看服务运行状态```
+```shell
+chkconfig --list 
+# 查看服务运行状态、自启动状态，可以看到所有RPM包安装的服务
+```
 

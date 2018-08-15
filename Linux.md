@@ -436,3 +436,22 @@ chkconfig --list
 # 查看服务运行状态、自启动状态，可以看到所有RPM包安装的服务
 ```
 
+### rpm包服务管理
+
+rpm 安装服务和源码包安装服务的区别就是安装位置的不同  
+* 源码包安装在指定位置，一般是`/usr/local/`
+* rpm包安装在默认位置中
+    - `/etc/init.d/`:启动脚本位置
+    - `/etc/sysconfig`:初始化环境配置文件位置
+    - `/etc/`:配置文件位置
+    - `/etc/xinetd.conf`:xinetd配置文件
+    - `/etc/xinetd.d/`:基于xinetd服务的启动脚本
+    - `/var/lib/`:服务产生的数据放在这里
+    - `/var/log`:日志
+* 独立服务的启动
+    - ```/etc/init.d/独立服务名 start|status|restart|```
+    - ```service 独立服务名 start|status|restart|```
+
+* 独立服务的管理
+
+* 基于xinetd服务的管理

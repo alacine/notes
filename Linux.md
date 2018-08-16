@@ -412,6 +412,8 @@ user1 ALL=/usr/bin/passwd [A-Za-z]*, !/usr/bin/passwd "", !/usr/bin/passwd root
 
 ## 服务管理
 
+***Waring: 这里的服务管理是在centos6中的使用，新的服务管理已经不再使用下面记录的方式，对服务管理有一个大概的了解先。新的服务管理如systemctl命令和新的配置文件路径，自行查阅文档或者Google***
+
 |运行级别|含义|
 |--------|----|
 |1|单用户模式，可以想象为windows的安全模式，主要用于系统修复|
@@ -448,10 +450,43 @@ rpm 安装服务和源码包安装服务的区别就是安装位置的不同
     - `/etc/xinetd.d/`:基于xinetd服务的启动脚本
     - `/var/lib/`:服务产生的数据放在这里
     - `/var/log`:日志
-* 独立服务的启动
-    - ```/etc/init.d/独立服务名 start|status|restart|```
-    - ```service 独立服务名 start|status|restart|```
 
 * 独立服务的管理
+    - 独立服务的启动
+        * ```/etc/init.d/独立服务名 start|status|restart|```
+        * ```service 独立服务名 start|status|restart|```
+    - 独立服务的自启动
+        * `chkconfig --level 运行级别 独立服务名 on|off`
+        * 修改`/etc/rc.d/rc.local`文件
+        * 使用`ntsysv命令管理自启动`
+
 
 * 基于xinetd服务的管理
+    - 安装xinetd
+    - xinetd服务的启动  ```vim /etc/xinetd.d/rsync```
+      ```
+      service rsync                 # 服务名称
+      {
+        flags = REUSE               # 标志为REUSE，设定TCP/IP socket可重用
+        socket_type = stream        # 使用TCP协议数据包
+        wait = no                   # 允许多个连接同时连接
+        user = root                 # 启动服务的用户为root
+        server = /usr/bin/rsync     # 服务的启动程序
+        log_on_failure += USERID    # 服务不启动
+        disable = no                # 服务不启动
+      }
+      ```
+    - xinetd服务的自启动(和启动一样)
+
+### 源码包服务
+
+* 启动  
+  **使用绝对路径**，调用启动脚本来启动。不同的源码包的启动脚本不同。可以查看源码包的安装说明，查看启动脚本的方法。  
+  ```/usr/local/apache2/bin/apachectl start|stop```
+* 自启动  
+  `/etc/rc.d/rc.local`中加入`/usr/local/apache2/bin/apachectl start`
+
+* 通过修改配置文件的方式可以使得源码包安装的服务能够被rpm包服务的管理方式识别
+
+这里放一张大致的图  
+![service](./screenshot_service.png)

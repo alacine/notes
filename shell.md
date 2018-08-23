@@ -47,4 +47,53 @@ export y #
 |     $#     |这个变量代表命令行中所有参数的个数|
 
 
+与定义变量
+|与定义变量|作用|
+|:--------:|----|
+|    $?    |最后一次执行的命令的返回状态。如果这个变量的值为0，证明上一个命令正确执行；如果这个变量的值为非0(具体是哪个数，由命令自己来决定)，则证明上一个命令执行不正确了。|
+|    $$    |当前进程的进程号(PID)|
+|    $!    |后台运行的最后一个进程的进程号(PID)|
 
+样例脚本:
+```shell
+#!/bin/bash
+
+for i in 1 2 3 4
+do
+    echo $i
+done
+
+for i in "$*"
+do
+    echo $i
+done
+
+for i in "$@"
+do
+    echo $i
+done
+```
+
+接收键盘输入  
+`read` 选项 变量名
+* 选项:
+* `-p` "提示信息": 在等待read输入时，输出提示信息
+* `-t` 秒数: read 命令会一直等待用户输入，使用此选项可以指定等待时间
+* `-n` 字符数: read 命令只接受指定的字符数，就会执行
+* `-s`: 隐藏输入的数据，使用与机密信息的输入
+
+样例脚本:
+```shell
+#!/bin/bash
+
+read -p "please input your name: " -t 30 name
+echo $name
+
+read -p "please input you password: " -s password
+echo -e "\n"
+echo $password
+
+read -p "please input your sex [M/F]: " -n 1 sex
+echo -e "\n"
+echo $sex
+```

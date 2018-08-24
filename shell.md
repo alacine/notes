@@ -1,3 +1,4 @@
+## shell 变量
 变量叠加
 ```shell
 x=123
@@ -97,3 +98,21 @@ read -p "please input your sex [M/F]: " -n 1 sex
 echo -e "\n"
 echo $sex
 ```
+
+## shell 运算符
+
+`declare` 声明变量类型  
+`declare [+/-]选项 变量名`
+* `-`: 给变量设定类型属性
+* `+`: 取消变量类型属性
+* `-a`: 将变量声明数组型
+* `-i`: 将变量声明为整数型
+* `-x`: 将变量声明为环境变量 
+* `-r`: 将变量声明为只读变量 
+* `-p`: 显示指定变量的被声明的类型 
+```shell
+aa=11
+bb=22
+declare -i cc=$aa+$bb
+```
+

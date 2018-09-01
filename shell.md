@@ -146,3 +146,26 @@ echo ${movie[*]}
 |x=${y:=新值}|x=新值，y=新值|x=新值，y=新值|x=$y，y不变|
 |x=${y?新值} |新值输出到标准错误输出(就是屏幕)|x为空|x=$y|
 |x=${y:?新值}|新值输出到标准错误输出|新值新值输出到标准错误输出|x=$y|
+
+## 环境变量配置文件
+
+`source 配置文件值` 或  `. 配置文件值` 
+
+### 简介
+
+```shell
+/etc/profile
+/etc/profile.d/*.sh
+~/.bashrc
+~/.bash_profile
+/etc/bashrc
+```
+环境变量加载路径，正常输入用户名密码时:  
+![normal.png](./normal_login.png)
+从su用户切换到当前用户时：
+![switch_to_login](./switch_to_login.png)
+
+### 功能
+
+### 其他配置文件
+

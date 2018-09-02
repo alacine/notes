@@ -154,18 +154,49 @@ echo ${movie[*]}
 ### 简介
 
 ```shell
-/etc/profile
+/etc/profile # 历史命令条数
 /etc/profile.d/*.sh
-~/.bashrc
+~/.bashrc # 别名
 ~/.bash_profile
-/etc/bashrc
+/etc/bashrc # 修改命令提示符
 ```
 环境变量加载路径，正常输入用户名密码时:  
 ![normal.png](./normal_login.png)
 从su用户切换到当前用户时：
 ![switch_to_login](./switch_to_login.png)
+**图片中的`/etc/sysconfig/i18n`是原先的语系配置文件，现在是语系的配置文件是`/etc/locale.conf`**
 
 ### 功能
 
+`/etc/profile`的作用:
+* USER变量
+* LONGAME变量
+* MAIL变量
+* PATH变量
+* HOSTNAME变量
+* HISTSIZE变量
+* umask变量
+* 调用`/etc/profile.d/*.sh`文件
+
 ### 其他配置文件
 
+本地终端登录信息: `/etc/issue`
+
+|转义符|作用                            |
+|:----:|--------------------------------|
+|  \d  |显示当前系统日期                |
+|  \s  |显示操作系统名称                |
+|  \l  |显示登录的终端号，这个比较常用  |
+|  \m  |显示硬件体系结构，如i386、i686等|
+|  \n  |显示主机名                      |
+|  \o  |显示域名                        |
+|  \r  |显示内核版本                    |
+|  \t  |显示当前系统时间                |
+|  \u  |显示当前登录用户的序列号        |
+
+远程终端欢迎信息: `/etc/issue.net`
+* 转义符在`/etc/issue.net`文件中不能使用
+* 是否显示此欢迎信息，由ssh的配置文件`/etc/ssh/sshd_config`决定，加入`Banner /etc/issue.net`行才能显示(记得重启SSH服务)
+
+登录后欢迎信息: `/etc/motd`
+* 不管是本地登录，还是远程登录，都可以提示此欢迎信息

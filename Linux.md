@@ -467,7 +467,7 @@ user1 ALL=/usr/bin/passwd [A-Za-z]*, !/usr/bin/passwd "", !/usr/bin/passwd root
         * 基于xinetd服务 (逐渐淘汰)
     - 源码包安装的服务
 
-```shell
+```bash
 chkconfig --list 
 # 查看服务运行状态、自启动状态，可以看到所有RPM包安装的服务
 ```

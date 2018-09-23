@@ -412,6 +412,20 @@ if [ 条件判断式 ]
     else
         ...
 fi
+
+# 判断apache是否启动
+#!/bin/bash
+
+test=$(ps aux | grep httpd | grep -v grep)
+# 截取http进程，并把结果赋予变量test
+if [ -n "$test" ]
+    then
+        echo "$(date) httpd is ok!" >> /tmp/autostart-acc.log
+    else
+        # /etc/rc.d/init.d/httpd start &> /dev/null
+        service network restart
+        echo "$(date) restart httpd!!" >> /tmp/autostart-err.log
+fi
 ```
 
 ### case语句

@@ -428,6 +428,86 @@ if [ -n "$test" ]
 fi
 ```
 
+多分支
+```bash
+if [ 条件判断式1 ]
+    then
+        ...
+elif [ 条件判断式1 ]
+    then
+        ...
+...
+else
+    ...
+fi
+```
+
+样例1 简单计算器
+```bash
+#!/bin/bash
+# 字符界面加减乘除计算器
+
+read -t 30 -p "Please input num1: " num1
+read -t 30 -p "Please input num2: " num2
+read -t 30 -p "Please input a operator: " ope
+
+if [ -n "$num1" -a -n "$num2" -a -n "$ope" ]; then
+# 第一层判断，用来判断num1、num2和ope中都有值
+    test1=$(echo $num1 | sed 's/[0-9]//g')
+    test1=$(echo $num1 | sed 's/[0-9]//g')
+    # 定义变量test1和test2的值为$(命令)的结果
+    # 后续命令作用是，把变量test1的值替换为空。如果能替换为空，证明num1的值为数字
+
+    if [ -z "$test1" -a -z "$test2" ]; then
+        # 第二层判断用来判断num1和num2为数值
+        # 如果变量test1和test2的值为空，则证明num1和num2是数字
+        # 如果test1和test2是数字，则执行一下命令
+        if [ "$ope" == '+' ]; then
+            ans=$(($num1 + $num2))
+        elif [ "$ope" == '-' ]; then
+            ans=$(($num1 - $num2))
+        elif [ "$ope" == '*' ]; then
+            ans=$(($num1 * $num2))
+        elif [ "$ope" == '/' ]; then
+            ans=$(($num1 / $num2))
+        else
+            echo "Please enter a valid symbol"
+            exit 10
+        fi
+    else
+        echo "Please enter a valid value"
+        exit 11
+    fi
+else
+    echo "input can not be empty"
+    exit 12
+fi
+
+echo "$num1 $ope $num2 = $ans"
+```
+
+样例2 判断输入的是什么文件
+```bash
+#!/bin/bash
+# 判断用户输入的是什么文件
+
+read -p "Please input a filename: " file
+
+if [ -z "$file" ]; then
+    echo "Error, Please input a filename"
+    exit 1
+elif [ ! -e "$file" ]; then
+    echo "Your input is not a file!"
+    exit 2
+elif [ -f "$file" ]; then
+    echo "$file is a regulare file!"
+elif [ -d "$file" ]; then
+    echo "$file is a directory!"
+else
+    echo "$file is an other file!"
+fi
+```
+
 ### case语句
 
 ### for循环

@@ -564,3 +564,23 @@ fi
 ```
 
 ## while循环和until循环
+
+```bash
+#!/bin/bash
+i=1
+s=0
+while [ $i -le 100 ]; do
+    s=$(($s+$i))
+    i=$(($i+1))
+done
+echo "The sum is: $s"
+
+#!/bin/bash
+i=1
+s=0
+until [ $i -gt 100 ]; do
+    s=$(($s+$i))
+    i=$(($i+1))
+done
+echo "The sum is: $s"
+```

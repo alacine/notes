@@ -38,6 +38,7 @@ Plugin 'git@github.com:rakr/vim-one.git'
 " add Plugin at 2018-08-08
 Plugin 'git@github.com:scrooloose/nerdtree.git'
 Plugin 'git@github.com:Xuyuanp/nerdtree-git-plugin.git'
+Plugin 'git@github.com:airblade/vim-gitgutter.git'
 " end of 2018-08-08
 
 " All of your Plugins must be added before the following line
@@ -65,13 +66,13 @@ set ts=4
 set softtabstop=4
 set shiftwidth=4
 "set cindent
-"set smartindent
+set smartindent
 set expandtab
 "filetype on
 "filetype plugin on
 
 "enable powerline
-set rtp+=/usr/lib/python3.6/site-packages/powerline/bindings/vim
+set rtp+=/usr/lib/python3.7/site-packages/powerline/bindings/vim
 set laststatus=2
 set t_Co=256
 "inoremap ( ()<LEFT>
@@ -81,7 +82,8 @@ set t_Co=256
 "开启实时搜索功能
 "set incsearch
 "搜索时大小写不敏感
-"set ignorecase
+set ignorecase
+set clipboard=unnamed
 "关闭兼容模式
 "set nocompatible
 "vim自身命令行模式智能补全
@@ -89,7 +91,6 @@ set t_Co=256
 
 " add at 2018-08-07
 
-let g:airline_theme='one'
 "Credit joshdick
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
@@ -110,17 +111,22 @@ endif
 set background=dark " for the dark version
 " set background=light " for the light version
 colorscheme one
+"let g:airline_theme='one'
 
 " end of 2018-08-07
 " add at 2018-08-08
 " 启动vim时自动打开NERDTree
-autocmd vimenter * NERDTree
+" autocmd vimenter * NERDTree
 " 自动退出
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " 设置Ctrl-n来开启或关闭NERDTree
 map <C-n> :NERDTreeToggle<CR>
+" 设置Ctrl-x来开启或关闭git diff高亮
+map <C-x> :GitGutterLineHighlightsToggle<CR>
 " 显示隐藏文件
 let NERDTreeShowHidden=1
+" 显示ignored
+let g:NERDTreeShowIgnoredStatus = 1
 " 显示行号
 let NERDTreeShowLineNumbers=1
 let NERDTreeAutoCenter=1
@@ -139,4 +145,4 @@ let g:NERDTreeIndicatorMapCustom = {
     \ }
 set updatetime=100
 " end of 2018-08-07
-``
+```

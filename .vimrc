@@ -1,6 +1,3 @@
-### VIM配置文件
-
-```vim
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -30,16 +27,13 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " different version somewhere else.
 " Plugin 'ascenator/L9', {'name': 'newL9'}
 
-" add Plugin at 2018-08-07
+" add Plugin here
 Plugin 'git@github.com:rakr/vim-one.git'
-" line
-" end of 2018-08-07
-
-" add Plugin at 2018-08-08
 Plugin 'git@github.com:scrooloose/nerdtree.git'
 Plugin 'git@github.com:Xuyuanp/nerdtree-git-plugin.git'
 Plugin 'git@github.com:airblade/vim-gitgutter.git'
-" end of 2018-08-08
+Plugin 'flazz/vim-colorschemes'
+" end of my Plugins
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -57,7 +51,7 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 
 
-
+" 自己的一些设置
 "让配置变更立即生效
 autocmd BufWritePost $MYVIMRC source $MYVIMRC
 syntax on
@@ -68,6 +62,10 @@ set shiftwidth=4
 "set cindent
 set smartindent
 set expandtab
+" 当前行高亮
+set cursorline
+" 当前列高亮
+set cursorcolumn
 "filetype on
 "filetype plugin on
 
@@ -89,8 +87,7 @@ set clipboard=unnamed
 "vim自身命令行模式智能补全
 "set wildmenu
 
-" add at 2018-08-07
-
+" vim-one 设置
 "Credit joshdick
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
@@ -110,11 +107,13 @@ endif
 
 set background=dark " for the dark version
 " set background=light " for the light version
+let g:one_allow_italics = 1
+" 解决 one 主题背景色异常问题
+au ColorScheme one hi Normal ctermbg=None
 colorscheme one
-"let g:airline_theme='one'
+" let g:airline_theme='one'
 
-" end of 2018-08-07
-" add at 2018-08-08
+" NERDTree 设置
 " 启动vim时自动打开NERDTree
 " autocmd vimenter * NERDTree
 " 自动退出
@@ -144,5 +143,3 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 set updatetime=100
-" end of 2018-08-07
-```

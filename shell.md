@@ -227,45 +227,63 @@ echo ${movie[*]}
 ### 字符截取命令
 
 1. `cut`字段提取命令  
-   * cut [选项] 文件名  
-   * -f 列号: 提取第几列
-   * -d 分隔符: 按照指定分隔符分割列(分隔符必须是一个字符)
+* cut [选项] 文件名  
+* -f 列号: 提取第几列
+* -d 分隔符: 按照指定分隔符分割列(分隔符必须是一个字符)
+
 2. `printf`命令  
-   * printf '输出类型输出格式' 输出内容
-   * 输出类型:  
-     - `%ns`: 输出字符串。n是数字指代输出几个字符
-     - `%ni`: 输出整数。n是数字指代输出几个数字
-     - `%m.nf`: 输出浮点数。m和n是数字，指代输出的整数位数和小数位数，如`%8.2f`代表共输出8位数，其中2位是小数，6位是整数
-   * 输出格式:  
-     - `\a`: 输出警告声音
-     - `\b`: 输出退格键，也就是Backspace键
-     - `\f`: 清除屏幕
-     - `\n`: 换行
-     - `\r`: 回车，也就是Enter键
-     - `\t`: 水平输出退格键，也就是Tab键
-     - `\v`: 垂直输出退格键，也就是Tab键
+* printf '输出类型输出格式' 输出内容
+* 输出类型:  
+  - `%ns`: 输出字符串。n是数字指代输出几个字符
+  - `%ni`: 输出整数。n是数字指代输出几个数字
+  - `%m.nf`: 输出浮点数。m和n是数字，指代输出的整数位数和小数位数，如`%8.2f`代表共输出8位数，其中2位是小数，6位是整数
+* 输出格式:  
+  - `\a`: 输出警告声音
+  - `\b`: 输出退格键，也就是Backspace键
+  - `\f`: 清除屏幕
+  - `\n`: 换行
+  - `\r`: 回车，也就是Enter键
+  - `\t`: 水平输出退格键，也就是Tab键
+  - `\v`: 垂直输出退格键，也就是Tab键
+
 3. `awk`命令  
-   * 在awk命令的输出中支持print和printf命令  
-     - `print`: print会在每个输出之后自动加上一个换行符(Linux默认没有print命令)
-     - `printf`: printf是标准格式输出命令，并不会自动加入换行符，如果需要换行，需要手工加入换行
-   * awk '条件1{动作1}条件2{动作2}' 文件名
-     - 条件(Pattern):  
-       + 一般使用关系表达式作为条件
-       + x > 10 判断变量x是否大于10
-       + x >= 10 大于等于
-       + x <= 10 小于等于
-     - 动作(Action):  
-       + 格式化输出
-       + 流程控制语句
-   * 下面是几个使用样例:  
-   ```bash
-   awk '{printf $2 "\t" $4 "\n"}' student.txt # 把student.txt中的第二个和第四个字段(列)按照格式输出(文件名传给$0。其中printf可换成print，这时不用写"\n")
-   df -h | awk '{print $1 "\t" $3}'
-   awk 'BEGIN{print "test"}{printf $2 "\t" $4 "\n"}' student.txt
-   awk 'END{print "test"}{printf $2 "\t" $4 "\n"}' student.txt
-   cat /etc/passwd | grep /bin/bash | awk 'BEGIN{FS=":"}{print $1 "\t" $3}' # 可以对比不加'BEGIN'
-   # FS 内置变量，用来标称分隔符是什么
-   ```
+* 基本格式 `awk [options] 'command' file(s)`  
+  - `command`: pattern{awk 操作命令} (pattern: 正则或逻辑判断式)
+* awk内置变量1  
+  - `$0`: 表示整个当前行
+  - `$1`: 表示第一个字段
+  - `$2`: 表示第二个字段
+* awk内置变量2  
+  - `NR`: 每行的记录号(The ordinal number of the current record from the start of input)
+  - `NF`: 字段数量变量(The number of fields in the current record)
+  - `FILENAME`: 正在处理的文件名
+* awk内置参数: 分隔符  
+  - `-F`: field-separator(默认为空格)  
+    `awk -F ':' '{print $3}' /etc/passwd`
+* 在awk命令的输出中支持print和printf命令  
+  - `print`: (*类似python2中的print*)print会在每个输出之后自动加上一个换行符(Linux默认没有print命令)
+  - `printf`: (*类似C中的printf*)printf是标准格式输出命令，并不会自动加入换行符，如果需要换行，需要手工加入换行
+* awk '条件1{动作1}条件2{动作2}' 文件名
+  - 条件(Pattern):  
+    + 一般使用关系表达式作为条件
+    + x > 10 判断变量x是否大于10
+    + x >= 10 大于等于
+    + x <= 10 小于等于
+  - 动作(Action):  
+    + 格式化输出
+    + 流程控制语句
+* 下面是几个使用样例:  
+```bash
+awk '{printf $2 "\t" $4 "\n"}' student.txt # 把student.txt中的第二个和第四个字段(列)按照格式输出(文件名传给$0。其中printf可换成print，这时不用写"\n")
+df -h | awk '{print $1 "\t" $3}'
+awk 'BEGIN{print "test"}{printf $2 "\t" $4 "\n"}' student.txt
+awk 'END{print "test"}{printf $2 "\t" $4 "\n"}' student.txt
+cat /etc/passwd | grep /bin/bash | awk 'BEGIN{FS=":"}{print $1 "\t" $3}' # 可以对比不加'BEGIN'
+# FS 内置变量，用来标称分隔符是什么
+awk -F ':' '{printf("Line:%3s Col:%s User:%s\n", NR, NF, $1)}' /etc/passwd
+awk -F ':' '{if ($3 > 100) print "Line : "NR, "User: "$1}' /etc/passwd
+```
+
 4. `sed`命令(字符替换)  
 sed 是一种几乎包括在所有UNIX平台的(包括Linux)的轻量级编辑器。sed重要是用来将数据进行选取、替换、删除、新增的命令  
 * sed [选项] '[动作]' 文件名

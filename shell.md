@@ -249,6 +249,7 @@ echo ${movie[*]}
 3. `awk`命令  
 * 基本格式 `awk [options] 'command' file(s)`  
   - `command`: pattern{awk 操作命令} (pattern: 正则或逻辑判断式)
+  - `command2`: 扩展: `BEGIN{print "start"}pattern{commands}END{print "end"}`
 * awk内置变量1  
   - `$0`: 表示整个当前行
   - `$1`: 表示第一个字段
@@ -263,6 +264,9 @@ echo ${movie[*]}
 * 在awk命令的输出中支持print和printf命令  
   - `print`: (*类似python2中的print*)print会在每个输出之后自动加上一个换行符(Linux默认没有print命令)
   - `printf`: (*类似C中的printf*)printf是标准格式输出命令，并不会自动加入换行符，如果需要换行，需要手工加入换行
+* awk逻辑判断式  
+  - `~`, `!~`: 匹配正则表达式
+  - `==`, `!=`, `<`, `>` 判断逻辑表达式
 * awk '条件1{动作1}条件2{动作2}' 文件名
   - 条件(Pattern):  
     + 一般使用关系表达式作为条件
@@ -282,6 +286,8 @@ cat /etc/passwd | grep /bin/bash | awk 'BEGIN{FS=":"}{print $1 "\t" $3}' # 可�
 # FS 内置变量，用来标称分隔符是什么
 awk -F ':' '{printf("Line:%3s Col:%s User:%s\n", NR, NF, $1)}' /etc/passwd
 awk -F ':' '{if ($3 > 100) print "Line : "NR, "User: "$1}' /etc/passwd
+awk -F ':' '$1!~/^m.*/{print $1}' /etc/passwd
+awk -F ':' 'BEGIN{print "Line\tCol\tUser"}{print NR"\t"NF"\t"$1}END{print "-----"FILENAME"------"}' /etc/passwd
 ```
 
 4. `sed`命令(字符替换)  

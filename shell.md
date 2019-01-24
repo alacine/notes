@@ -288,6 +288,8 @@ awk -F ':' '{printf("Line:%3s Col:%s User:%s\n", NR, NF, $1)}' /etc/passwd
 awk -F ':' '{if ($3 > 100) print "Line : "NR, "User: "$1}' /etc/passwd
 awk -F ':' '$1!~/^m.*/{print $1}' /etc/passwd
 awk -F ':' 'BEGIN{print "Line\tCol\tUser"}{print NR"\t"NF"\t"$1}END{print "-----"FILENAME"------"}' /etc/passwd
+# 统计netstat -anp状态下为LISTEN和CONNECTED的连接数量
+netstat -anp | awk '$6~/CONNECTED|LISTEN/{sum[$6]++}END{for (i in sum) print i,sum[i]}'
 ```
 
 4. `sed`命令(字符替换)  

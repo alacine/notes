@@ -66,3 +66,40 @@
 | shuffle(\<list\>)  | 将列表中随机返回一个元素         |
 | sample(\<list\>,k) | 从指定列表随机获取k个元素        |
 
+* 高阶函数
+
+1. `map(function_with_one_arg, list)`: 把function作用到list的每一个元素, 不改变原list, 返回一个Iterator  
+```python
+# 例如求a中每一个元素的平方, 并生成一个新的list
+def f(x):
+    return x * x
+a = [1, 2, 3, 4]
+b = map(f, x)
+print(list(b))
+```
+
+2. `reduce(function_with_two_args, list)`: 把function作用在list上, reduce把结果和list下一个元素做累加计算不改变原list  
+```python
+# 例如将数字序列[1, 2, 3, 4]变换成整数1234
+from functools import reduce
+a = [1, 2, 3, 4]
+def f(x, y):
+    return x * 10 + y
+print(reduce(f, a))
+```
+
+3. `filter(function_with_one_arg, list)`: 把function作用在list上, 根据返回值是True还是False决定元素保留还是丢弃, 不改变原list  
+```python
+# 例如去掉一个list中的偶数，仅保留奇数
+a = [1, 2 ,3, 4]
+def is_odd(x):
+    return n % 2 == 1
+print(list(filter(is_odd, a)))
+```
+
+4. `sorted(list, [key = function_with_one_arg], [reverse = True/False])`: 返回排序之后的list, 不改变原list  
+```python
+# 例如按照绝对值从大到小排序
+a = [1, -2, 3, -4]
+sorted(a, key = abs, reverse = True)
+```

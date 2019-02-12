@@ -2,7 +2,7 @@
 # This is a script for swithing shadowsocks config
 
 # get current config
-current_config=$(systemctl status | grep shadowsocks@ | grep -v grep | sed -n 's/.*@\(.*\)\.service/\1/p')
+current_config=$(systemctl status | grep "shadowsocks@" | grep -v "grep " | sed -n 's/.*@\(.*\)\.service/\1/p')
 
 # list available config
 config_directory=/etc/shadowsocks/
@@ -21,7 +21,7 @@ done
 
 # switch to config user chosed
 declare -i target
-read -p "Choose a config file you want to switch(0~$(($index - 1))): " target
+read -p "Choose a config file you want to use(0~$(($index - 1))): " target
 if [[ target -ge $index || target -lt 0 ]]; then
     echo "Input not available."
     exit 10

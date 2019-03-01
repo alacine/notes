@@ -35,6 +35,11 @@ Plugin 'git@github.com:airblade/vim-gitgutter.git'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'iamcco/mathjax-support-for-mkdp'
 Plugin 'iamcco/markdown-preview.vim'
+Plugin 'Yggdroot/indentLine'
+Plugin 'mhinz/vim-startify'
+Plugin 'tpope/vim-surround'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'scrooloose/nerdcommenter'
 " end of my Plugins
 
 " All of your Plugins must be added before the following line
@@ -67,7 +72,7 @@ set expandtab
 " 当前行高亮
 set cursorline
 " 当前列高亮
-set cursorcolumn
+" set cursorcolumn
 "filetype on
 "filetype plugin on
 
@@ -88,6 +93,7 @@ set clipboard=unnamed
 "set nocompatible
 "vim自身命令行模式智能补全
 "set wildmenu
+let mapleader=","
 
 " vim-one 设置
 "Credit joshdick

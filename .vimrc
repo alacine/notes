@@ -33,6 +33,8 @@ Plugin 'git@github.com:scrooloose/nerdtree.git'
 Plugin 'git@github.com:Xuyuanp/nerdtree-git-plugin.git'
 Plugin 'git@github.com:airblade/vim-gitgutter.git'
 Plugin 'flazz/vim-colorschemes'
+Plugin 'iamcco/mathjax-support-for-mkdp'
+Plugin 'iamcco/markdown-preview.vim'
 " end of my Plugins
 
 " All of your Plugins must be added before the following line

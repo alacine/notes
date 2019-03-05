@@ -1,3 +1,42 @@
+autocmd BufWritePost $MYVIMRC source $MYVIMRC
+syntax on
+" set termguicolors
+let mapleader=","
+set number
+set ts=4
+set softtabstop=4
+set shiftwidth=4
+" set cindent
+set smartindent
+set expandtab
+" 当前行高亮
+set cursorline
+" 当前列高亮
+" set cursorcolumn
+" vim自身命令行模式智能补全
+" set wildmenu
+set laststatus=2
+set t_Co=256
+set ignorecase
+set clipboard=unnamed
+
+inoremap ( ()<LEFT>
+inoremap [ []<LEFT>
+inoremap { {}<LEFT>
+inoremap jj <Esc>`^
+
+noremap <leader>w :w<cr>
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> [n :bnext<CR>
+" sudo to write
+cnoremap w!! w !sudo tee % >/dev/null
+
+" --------------------------------------------------------------------------------
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -28,10 +67,10 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Plugin 'ascenator/L9', {'name': 'newL9'}
 
 " add Plugin here
-Plugin 'git@github.com:rakr/vim-one.git'
-Plugin 'git@github.com:scrooloose/nerdtree.git'
-Plugin 'git@github.com:Xuyuanp/nerdtree-git-plugin.git'
-Plugin 'git@github.com:airblade/vim-gitgutter.git'
+Plugin 'rakr/vim-one.git'
+Plugin 'scrooloose/nerdtree.git'
+Plugin 'Xuyuanp/nerdtree-git-plugin.git'
+Plugin 'airblade/vim-gitgutter.git'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'iamcco/mathjax-support-for-mkdp'
 Plugin 'iamcco/markdown-preview.vim'
@@ -40,6 +79,16 @@ Plugin 'mhinz/vim-startify'
 Plugin 'tpope/vim-surround'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'Shougo/denite.nvim'
+Plugin 'w0ng/vim-hybrid'
+Plugin 'majutsushi/tagbar'
+Plugin 'lfv89/vim-interestingwords'
+Plugin 'rking/ag.vim'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 " end of my Plugins
 
 " All of your Plugins must be added before the following line
@@ -56,46 +105,9 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+"--------------------------------------------------------------------------------
 
-
-" 自己的一些设置
-"让配置变更立即生效
-autocmd BufWritePost $MYVIMRC source $MYVIMRC
-syntax on
-set number
-set ts=4
-set softtabstop=4
-set shiftwidth=4
-"set cindent
-set smartindent
-set expandtab
-" 当前行高亮
-set cursorline
-" 当前列高亮
-" set cursorcolumn
-"filetype on
-"filetype plugin on
-
-"enable powerline
-set rtp+=/usr/lib/python3.7/site-packages/powerline/bindings/vim
-set laststatus=2
-set t_Co=256
-"inoremap ( ()<LEFT>
-"inoremap [ []<LEFT>
-"inoremap { {}<LEFT>
-
-"开启实时搜索功能
-"set incsearch
-"搜索时大小写不敏感
-set ignorecase
-set clipboard=unnamed
-"关闭兼容模式
-"set nocompatible
-"vim自身命令行模式智能补全
-"set wildmenu
-let mapleader=","
-
-" vim-one 设置
+" ----------vim-one-----------
 "Credit joshdick
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
@@ -112,32 +124,33 @@ if (empty($TMUX))
     set termguicolors
   endif
 endif
-
 set background=dark " for the dark version
 " set background=light " for the light version
 let g:one_allow_italics = 1
 " 解决 one 主题背景色异常问题
 au ColorScheme one hi Normal ctermbg=None
 colorscheme one
-" let g:airline_theme='one'
+let g:airline_theme='one'
 
-" NERDTree 设置
+" ----------hybrid-----------
+"set background=dark
+""let g:hybrid_custom_term_colors=1
+"let g:hybrid_reduced_contrast=1
+"colorscheme hybrid_reverse
+"au ColorScheme hybrid_reverse hi Normal ctermbg=None
+
+" ----------NERDTree-----------
 " 启动vim时自动打开NERDTree
 " autocmd vimenter * NERDTree
 " 自动退出
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" 设置Ctrl-n来开启或关闭NERDTree
-map <C-n> :NERDTreeToggle<CR>
-" 设置Ctrl-x来开启或关闭git diff高亮
-map <C-x> :GitGutterLineHighlightsToggle<CR>
-" 显示隐藏文件
+map ,g :NERDTreeToggle<CR>
+map ,v :NERDTreeFind<CR>
+map ,x :GitGutterLineHighlightsToggle<CR>
 let NERDTreeShowHidden=1
-" 显示ignored
 let g:NERDTreeShowIgnoredStatus = 1
-" 显示行号
 let NERDTreeShowLineNumbers=1
 let NERDTreeAutoCenter=1
-" git 信息显示
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
     \ "Staged"    : "✚",
@@ -151,3 +164,19 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 set updatetime=100
+
+" ----------tagbar-----------
+map ,t :TagbarToggle<CR>
+
+" ----------Ycm----------
+let g:ycm_server_keep_logfiles = 1
+let g:ycm_server_log_level = 'debug'
+
+" ---------airline----------
+let g:airline#extensions#tabline#enabled = 1
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+

@@ -19,6 +19,7 @@ set laststatus=2
 set t_Co=256
 set ignorecase
 set clipboard=unnamed
+set foldmethod=indent
 
 inoremap ( ()<LEFT>
 inoremap [ []<LEFT>

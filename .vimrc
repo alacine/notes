@@ -1,4 +1,5 @@
 autocmd BufWritePost $MYVIMRC source $MYVIMRC
+syntax enable
 syntax on
 " set termguicolors
 let mapleader=","
@@ -13,13 +14,13 @@ set expandtab
 set cursorline
 " 当前列高亮
 " set cursorcolumn
-" vim自身命令行模式智能补全
+" vim 自身命令行模式智能补全
 " set wildmenu
 set laststatus=2
 set t_Co=256
 set ignorecase
 set clipboard=unnamed
-set foldmethod=indent
+"set foldmethod=indent
 
 inoremap ( ()<LEFT>
 inoremap [ []<LEFT>
@@ -32,6 +33,7 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
+nnoremap <leader>f :TableFormat<CR>
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> [n :bnext<CR>
 " sudo to write
@@ -90,6 +92,10 @@ Plugin 'nanotech/jellybeans.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'rdnetto/YCM-Generator'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 " end of my Plugins
 
 " All of your Plugins must be added before the following line
@@ -140,8 +146,13 @@ let g:airline_theme='one'
 "colorscheme hybrid_reverse
 "au ColorScheme hybrid_reverse hi Normal ctermbg=None
 
+" --------indnetline---------
+" 取消 indentline 在 markdown 和 latex 文件中的异常行为
+let g:indentLine_concealcursor = ''
+let g:indentLine_conceallevel = 1
+
 " ----------NERDTree-----------
-" 启动vim时自动打开NERDTree
+" 启动 vim 时自动打开 NERDTree
 " autocmd vimenter * NERDTree
 " 自动退出
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -170,8 +181,38 @@ set updatetime=100
 map ,t :TagbarToggle<CR>
 
 " ----------Ycm----------
-let g:ycm_server_keep_logfiles = 1
-let g:ycm_server_log_level = 'debug'
+let g:ycm_use_clangd = "Never"
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_complete_in_comments = 1
+let g:ycm_min_num_of_chars_for_completion = 2
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+"
+" YouCompleteMe options
+"
+let g:ycm_register_as_syntastic_checker = 1 "default 1
+let g:Show_diagnostics_ui = 1 "default 1
+"will put icons in Vim's gutter on lines that have a diagnostic set.
+"Turning this off will also turn off the YcmErrorLine and YcmWarningLine
+"highlighting
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_always_populate_location_list = 1 "default 0
+let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
+
+let g:ycm_complete_in_strings = 1 "default 1
+let g:ycm_collect_identifiers_from_tags_files = 0 "default 0
+let g:ycm_path_to_python_interpreter = '' "default ''
+
+let g:ycm_server_use_vim_stdout = 0 "default 0 (logging to console)
+let g:ycm_server_log_level = 'info' "default info
+
+let g:ycm_confirm_extra_conf = 1
+
+let g:ycm_goto_buffer_command = 'same-buffer' "[ 'same-buffer', 'horizontal-split', 'vertical-split', 'new-tab' ]
+let g:ycm_filetype_whitelist = { '*': 1 }
+let g:ycm_key_invoke_completion = '<C-Space>'
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
 
 " ---------airline----------
 let g:airline#extensions#tabline#enabled = 1
@@ -181,3 +222,14 @@ let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 
+" ------------syntastic-------
+"set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_quiet_messages = { 'regex': 'too-few-public-methods\|missing-docstring' }

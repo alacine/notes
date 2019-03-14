@@ -127,3 +127,16 @@ import locale
 locale.setlocale(locale.LC_ALL, 'C')
 import tesserocr
 ```
+
+* 文件操作
+    - `read()`: 一次性读取文件全部内容, 文件太大内存吃不消, 保险起见, 可以反复调用`read(size)`, 每次最多读取 size 个字节的内容;
+    - `readline()`: 每次读取一行内容;
+    - `readlines()`: 一次读取全部内容并按行返回`list`;
+```
+# 尽量采用这种方式打开文件, 可以不用调用close()
+with open('/path/to/file', 'r', encoding='gbk') as f:
+    print(f.read())
+
+for line in readlines():
+    print(line.strip()) # 去掉行末的'\n'
+```

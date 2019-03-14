@@ -114,3 +114,16 @@ sorted(a, key = abs, reverse = True)
 > 不需要直接调用, python的某些函数或操作符会调用相应的特殊方法
 > 有关联的特殊方法都必须实现
 
+
+*problem raised when trying to import tesserocr*
+```
+>>> import tesserocr
+!strcmp(locale, "C"):Error:Assert failed:in file baseapi.cpp, line 209
+[1]    9424 segmentation fault (core dumped)  python
+```
+*how to fix*
+```
+import locale
+locale.setlocale(locale.LC_ALL, 'C')
+import tesserocr
+```

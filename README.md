@@ -86,7 +86,7 @@ git branch                     //查看分支
 git branch branchname          //创建分支
 git branch -m oldname newname  //修改分支名称
 git checkout [-b] branchname   //切换分支
-git branch -d branchname       //产出分支
+git branch -d branchname       //删除分支
 ```
 
 * 分支的合并

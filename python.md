@@ -1,3 +1,67 @@
+python 动态强类型语言  
+动态: 数据类型在运行期确定; 静态: 数据类型在编译期确定  
+强类型: 不会发生隐式转换(如不允许这样的操作:`1+'1'`)
+
+特点:
+* 胶水语言, 轮子多, 应用广泛
+* 语言灵活, 生产力高
+* 性能问题、代码维护问题、python2/3兼容问题
+
+鸭子类型: 
+> 当一只鸟看起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子。
+* 关注对象的行为，而不是类型
+* 比如`file`, `StringIO`, `socket`对象都支持read/write方法(file like object)
+* 再比如定义了`__iter__`魔术方法的对象可以用for迭代
+
+monkey patch:
+* monkey patch 就是运行时替换
+* 比如`gevent`库需要修改内置的`socket`
+* `from gevent import monkey; monkey.patch_socket()`
+
+自省(Introspection):
+* 运行时判断一个对象类型的能力
+* Python一切皆对象, 用`type`, `id`, `isinstance`获取对象类型信息
+* Inspect 模块提供了更多获取层叠的信息的函数
+
+列表和字典推倒:
+* 比如`[i for i in range(10) if i % 2 == 0]`
+* 一种快速生成list/dict/set的方式。用来代替map/filter等
+* `(i for i in range(10) if i % 2 == 0)` 返回生成器
+
+Python之禅(The Zen of Python):
+* Tim Peters(Python 核心开发者之一)编写的关于Python编程的准则
+* import this
+* 编程拿不准的时候可以参考
+
+Python3改进:
+* `print`成为函数, 在2中是关键字
+* 编码(2中默认是字节); Python3不再有Unicode对象, 默认str就是unicode
+* 除法, Python3除号返回浮点数
+* 类型注解(type hint), 帮助IDE实现类型检查  
+```python
+def hello(name: str) -> str:
+    return 'hello ' + name
+```
+* 优化的`super()`方便直接调用父类函数
+* 高级解包操作, `a, b, *c = range(10)`, `a, b, *_ = range(10) # 丢弃后面的`
+* Keyword only arguments 限定关键字参数(传入参数的同时要指明参数名)
+* Chained exceprions Python3 重新抛出异常不会丢失栈信息
+* 一切返回迭代器`range`, `zip`, `map`, `dict.values`, etc. are all iterators
+* 生成的pyc文件统一放到`__pycache__`
+* 一些内置库的修改, `urllib`, `selector`等
+* 性能优化
+
+Python3新增:
+* `yield from`链接子生成器
+* asyncio 内置库, async/await 原生协程支持异步编程
+* 新的内置库 `enum`, `mock`, `asyncio`, `ipaddress`, `concurrent.futures`
+
+Python2/3工具(兼容2/3的工具)
+* six 模块
+* 2to3 等工具转换代码
+* __future__
+
+
 ## learn python from mooc
 * 字符串 string
 

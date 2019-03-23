@@ -28,12 +28,12 @@ monkey patch:
 * 一种快速生成list/dict/set的方式。用来代替map/filter等
 * `(i for i in range(10) if i % 2 == 0)` 返回生成器
 
-Python之禅(The Zen of Python):
+Python 之禅(The Zen of Python):
 * Tim Peters(Python 核心开发者之一)编写的关于Python编程的准则
 * import this
 * 编程拿不准的时候可以参考
 
-Python3改进:
+Python3 改进:
 * `print`成为函数, 在2中是关键字
 * 编码(2中默认是字节); Python3不再有Unicode对象, 默认str就是unicode
 * 除法, Python3除号返回浮点数
@@ -51,7 +51,7 @@ def hello(name: str) -> str:
 * 一些内置库的修改, `urllib`, `selector`等
 * 性能优化
 
-Python3新增:
+Python3 新增:
 * `yield from`链接子生成器
 * asyncio 内置库, async/await 原生协程支持异步编程
 * 新的内置库 `enum`, `mock`, `asyncio`, `ipaddress`, `concurrent.futures`
@@ -61,6 +61,259 @@ Python2/3工具(兼容2/3的工具)
 * 2to3 等工具转换代码
 * __future__
 
+Python函数
+* 参数传递
+    - 共享传参(既不是传递值也不是引用)
+    - Call by Object(Call by Object Reference or Call by Sharing)
+    - Call by sharing(共享传参) 函数形参获得实参中各个引用的副本
+* (不)可变对象
+    - 不可变: bool, int, float, tuple, str, frozenset
+    - 可变: list, set, dict
+* 可变参数
+    - 默认参数只计算一次
+
+Python `*args`, `**kwargs`
+* 用来处理可变参数
+* `*args` 被打包成 tuple
+* `**kwargs` 被打包成 dict
+
+Python 异常
+
+Python 使用异常处理错误(有些语言使用错误码)
+* 所有异常继承于 BaseException
+* 系统相关的异常 SystemExit/KeyboardInterrupt/GeneratorExit
+* Exception
+
+什么时候需要捕获异常? 看Python内置的异常类型
+* 网络请求(超时、连接错误等)
+* 资源访问(权限问题、资源不存在)
+* 代码逻辑(越界访问、KeyError等)
+
+```python
+try:
+    # func      # 可能会抛出异常的代码
+except (Exception1, Exception2) as e: # 可以捕获多个异常并处理
+    # 异常处理的代码
+else:
+    # pass      # 异常没有发生的时候代码逻辑
+finally:
+    pass        # 无论异常有没有发生都会执行的代码，一般处理资源的关闭和释放
+```
+
+如何自定义自己的异常? 为什么需要定义自己的异常?
+* 继承Exception实现自定义异常(为什么不是BaseException)
+* 给异常加上一些附加信息
+* 处理一些业务相关的特定异常(raise MyException)
+
+```python
+class MyException(Exception):
+    pass
+
+try:
+    raise MyException('my exception')
+except Exception as e:
+    print(e)
+```
+
+Python 性能分析与优化，GIL常考
+
+什么是Cpython GIL(GIL, Global Interpreter Lock)
+* Cpython 解释器的内存管理并不是线程安全的
+* 保护多线程情况下对 Python 对象的访问
+* Cpython 室友简单的锁机制避免多个线程同时执行字节码
+
+GIL 影响(限制了程序的多核执行)
+* 同一个时间只能有一个线程执行字节码
+* CPU 密集程序难以利用多核优势
+* IO 期间会释放 GIL, 对IO密集程序影响不大
+
+如何规避 GIL 影响(区分 CPU 和 IO 密集程序)
+* CPU 密集可以使用多进程+进程池
+* IO密集使用多进程/协程
+* cython 扩展 (把python程序转化成c)
+
+为什么有了 GIL 还有关注线程安全(Python 中什么操作才是原子的? 一步到位执行完)
+* 一个操作如果是一个字节码指令可以完成就是原子的
+* 原子的是可以保证线程安全的
+* 使用 dis 操作来分析字节码
+
+如何剖析程序性能(使用各种profile工具(内置或第三方))
+* 二八定律，大部分时间耗时在少量代码上
+* 内置的 profile/cprofile 等工具
+* 使用 pyflame(uber 开源) 的火焰图工具
+
+服务端性能优化措施(Web应用一般语言不会成为瓶颈)
+* 数据结构与算法优化
+* 数据库: 索引优化, 慢查询消除, 批量操作减少IO, NoSQL
+* 网络IO: 批量操作, pipeline操作减少IO
+* 缓存: 使用内存数据库 redis/memcached
+* 异步: asyncio, celery
+* 并发: gevent/多线程
+
+Python 生成器和协程
+
+Generator
+* 生成器就是可以生成值的函数
+* 当一个函数里有了 yield 关键字就成了生成器
+* 生成器可以挂起执行并且保持当前执行的状态
+```python
+def simple_gen():
+    yield 'hello'
+    yield 'world'
+
+gen = simple_gen()
+print(type(gen)) # 'generator' object
+print(next(gen)) # 'hello'
+print(next(gen)) # 'world'
+```
+
+基于生成器的协程(Python3之前没有原生协程, 只有基于生成器的协程)
+* pep 341(Coroutines via Enhanced Generators) 增强生成起的功能
+* 生成器可以通过yiedld暂停执行和产出数据
+* 同时支持send()向生成器发送数据和throw()想生成器抛出异常
+```python
+# Generator Based Coroutine 示例
+def coro():
+    hello = yield 'hello'
+    yield hello
+
+c = coro()
+# 输出'hello', 这里调用 next 产出第一个值 'hello', 之后函数暂停
+print(next(c))
+# 再次调用 send 发送值, 此时 hello 变量复制为'world', 然后 yield 产出 hello 变量的值'world'
+print(c.send('world'))
+# 之后协程结束, 后续再 send 值会抛出异常 StopIteration
+```
+
+协程的注意点
+* 协程需要使用 send(None) 或者 next(coroutine) 来【预激】(prime)才能启动
+* 有yield处协程或暂停执行
+* 单独的yield value会产出值给调用方
+* 可以通过 coroutine.send(value) 来给协程发送值, 发送的值会赋值给 yield 表达式左边的变量 value = yield
+* 协程执行完成后(没有遇到下一个yield语句)会抛出StopIteration
+
+协程装饰器(避免每次都要用 send 预激它)
+```python
+from functools import wraps
+def coroutine(func): # 这样就不用每次都用 send(None) 启动了
+    # 装饰器: 向前执行到第一个 yield 表达式, 预激 func
+    @wraps(func)
+    def primer(*args, **kwargs):
+        gen = func(*args, **kwargs)
+        next(gen)
+        return gen
+    return primer
+```
+
+Python3 原生协程(3.5引入async/await支持原生协程)
+```python
+import asyncio
+import datetime
+import random
+
+async def display_date(num, loop):
+    end_time = loop.time() + 50.0
+    while True:
+        print('Loop: {} Time: {}'.format(num, datatime.datatime.now()))
+        if (loop.time() + 1.0) >= end_time:
+            break
+        await asyncio.sleep(random.randint(0, 5))
+
+loop = asyncio.get_event_loop()
+asynico.ensure_future(display_date(1, loop))
+asynico.ensure_future(display_date(2, loop))
+loop.run_forever()
+```
+
+单元测试(Unit Testing)
+* 针对程序模块进行正确性检验
+* 一个函数, 一个类进行验证
+* 自底向上保证程序正确性
+* 为什么要写
+    - 保证代码逻辑的正确性(甚至有些采用测试驱动开发(TDD))
+    - 单测影响设计, 易测的代码往往是高内聚低耦合的
+    - 回归测试, 防止改一处整个服务不可用
+* 相关库
+    - nose/pytest 较为常用
+    - mock 模块用来模拟替换网络请求等
+    - coverage 统计测试覆盖率
+
+Python 深拷贝与浅拷贝
+* 什么是深拷贝? 什么是浅拷贝?
+* Python 中如何实现深拷贝?
+* 思考: Python 中如何正确初始化一个二维数组?
+
+Python 常用内置数据结构和算法
+
+| 数据结构/算法 | 语言内置                  | 内置库                                            |
+|---------------|---------------------------|---------------------------------------------------|
+| 线性结构      | list/tuple                | array(数组, 不常用)/collectinos.namedtuple         |
+| 链式结构      |                           | collections.dequeue(双端队列)                     |
+| 字典结构      | dict                      | collections.Counter(计数器)/OrderedDict(有序字典) |
+| 集合结构      | set/frozenset(不可变集合) |                                                   |
+| 排序算法      | sorted                    |                                                   |
+| 二分算法      |                           | bisect模块                                        |
+| 堆算法        |                           | heapq模块                                         |
+| 缓存算法      |                           | functools.lru_cache(Least Recent Used, python3)   |
+
+collections 模块提供了一些内置数据结构的扩展
+|名称|功能|
+|--|--|
+|namedtuple()|用名称访问tuple中的元素|
+|deque|双端队列|
+|Counter|计数器|
+|OrderedDict|安装key的添加顺序排序的dict|
+|defaultdict|为dict做值的初始化|
+
+```python
+import collections
+# namedtuple
+Point = collections.namedtuple('Point', 'x, y')
+p = Point(1, 2)
+print(p.x, p.y)
+print(p[0], p[1])
+# deque
+de = collections.deque()
+de.append(1)
+de.appendleft(0)
+de.pop()
+de.popleft()
+# Counter
+c = collections.Counter()
+c = collections.Counter('abcab')
+print(c)
+print(c['a'])
+print(c.most_common()) # 从大到小
+# OrderedDict
+od = collectinos.OrderedDict()
+od['c'] = 'c'
+od['a'] = 'a'
+od['b'] = 'b'
+print(list(od.keys())) # ['c', 'a', 'b']
+# defaultdict
+dd = collections.defaultdit(int)
+print(dd['a'])
+dd['b'] += 1
+print(dd)
+```
+
+dict 底层结构(哈希表)
+* 为了支持快速查找使用了哈希表作为底层结构
+* 哈希表平均查找时间复杂度O(1)
+* CPython 解释器使用二次探查解决哈希冲突问题(哈希表的冲突解决和扩容)
+
+list/tuple
+* 都是线性结构, 支持下表访问
+* list 是可变对象, tuple 不可变(引用不可变)
+* list 没法作为字典的 key, tuple 可以(可变对象不可hash)
+
+LRUCache
+* 缓存剔除策略, 当缓存空间不够用的时候需要一种方式剔除key
+* 常见的有LRU, LFU等
+* LRU通过使用一个循环双端队列不断把最新访问的key放到表头实现
+    - 利用 Python 内置的 dict + collections.OrderedDict 实现
+    - dict 用来当做 k/v 键值对的缓存
+    - OrderedDict 用来实现更新最近访问的 key
 
 ## learn python from mooc
 * 字符串 string

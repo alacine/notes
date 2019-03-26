@@ -318,6 +318,138 @@ LRUCache
     - dict 用来当做 k/v 键值对的缓存
     - OrderedDict 用来实现更新最近访问的 key
 
+组合与继承(优先使用组合而非继承)
+* 组合是使用其他的类实例作为自己的一个属性(Has-a 关系)
+* 子类继承父类的属性和方法(Is a 关系)
+* 优先使用组合保持代码简单
+
+类变量和实例变量
+* 类变量由所有实例共享
+* 实例变量由实例单独享有，不同实例之间不影响
+* 当我们需要在一个类的不同实例之间共享变量的时候使用类变量
+
+classmethod/staticmethod
+* 都可以通过 Class.method() 的方式使用
+* classmethod 第一个参数是 cls, 可以引用类变量
+* staticmethod 使用起来和普通函数一样, 只不过放在类里去组织
+
+元类(Meta Class)是创建类的类
+* 元类允许我们控制类的生成, 比如修改类的属性等
+* 使用 type 来定义元类
+* 元类最常见的一个使用场景就是 ORM 框架
+* `__new__` 生成实例, `__init__` 初始化
+```python
+class LowercaseMeta(type):
+    """ 修改类的属性名称为小写的元类 """
+    def __new__(mcs, name, bases, attrs):
+        lower_attrs = {}
+        for k, v in attrs.items():
+            if not k.startswitth('__'): # 排除magic method
+                lower_attrs[k.lower()] = v
+            else:
+                lower_attrs[k] = v
+        return type.__new__(mcs, name, bases, lower_attrs)
+
+class LowercaseClass(metaclass=LowercaseMeta):
+    BAR = True
+
+    def HELLO(self):
+        print('hello')
+
+print(dir(LowercaseClass)) # 你会发现 "BAR" 和 "HELLO" 都变成了小写
+```
+
+Decorator(装饰器)
+* Python 中一切皆对象, 函数也可以当做参数传递
+* 装饰器是接受函数作为参数, 添加功能后返回一个新函数的函数(类)
+* Python 中通过@使用装饰器
+```python
+import time
+def log_time(func): # 接受一个函数作为参数
+    def _log(*args, **kwargs):
+        beg = time.time()
+        res = func(*args, **kwargs)
+        print('{} ues time: {}'.format(func.__name__, time.time()-beg))
+        return res 
+    return _log
+
+
+class LogTime:
+    def __init__(self, use_int=False):
+        self.use_int = use_int
+
+    def __call__(self, func):
+        def _log(*args, **kwargs):
+            beg = time.time()
+            res = func(*args, **kwargs)
+            if self.use_int:
+                print('{} use time: {}'.format(func.__name__, int(time.time()-beg)))
+            else:
+                print('{} use time: {}'.format(func.__name__, time.time()-beg))
+            return res 
+        return _log
+
+
+@log_time # 装饰器语法糖
+def mysleep():
+    time.sleep(1)
+
+@LogTime(True)
+def yoursleep():
+    time.sleep(2)
+
+# newsleep = log_time(mysleep)
+mysleep()
+yoursleep()
+```
+
+创建模式(常见创建型设计模式)
+* 工厂模式(Factory): 解决对象创建问题
+    - 解决对象对象的创建和使用
+    - 包括工厂方法和抽象工厂
+```python
+class DogToy:
+    def speak(self):
+        print("wang wang")
+
+class CatToy:
+    def speak(self):
+        print("miao miao")
+
+def toy_factory(toy_type):
+    if toy_type == 'dog':
+        return DogToy()
+    elif toy_type == 'cat':
+        return CatToy()
+```
+* 构造模式(Builder): 控制复杂对象的创建
+    - 创建和表示分离, 比如你要买电脑, 工厂模式直接给你需要的电脑
+    - 但是构造模式允许你自己定义电脑的配置, 组装完成后给你
+* 原型模式(Prototype): 通过原型的克隆创建新的实例
+    - 可以使用相同的原型, 通过修改部分属性来创建新的实例
+    - 用途: 对于一下创建实例开销比较高的地方可以用原型模式
+* 单例(Bory/Singleton): 一个类只能创建同一个对象
+    - 一个类创建出来的对象都是同一个
+    - Python 的模块其实就是单例的, 只会导入一次
+    - 使用共享同一个实例的方式来创建单例模式
+```python
+class Singleton:
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(cls, '_instance'):
+            _instance = super().__new__(cls, *args, **kwargs)
+            cls._instance = _instance
+        return cls._instance
+
+class MyClass(Singleton):
+    pass
+
+c1 = MyClass()
+c2 = MyClass()
+assert c1 is c2
+```
+* 对象池模式(Pool): 预先分配同一类型的一组实例
+* 惰性计算模式(Lazy Evaluation): 延迟计算(python 和 property)
+
 ## learn python from mooc
 * 字符串 string
 

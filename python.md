@@ -492,6 +492,33 @@ Closure(闭包)
 * 自由变量: 不在当前函数定义的变量
 * 特性: 自由变量会和闭包函数同时存在
 
+Python 线程安全
+* 一个操作可以在多线程环境中安全使用, 获取正确结果
+* 线程安全的操作好比线程是顺序执行而不是并发执行的(i+=1)
+* 一般如果涉及到写操作需要考虑如何让多个线程安全访问数据
+
+线程同步的方式(保证线程安全)
+* 互斥量(锁): 通过互斥机制防止多个线程同时访问公共资源
+* 信号量(Semphare): 控制同一时刻多个线程访问同一个资源的线程数
+* 事件(信号): 通过通知的方式保持多个线程同步
+
+进程间通信(Inter-Process Communication, 进程间传递信号或数据)
+* 管道/匿名管道/有名管道(pipe)
+* 信号(Signal): 比如用户使用 Ctrl+c 产生 SIGINT 程序终止信号
+* 消息队列(Message)
+* 共享内存(share memory)
+* 信号量(Semaphore)
+* 套接字(socket): 最常用的方式, web 应用都是这种方式
+
+多线程(threading)
+* threading.Thread 类用来创建线程
+* start() 方法启动线程
+* 可以用 join() 等待线程结束
+
+多进程(multiprocessing)
+* Multiprocessing.Process 类实现多进程
+* 一般用在 cpu 密集程序里, 避免 GIL 的影响
+
 ## learn python from mooc
 * 字符串 string
 

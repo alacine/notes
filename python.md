@@ -257,13 +257,14 @@ Python 常用内置数据结构和算法
 | 缓存算法      |                           | functools.lru_cache(Least Recent Used, python3)   |
 
 collections 模块提供了一些内置数据结构的扩展
-|名称|功能|
-|--|--|
-|namedtuple()|用名称访问tuple中的元素|
-|deque|双端队列|
-|Counter|计数器|
-|OrderedDict|安装key的添加顺序排序的dict|
-|defaultdict|为dict做值的初始化|
+
+| 名称         | 功能                        |
+|--------------|-----------------------------|
+| namedtuple() | 用名称访问tuple中的元素     |
+| deque        | 双端队列                    |
+| Counter      | 计数器                      |
+| OrderedDict  | 安装key的添加顺序排序的dict |
+| defaultdict  | 为dict做值的初始化          |
 
 ```python
 import collections
@@ -449,6 +450,47 @@ assert c1 is c2
 ```
 * 对象池模式(Pool): 预先分配同一类型的一组实例
 * 惰性计算模式(Lazy Evaluation): 延迟计算(python 和 property)
+
+结构型设计模式
+* 装饰器模式(Decorator): 无需子类化扩展对象功能
+* 代理模式(Proxy): 把一个对象的操作代理到另一个对象
+    - 比如用 deque 实现 Stack/Queue, 把操作代理到 deque
+    - 通常使用 has-a 组合关系
+* 适配器模式(Adapter): 通过一个间接层适配统一接口
+    - 把不同对象的接口是配到同一个接口
+    - 想象一个多功能充电头, 可以给不同的电器充电, 充当了适配器
+    - 当我们需要给不同的对象统一接口的时候可以使用适配器模式
+* 外观模式(Facade): 简化复杂对象的访问问题
+* 享元模式(Flyweight): 通过对象服用(池)改善资源利用, 比如连接池
+* Model-View-Controller(MVC): 解耦展示逻辑和业务逻辑
+
+行为型设计模式
+* 迭代器模式(Iterator): 通过统一的接口迭代对象
+    - Python 内置对迭代器模式的支持
+    - 比如我们可以用 for 遍历各种 Iterable 的数据类型
+    - Python 里可以使用`__next__`和`__iter__`实现迭代器
+* 观察者模式(Observer): 对象发生改变的时候, 观察者执行相应动作
+    - 发布订阅是一种最常用的实现方式
+    - 发布订阅用于解耦逻辑
+    - 可以通过回调等方式实现, 当发生事件时, 调用相应的回调函数
+* 策略模式(Strategy): 针对不同规模输入使用不同的策略
+    - 比如买东西超过10个打八折, 超过20个打七折
+    - 对外暴露统一的接口, 内部采用不同的策略计算
+
+函数式编程
+* 把电脑的运算视作数学上的函数计算(lambda 演算)
+* 高阶函数: map/reduce/filter
+    - 推荐列表推导代替map
+* 无副作用, 相同的参数调用始终产生同样的结果
+
+Closure(闭包)
+* 绑定了外部作用域的变量的函数
+* 及时程序离开外部作用域, 如果闭包仍然可见, 绑定变量不会销毁
+* 每次运行外部函数都会重新创建闭包
+
+* 闭包: 引用了外部自由变量的函数
+* 自由变量: 不在当前函数定义的变量
+* 特性: 自由变量会和闭包函数同时存在
 
 ## learn python from mooc
 * 字符串 string

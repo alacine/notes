@@ -536,6 +536,33 @@ Python 垃圾回收机制(无需手动回收)
     - 分代回收: 对象分三代(创建时是第一代), 每一代达到阈值的时候执行分代回收(gc 模块, `gc.get_threshold`)
 * 引用计数为主+标记清除和分代回收为辅
 
+Python 实现 IO 多路复用(Python 封装了操作系统的 IO 多路复用)
+* Python 的 IO 多路复用基于操作系统实现(select/poll/epoll)
+* Python2 select 模块
+* Python3 selectors 模块
+    - 事件类型: EVENT_READ(socket 可读), EVENT_WRITE(socket 可写)
+    - DefaultSelector: 自动根据平台选取合适的 IO 模型
+        + register(fileobj(文件描述符), events, data=None): 监听 socket
+        + unregister(fileobj): 取消监听
+        + modify(fileobj, events, data=None): 先 unregister, 再重新 register
+        + select(timeout=None): returns[(key, events)]
+        + close()
+
+Python 并发网络库(Tornado vs Gevent vs Asyncio)
+* Tornado 并发网络库和同时也是一个 web 为框架, 提供了基于回调和协程并发逻辑的编写方式
+    - 适用于微服务, 实现 Restful 接口
+    - 底层基于 Linux 多路复用
+    - 可以通过协程或者回调实现异步编程
+    - 不过生态不完善, 相应的异步框架比如 ORM 不完善
+* Gevent 绿色线程(greenlet) 实现并发, 注意使用时要用猴子补丁修改内置 socket(《Gevent 程序员指南》)
+    - 基于轻量级绿色线程(greenlet)实现并发
+    - 需要注意 monkey patch, gevent 修改了内置的 socket 改为非阻塞
+    - 配合 gunicorn 和 gevent 部署作为 wsgi server
+* Asyncio Python3 内置的并发网络库, 基于原生协程
+    - Python3 引入到内置库, 协程+时间循环
+    - 生态不够完善, 没有大规模生产环境检验
+    - 目前应用不够广泛, 基于 Aiohttp 可以实现一些小的服务
+
 ## learn python from mooc
 * 字符串 string
 

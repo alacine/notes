@@ -2,6 +2,7 @@
 
 * .vimrc: vim 的配置文件
 * Assembly_languege.md: 8086汇编(可能没什么用)
+* algorithm: 算法和数据结构
 * Git.md: Git 命令的使用
 * Linux.md: Linux 常用命令
 * mysql.md: MySQL 的一点常考问题

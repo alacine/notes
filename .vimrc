@@ -3,6 +3,7 @@ syntax enable
 syntax on
 " set termguicolors
 let mapleader=","
+set wildmenu
 set number
 set ts=4
 set softtabstop=4
@@ -25,7 +26,7 @@ set clipboard=unnamed
 inoremap ( ()<LEFT>
 inoremap [ []<LEFT>
 inoremap { {}<LEFT>
-inoremap jj <Esc>`^
+inoremap ff <Esc>`^
 
 noremap <leader>w :w<cr>
 noremap <C-h> <C-w>h
@@ -77,7 +78,7 @@ Plugin 'airblade/vim-gitgutter.git'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'iamcco/mathjax-support-for-mkdp'
 Plugin 'iamcco/markdown-preview.vim'
-Plugin 'Yggdroot/indentLine'
+"Plugin 'Yggdroot/indentLine'
 Plugin 'mhinz/vim-startify'
 Plugin 'tpope/vim-surround'
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -228,7 +229,7 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 

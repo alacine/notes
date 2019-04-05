@@ -12,4 +12,4 @@
 * RegularExpression.md: 正则表达式(在其他里面包含了)
 * shell.md: shell 基础
 * script/: 自己会用到的简单脚本
-
+* markdown: markdown 中稍微高级一点的语法, 比如数学公式

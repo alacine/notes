@@ -97,3 +97,46 @@ $$
 | $\sum$       | `\sum`       |
 | $\prod$      | `\prod`      |
 | $\coprod$    | `\coprod`    |
+
+集合运算符
+
+| 符号        | 代码        |
+|-------------|-------------|
+| $\emptyset$ | `\emptyset` |
+| $\in$       | `\in`       |
+| $\notin$    | `\notin`    |
+| $\subset$   | `\subset`   |
+| $\supset$   | `\supset`   |
+| $\subseteq$ | `\subseteq` |
+| $\supseteq$ | `\supseteq` |
+| $\bigcap$   | `\bigcap`   |
+| $\bigcup$   | `\bigcup`   |
+| $\bigvee$   | `\bigvee`   |
+| $\bigwedge$ | `\bigwedge` |
+| $\biguplus$ | `\biguplus` |
+| $\bigsqcup$ | `\bigsqcup` |
+
+三角运算符
+
+| 符号        | 代码        |
+|-------------|-------------|
+| $\bot$ | `\bot` |
+| $\angle$ | `\angle` |
+| $\sin$ | `\sin` |
+| $\cos$ | `\cos` |
+| $\tan$ | `\tan` |
+
+微积分运算符
+
+| 符号        | 代码        |
+|-------------|-------------|
+| $\prime$ | `\prime` |
+| $\int$ | `\int` |
+| $\iint$ | `\iint` |
+| $\iiint$ | `\iiint` |
+| $\iiiint$ | `\iiiint` |
+| $\oint$ | `\oint` |
+| $\lim$ | `\lim` |
+| $\infty$ | `\infty` |
+| $\nabla$ | `\nabla` |
+| $\mathrm{d}$ | `\mathrm{d}` |

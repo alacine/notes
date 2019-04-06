@@ -7,10 +7,8 @@
 ## 数学公式
 
 github 上 markdown 不支持显示数学公式, 解决方法
-* codecogs 云服务  
-`<img src="http://latex.codecogs.com/gif.latex?\frac{\partial J}{\partial \theta_k^{(j)}}=\sum_{i:r(i,j)=1}{\big((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}\big)x_k^{(i)}}+\lambda \theta_k^{(j)}" />`或`![](http://...)`  
-<img src="http://latex.codecogs.com/gif.latex?\frac{\partial J}{\partial \theta_k^{(j)}}=\sum_{i:r(i,j)=1}{\big((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}\big)x_k^{(i)}}+\lambda \theta_k^{(j)}" />
-* chrome 插件: [MathJax Plugin for Github](https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima?utm_source=chrome-ntp-icon) 安装如果报错建议去 github 看这条 [issue](https://github.com/orsharir/github-mathjax/issues/24#issuecomment-462956434)
+* codecogs 云服务, [线上生成](http://latex.codecogs.com/), 然后以`![](http://latex.codecogs.com/gif.latex?\\...)`方式使用
+* chrome 插件: [MathJax Plugin for Github](https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima?utm_source=chrome-ntp-icon) 安装如果报错建议看这条 [issue](https://github.com/orsharir/github-mathjax/issues/24#issuecomment-462956434)
 
 行内公式 `$公式$` , 独占一行 `$$公式$$`
 

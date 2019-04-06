@@ -5,6 +5,13 @@
 图片的大小: `<img src="url" style="zoom:50%"/>` 或 `<img src="url" width="50%" height="50%">`
 
 ## 数学公式
+
+github 上 markdown 不支持显示数学公式, 解决方法
+* codecogs 云服务  
+`<img src="http://latex.codecogs.com/gif.latex?\frac{\partial J}{\partial \theta_k^{(j)}}=\sum_{i:r(i,j)=1}{\big((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}\big)x_k^{(i)}}+\lambda \theta_k^{(j)}" />`或`![](http://...)`  
+<img src="http://latex.codecogs.com/gif.latex?\frac{\partial J}{\partial \theta_k^{(j)}}=\sum_{i:r(i,j)=1}{\big((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}\big)x_k^{(i)}}+\lambda \theta_k^{(j)}" />
+* chrome 插件: [MathJax Plugin for Github](https://chrome.google.com/webstore/detail/mathjax-plugin-for-github/ioemnmodlmafdkllaclgeombjnmnbima?utm_source=chrome-ntp-icon) 安装如果报错建议去 github 看这条 [issue](https://github.com/orsharir/github-mathjax/issues/24#issuecomment-462956434)
+
 行内公式 `$公式$` , 独占一行 `$$公式$$`
 
 分段函数, 例如
@@ -76,27 +83,29 @@ $$
 
 关系运算符号
 
-| 符号         | 代码         |
-|--------------|--------------|
-| $\pm$        | `\pm`        |
-| $\times$     | `\times`     |
-| $\div$       | `\div`       |
-| $\mid$       | `\mid`       |
-| $\nmid$      | `\nmid`      |
-| $\cdot$      | `\cdot`      | (`\cdots` 是省略号 $\cdots$)
-| $\circ$      | `\circ`      |
-| $\ast$       | `\ast`       |
-| $\bigodot$   | `\bigodot`   |
-| $\bigotimes$ | `\bigotimes` |
-| $\bigoplus$  | `\bigoplus`  |
-| $\leq$       | `\leq`       |
-| $\geq$       | `\geq`       |
-| $\neq$       | `\neq`       |
-| $\approx$    | `\approx`    |
-| $\equiv$     | `\equiv`     |
-| $\sum$       | `\sum`       |
-| $\prod$      | `\prod`      |
-| $\coprod$    | `\coprod`    |
+| 符号         | 代码               |
+|--------------|--------------------|
+| $\pm$        | `\pm`              |
+| $\times$     | `\times`           |
+| $\div$       | `\div`             |
+| $\mid$       | `\mid`             |
+| $\not\mid$   | `\nmid` `\not\mid` |
+| $\cdot$      | `\cdot`            |
+| $\circ$      | `\circ`            |
+| $\ast$       | `\ast`             |
+| $\bigodot$   | `\bigodot`         |
+| $\bigotimes$ | `\bigotimes`       |
+| $\bigoplus$  | `\bigoplus`        |
+| $\leq$       | `\leq`             |
+| $\geq$       | `\geq`             |
+| $\neq$       | `\neq`             |
+| $\approx$    | `\approx`          |
+| $\equiv$     | `\equiv`           |
+| $\sum$       | `\sum`             |
+| $\prod$      | `\prod`            |
+| $\coprod$    | `\coprod`          |
+
+(`\cdots` 是省略号 $\cdots$)
 
 集合运算符
 

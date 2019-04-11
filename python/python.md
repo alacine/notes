@@ -705,3 +705,19 @@ with open('/path/to/file', 'r', encoding='gbk') as f:
 for line in readlines():
     print(line.strip()) # 去掉行末的'\n'
 ```
+
+* 操作文件和目录(`import os`)
+    - `os.name`: 查看操作系统类型, `posix` 说明是 Linux, Unix 或 Mac OS X, `nt` 说明是 Windows
+    - `os.uname()`: 查看系统详细信息, Windows 上不提供这个功能
+    - `os.environ`: 查看系统环境变量, `os.environ.get('PATH')` `os.environ.get('x', 'default)` 如果不存在就返回一个给定的默认值
+    - `os.path.abspath('.')`: 查看目录的绝对路径
+    - `os.path.join('path/to/dir', 'newdirname')`: 拼接路径, 不同的操作系统返回值会不同
+    - `os.path.split(path/to/file)`: 拆分目录, 这里返回 `('path/to', 'file')`, 不同操作系统返回值不同
+    - `os.path.splitext('path/to/file.txt')`: 分离扩展名, 这里返回 `('path/to/file', '.txt')`
+    - `os.path.mkdir('path/to/dir')`: 创建一个目录
+    - `os.path.isdir('a/b/c'), os.path.isfile('a/b/c')`: 分别判断 c 是否为目录和文件
+    - `os.rmdir('path/to/dir')`: 删除一个目录
+    - `os.listdir('path/to/dir')`: 相当于 `ls`, 返回一个 list
+    - `os.rename('file.old', 'file.new')`: 重命名
+    - `os.remove('path/to/file')`: 删除文件
+    - 复制文件的函数在 `os` 模块中不存在, 原因是复制文件并非由操作系统提供的系统调用; `shutil` 模块中提供了 `copyfile()` 的函数

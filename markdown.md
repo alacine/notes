@@ -4,6 +4,8 @@
 
 图片的大小: `<img src="url" style="zoom:50%"/>` 或 `<img src="url" width="50%" height="50%">`
 
+Windows 的文本在 Vim 中打开行尾出现 `^M` 符号, 解决方案:`:%s/^M//g`(注意这里的 `^M` 是 `[Ctrl+v][ctrl+M]`)
+
 ## 数学公式
 
 github 上 markdown 不支持显示数学公式, 解决方法

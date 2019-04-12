@@ -24,6 +24,7 @@ with open('a.json', 'w', encoding='utf-8') as ss_copy:
 ```
 
 * csv(Comma-Separated Values, 逗号分割值或字符分割值)
+    - 写入:  
 ```python
 import csv
 
@@ -32,4 +33,29 @@ with open('a.csv', 'w') as csvfile:
     csvfile_writer.writerow(['a', 'b', 'c'])
     csvfile_writer.writerow([232, 32, 'fda123'])
     csvfile_writer.writerows([[232, 32, 'fda123'], ['a', 'b', 'c']])
+
+# 字典的写入方式
+with open('b.csv', 'w') as csvfile: 
+    colname = ['id', 'name', 'age'] 
+    csvfile_write = csv.DictWriter(csvfile, fieldnames=colname) 
+    csvfile_write.writeheader() 
+    csvfile_write.writerow({'id': '10001', 'name': 'Mike', 'age': 20}) 
+    csvfile_write.writerow({'id': 1002, 'age': 21, 'name': 'Bob'})
+```
+
+    - 读取:  
+```python
+import csv
+
+# 1. 直接使用 csv 库读取
+with open('data.csv', 'r', encoding='utf-8') as csvfile:
+    csvfile_read = csv.reader(csvfile)
+    for row in reader():
+    print(row)
+
+# 2. 利用 pandas 读取
+import pands as pd
+
+data = pd.read_csv('data.csv')
+print(data)
 ```

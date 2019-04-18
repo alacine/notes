@@ -290,6 +290,8 @@ awk -F ':' '$1!~/^m.*/{print $1}' /etc/passwd
 awk -F ':' 'BEGIN{print "Line\tCol\tUser"}{print NR"\t"NF"\t"$1}END{print "-----"FILENAME"------"}' /etc/passwd
 # 统计netstat -anp状态下为LISTEN和CONNECTED的连接数量
 netstat -anp | awk '$6~/CONNECTED|LISTEN/{sum[$6]++}END{for (i in sum) print i,sum[i]}'
+# 统计ssh登录失败的ip
+cat /var/log/secure | awk '/Failed/{print $(NF-3)}' | sort | uniq -c | awk '{print $2" = "$1;}'
 ```
 
 4. `sed`命令(字符替换)  

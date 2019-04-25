@@ -8,7 +8,7 @@ with open('a.txt', 'a', encoding='utf-8') as file_a:
 
 * Json (注意: Json 文本中的 key 和字符串 value 必须使用双引号)
     - `json.loads(str)`: 将 Json 文本字符串转为 Json 对象
-    - `json.dumps(str)`: 将 Json 对象转为文本字符串
+    - `json.dumps(str, indent=None, separators=None)`: 将 Json 对象转为文本字符串
     - `dict[key]` 和 `dict.get(key)` 区别: 当 key 不存在时, `get()` 返回 `None`, 而中括号报错, 因此, 建议使用 `get()` 方法  
 ```python
 import json

@@ -40,7 +40,7 @@ params = {'param1': 'hello', 'params2': 'world'}
 response = requests.get(url, params=params)
 print(response.headers)
 print(response.status_code)
-print(response.reason)
+print(response.reason)  # 状态码信息
 print(response.json)
 print(response.text)
 ```
@@ -53,3 +53,84 @@ print(response.text)
 * delete: 删除资源
 * head: 查看响应头
 * options: 查看可用请求方法
+
+带参数的请求
+1. URL Parameters: URL 参数
+    * https://www.baidu.com/s?wd=abc
+    * params: requests.get(url, params={'key1':'value1'})
+2. 表单参数提交
+    * Content-Type: application/x-www-form-urlencoded
+    * 内容: key1=value1&key2=value2
+    * requests.post(url, data={'key1':'value1', 'key2': 'value2'})
+3. json 参数提交
+    * Content-Type: application/json
+    * 内容: '{"key1":"value1", "key2":"value2"}'
+    * requests.post(url, json={"key1":"value1", "key2":"value2"})
+
+异常处理(`requests.exceptions`)
+```python3
+try:
+    response = requests.get(url, timeout=10)
+    # response = requests.get(url, timeout=(3, 7))
+    response.raise_for_status()
+except exceptions.Timeout as e:
+    print(e)
+except exceptions.HTTPError as e:
+    print(e)
+else:
+    print(response.text)
+    print(response.status_code)
+```
+
+自定义请求
+```python
+s = requests.Session()
+headers = {'User-Agent': 'fake-agent'}
+req = requests.Request('GET', url, auth=user, headers=headers)
+prepped = req.prepare()
+print(prepped.body)
+print(prepped.headers)
+resp = s.send(prepped, timeout=5)  # 这里才是发送
+print(resp.status_code)
+print(resp.request.headers)
+print(resp.text)
+```
+
+相应基本 api(response 对象)
+* status_code: 状态码
+* reason: 状态码信息
+* headers: 信息头部
+* url: 消息来源
+* history: 
+* elapsed: 请求耗时
+
+
+[什么是回调函数](https://www.zhihu.com/question/19801131/answer/27459821)
+
+认证方式
+* 基本认证  
+```python
+user = ('username': 'password')
+response = requests.get(url, auth=user)
+```
+
+* oauth 认证  
+```python
+# 写法1
+headers = {'Authorization': 'token xxxxxxxxxx'}
+response = requests.get(url, headers=headers)
+# 写法2
+from requests.auth import AuthBase
+
+class GithubAuth(AuthBase):
+
+    def __init__(self, token):
+        self.token = token
+
+    def __call__(self, r):
+        r.headers['Authorizion'] = ' '.join(['toke', self.token])
+        return r
+
+auth = GithubAuth('xxxxxxxxxxxxxxxxxx')
+response = requests.get(url, auth=auth)
+```

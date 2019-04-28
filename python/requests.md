@@ -114,7 +114,7 @@ user = ('username': 'password')
 response = requests.get(url, auth=user)
 ```
 
-* oauth 认证  
+* OAuth 认证  
 ```python
 # 写法1
 headers = {'Authorization': 'token xxxxxxxxxx'}
@@ -133,4 +133,29 @@ class GithubAuth(AuthBase):
 
 auth = GithubAuth('xxxxxxxxxxxxxxxxxx')
 response = requests.get(url, auth=auth)
+```
+
+![OAuth](./oauth.png)
+
+Proxy 代理
+1. 终端代理
+```bash
+export HTTP_PROXY="socks5://127.0.0.1:1080"
+export HTTPS_PROXY="socks5://127.0.0.1:1080"
+export ALL_PROXY="socks5://127.0.0.1:1080"
+```
+
+2. proxies 参数
+> 这里有点问题, 实际使用时有报错, 先放着, 用前一种方法
+```python
+import requests
+
+proxies = {
+    'http': 'socks5://127.0.0.1',
+    'https': 'socks5://127.0.0.1',
+    # 'http': 'socks5://user:pass@127.0.0.1',
+    # 'https': 'http://user:pass@127.0.0.1',
+}
+
+requests.get(url, proxies=proxies)
 ```

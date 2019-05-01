@@ -78,3 +78,13 @@ views.py
 每个 URL 都以 url 的形式写出来  
 url 函数放在urlpatterns 列表中  
 url 函数三个参数: URL(正则), 对应方法, 名称
+> django2.0 开始 `path()` 语法不再使用正则表达式, `re_path()`才是正则表达式, `url()` 是`re_path()`的别名
+
+3. 第二种 URL 配置  
+包含其他 URL  
+在根`urls.py`中引入`include`  
+在应用的目录下创建`urls.py`文件, 格式与根`urls.py`相同
+
+**注意事项**
+1. 根`urls.py`针对 APP 配置的 URL 名称, 是该 APP 所有 URL 的总路径
+2. 配置 URL 时注意正则表达式皆为符号`$`和`/`

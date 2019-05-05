@@ -44,6 +44,7 @@ def hello(name: str) -> str:
 ```
 * 优化的`super()`方便直接调用父类函数
 * 高级解包操作, `a, b, *c = range(10)`, `a, b, *_ = range(10) # 丢弃后面的`
+
 * Keyword only arguments 限定关键字参数(传入参数的同时要指明参数名)
 * Chained exceprions Python3 重新抛出异常不会丢失栈信息
 * 一切返回迭代器`range`, `zip`, `map`, `dict.values`, etc. are all iterators
@@ -721,3 +722,125 @@ for line in readlines():
     - `os.rename('file.old', 'file.new')`: 重命名
     - `os.remove('path/to/file')`: 删除文件
     - 复制文件的函数在 `os` 模块中不存在, 原因是复制文件并非由操作系统提供的系统调用; `shutil` 模块中提供了 `copyfile()` 的函数
+
+* numpy
+    - 创建 array
+```python
+>>> import numpy as np
+>>> a = np.array([1,2,3,4,5,6,7,8])
+>>> print(a.shape)
+(8,)
+>>> a.reshape((4,2))
+array([[1, 2],
+       [3, 4],
+       [5, 6],
+       [7, 8]])
+>>> a.reshape((2,-1))
+array([[1, 2, 3, 4],
+       [5, 6, 7, 8]])
+>>> a = np.zeros((2,3))
+>>> a
+array([[0., 0., 0.],
+       [0., 0., 0.]])
+>>> a = np.ones((4,2))
+>>> a
+array([[1., 1.],
+       [1., 1.],
+       [1., 1.],
+       [1., 1.]])
+>>> a = np.full((3,3), 3)
+>>> a
+array([[3, 3, 3],
+       [3, 3, 3],
+       [3, 3, 3]])
+>>> a = np.eye(4)
+>>> a
+array([[1., 0., 0., 0.],
+       [0., 1., 0., 0.],
+       [0., 0., 1., 0.],
+       [0., 0., 0., 1.]])
+>>> a = np.random.random((3,4))
+>>> a
+array([[0.48642543, 0.58216311, 0.21069667, 0.66663334],
+       [0.38634989, 0.01190326, 0.32851522, 0.98804907],
+       [0.12070248, 0.18891006, 0.94914811, 0.89072739]])
+```
+    - 索引
+```python3
+>>> a = np.array([[1,2,3,4]
+                  [5,6,7,8],
+                  [9,10,11,12]])
+>>> a[1, -2]
+7
+>>> a[-2:, 1:3]
+array([[ 6,  7],
+       [10, 11]])
+>>> a[np.arange(3), 1] += 10
+array([[ 1, 12,  3,  4],
+       [ 5, 16,  7,  8],
+       [ 9, 20, 11, 12]])
+
+>>> a[[0,1,2], [1,1,1]] += 10
+array([[ 1, 22,  3,  4],
+       [ 5, 26,  7,  8],
+       [ 9, 30, 11, 12]])
+>>> result_index = a > 10
+>>> result_index
+array([[False,  True, False, False],
+       [False,  True, False, False],
+       [False,  True,  True,  True]])
+>>> a[result_index]
+array([22, 26, 30, 11, 12])
+>>> a[a>10]
+array([22, 26, 30, 11, 12])
+```
+    - 数据类型
+```python
+>>> a = np.array([1.9, 2.3])
+>>> a.dtype
+dtype('float64')
+>>> a = np.array([1.9, 2.3], dtype=np.dtype('int64'))
+>>> a
+array([1, 2])
+```
+    - 运算和常用函数
+```python
+# 运算
+a + b  == np.add(a, b)
+a - b  == np.subtract(a, b)
+a * b  == np.multiply(a, b)  # 不是矩阵乘法
+a / b  == np.divide(a, b)
+a // b
+np.sqrt(a)
+a.dot(b) == np.dot(a, b)  # 矩阵乘法
+
+# 函数
+np.sum(a)  # 所有元素的和
+np.sum(a, axis=0)  # 每一列的和
+np.sum(a, axis=1)  # 每一行的和
+
+np.mean(a)  # 所有元素的平均值
+np.mean(a, axis=0)  # 每一列的平均值
+np.mean(a, axis=1)  # 每一行的平均值
+
+np.random.uniform(1, 100)  # 产生范围内的随机小数
+np.tile(a, (2,3))  # 把 a 作为单个元素生成一个 2*3 的 array
+a.argsort(axis=0)  # 每一列(默认是 axis=1, 即行排序)排序, 返回编号
+
+a.T  == np.transpose  # 矩阵转置
+```
+    - 广播
+```python
+a = np.array([[1,2,3],
+              [4,5,6],
+              [7,8,9]])
+b = np.array([10, 20, 30])
+
+# 计算 a 的每一行加上 b
+# 方法 1: 循环
+# 方法 2:
+a + np.tile(b, (3,1))
+# 方法 3: 广播
+a + b
+# 广播会在缺失维度和数值为 1 的维度上进行
+```

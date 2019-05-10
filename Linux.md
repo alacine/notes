@@ -1,3 +1,48 @@
+## 用户
+
+* `/etc/group`: 存储当前系统中所有用户组信息
+    - Group:x:123:abc,def,xyz
+    - 组名称:组密码占位符:组编号:组中用户列表
+* `/etc/gshadow`: 存储当前系统中用户组的密码信息
+    - Group:*::abc,def,xyz
+    - 组名称:组密码:组管理者:组中用户名列表
+* `/etc/passwd`: 所有用户的信息
+    - user:x:123:456:xxxxxx:/home/user/:/bin/bash
+    - 用户名:密码占位符:用户编号:用户组编号:用户备注信息:用户主目录:shell类型
+* `/etc/shadow`: 用户密码信息
+    - user:xxxx:::::
+    - 用户名:密码:::::
+
+* group
+    - `groupadd name`: 添加用户组
+    - `groupadd -g 888 name`: 指定组编号创建组
+    - `groupmod -n newname oldname`: 用户组改名
+    - `groupmod -g 888 name`: 用户组改编号
+    - `groupdel name`: 删除用户组
+
+* user
+    - `useradd -g groupname username`: 指定用户组创建用户(不制定默认会创建同名用户组)
+    - `useradd -g groupname -G group1,group2,...`: 同时指定主要组和附属组创建用户
+    - `useradd -c xxxxx username`: 修改用户备注信息
+    - `useradd -d /home/name name`: 指定用户家目录创建用户
+    - `usermod -l newname oldname`: 用户改名
+    - `usermod -d /home/new username`: 修改用户家目录
+    - `usermod -g groupname username`: 修改用户所属组
+    - `userdel [-r] name`: 删除用户(-r 连通家目录一起删除)
+
+* passwd
+    - `passwd -l username`: 锁定用户, 禁止其登录
+    - `passwd -u username`: 解锁用户
+    - `gpasswd -a username groupname`: 添加用户到用户组
+    - `gpasswd -d username groupname`: 用户组删除某个用户
+
+* 其他
+`id username`: 显示用户信息, 包括用户编号, 用户名, 主要组, 附属组列表
+`newgrp groupname`: 用户暂时切换组身份
+`touch /etc/nologin`: 禁止除了 root 的用户登录服务器
+`chfn username`: 设置用户资料(交互模式, 按照提示输入即可)
+`finger username`: 显示用户详细资料
+
 ## 常用命令
 
 ### 挂载
@@ -225,6 +270,7 @@ Yum 源文件`/etc/yum.repos.d/CentOS-Base.repo`
     - install 安装
 * yum -y update 包名 # 升级
 * yum remove 包名 # 卸载
+* yum provides xxx  # 查看哪一个包提供了xxx
 
 *服务器使用最小化安装，用什么装什么，尽量不卸载*
 

@@ -25,6 +25,7 @@
     - `useradd -g groupname -G group1,group2,...`: 同时指定主要组和附属组创建用户
     - `useradd -c xxxxx username`: 修改用户备注信息
     - `useradd -d /home/name name`: 指定用户家目录创建用户
+    - `useradd -m name`: 创建用户时创建同名家目录
     - `usermod -l newname oldname`: 用户改名
     - `usermod -d /home/new username`: 修改用户家目录
     - `usermod -g groupname username`: 修改用户所属组

@@ -13,6 +13,7 @@ $ gunicorn httpbin:app
 virtualenv 使用
 ```bash
 $ virtualenv .env
+$ virtualenv .env --python=python3
 $ source .env/bin/activate
 ```
 

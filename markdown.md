@@ -42,7 +42,7 @@ $$
 \lbrace x | x \le 3 \rbrace
 $$
 
-分数 `\frac{分母}{分子}` 或 `\cfrac`
+分数 `\frac{分子}{分母}` 或 `\cfrac`
 $$
 \frac{4}{5}, 4\cfrac{y}{x}
 $$

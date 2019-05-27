@@ -35,11 +35,11 @@ with open('a.csv', 'w') as csvfile:
     csvfile_writer.writerows([[232, 32, 'fda123'], ['a', 'b', 'c']])
 
 # 字典的写入方式
-with open('b.csv', 'w') as csvfile: 
-    colname = ['id', 'name', 'age'] 
-    csvfile_write = csv.DictWriter(csvfile, fieldnames=colname) 
-    csvfile_write.writeheader() 
-    csvfile_write.writerow({'id': '10001', 'name': 'Mike', 'age': 20}) 
+with open('b.csv', 'w') as csvfile:
+    colname = ['id', 'name', 'age']
+    csvfile_write = csv.DictWriter(csvfile, fieldnames=colname)
+    csvfile_write.writeheader()
+    csvfile_write.writerow({'id': '10001', 'name': 'Mike', 'age': 20})
     csvfile_write.writerow({'id': 1002, 'age': 21, 'name': 'Bob'})
 ```
 

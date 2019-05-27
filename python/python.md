@@ -721,6 +721,7 @@ for line in readlines():
     - `os.listdir('path/to/dir')`: 相当于 `ls`, 返回一个 list
     - `os.rename('file.old', 'file.new')`: 重命名
     - `os.remove('path/to/file')`: 删除文件
+    - `os.walk(dir)`: 遍历目录, 返回一个`generator`, 每次生成`(dirpath, dirnames, filenames)`
     - 复制文件的函数在 `os` 模块中不存在, 原因是复制文件并非由操作系统提供的系统调用; `shutil` 模块中提供了 `copyfile()` 的函数
 
 * numpy

@@ -715,8 +715,8 @@ for line in readlines():
     - `os.path.join('path/to/dir', 'newdirname')`: 拼接路径, 不同的操作系统返回值会不同
     - `os.path.split(path/to/file)`: 拆分目录, 这里返回 `('path/to', 'file')`, 不同操作系统返回值不同
     - `os.path.splitext('path/to/file.txt')`: 分离扩展名, 这里返回 `('path/to/file', '.txt')`
-    - `os.path.mkdir('path/to/dir')`: 创建一个目录
     - `os.path.isdir('a/b/c'), os.path.isfile('a/b/c')`: 分别判断 c 是否为目录和文件
+    - `os.mkdir('path/to/dir')`: 创建一个目录
     - `os.rmdir('path/to/dir')`: 删除一个目录
     - `os.listdir('path/to/dir')`: 相当于 `ls`, 返回一个 list
     - `os.rename('file.old', 'file.new')`: 重命名

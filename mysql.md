@@ -1,4 +1,16 @@
-### Mysql 基础
+### MySQL 基础
+
+`limit`, `offset`(单词意思: 偏移)
+```sql
+# 控制返回 3 行
+select * from table1 limit 3
+# 返回 3 行, 从第 5 行开始
+select * from table2 limit 4, 3
+# 同上
+select * from table3 limit 3 offset 4
+```
+
+### 面试题
 * 事务的原理, 特性, 事务并发控制
 * 常用的字段, 含义和区别
 * 常用数据库引擎之间的区别

@@ -139,3 +139,17 @@ a + np.tile(b, (3,1))
 a + b
 # 广播会在缺失维度和数值为 1 的维度上进行
 ```
+
+### matplotlib
+
+绘图库, 用于实现数据可视化
+
+### pandas
+
+数据分析库
+
+1. Series & DataFrame (基本数据结构)
+2. Basic & Select & Set (基本操作)
+3. Missing Data Processing (丢失值处理)
+4. Merge & Reshape (数据融合和形状定义)
+5. Time Series & Graph & Files (时间序列和图形绘制, 文件操作)

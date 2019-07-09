@@ -10,6 +10,9 @@ select * from table2 limit 4, 3
 select * from table3 limit 3 offset 4
 ```
 
+leetcode 上做数据库的题目时, MySQL 不能使用 `rank`, 查了一下文档,
+MySQL 8.0 开始才有`rank`, `dense rank`, `persent_rank`
+
 ### 面试题
 * 事务的原理, 特性, 事务并发控制
 * 常用的字段, 含义和区别

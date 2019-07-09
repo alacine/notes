@@ -149,6 +149,20 @@ a + b
 数据分析库
 
 1. Series & DataFrame (基本数据结构)
+
+* DataFrame: 由行和列组成的表格
+* Series: DataFrame 中的每一列被称为 Series, 同时 Series 可以不属于任何一个 DataFrame
+
+`read_table()`使用` `作为默认分割符号, `read_csv()`使用`,`作为默认分割符号
+
+```
+ufo = pandas.read_csv('ufo.csv')
+```
+一般情况下, Series 的两种访问方式均可, 即`ufo.City`和`ufo['City']`, 但是三种情况下只允许第二种访问方式:
+* 列名中包含空格
+* 列名与内置属性冲突
+* 在 DataFrame 中创建一个新的列
+
 2. Basic & Select & Set (基本操作)
 3. Missing Data Processing (丢失值处理)
 4. Merge & Reshape (数据融合和形状定义)

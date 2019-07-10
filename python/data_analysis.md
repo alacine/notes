@@ -153,17 +153,86 @@ a + b
 * DataFrame: 由行和列组成的表格
 * Series: DataFrame 中的每一列被称为 Series, 同时 Series 可以不属于任何一个 DataFrame
 
-`read_table()`使用` `作为默认分割符号, `read_csv()`使用`,`作为默认分割符号
-
-```
-ufo = pandas.read_csv('ufo.csv')
-```
-一般情况下, Series 的两种访问方式均可, 即`ufo.City`和`ufo['City']`, 但是三种情况下只允许第二种访问方式:
-* 列名中包含空格
-* 列名与内置属性冲突
-* 在 DataFrame 中创建一个新的列
-
 2. Basic & Select & Set (基本操作)
+
+* 从文件读取  
+`read_table()`使用` `作为默认分割符号, `read_csv()`使用`,`作为默认分割符号(`read_table()`从 0.24.0 开始已经弃用, 使用`read_csv(sep='\t')`代替)
+
+```
+movies = pd.read_csv('imdb_1000.csv')
+ufo = pandas.read_csv('ufo.csv')
+# 读取第 1 和 5 列
+ufo = pandas.read_csv('ufo.csv', usecols=[0, 4])
+# 读取指定列
+ufo = pandas.read_csv('ufo.csv', usecols=['City', 'State'])
+# 读取 4 行
+ufo = pandas.read_csv('ufo.csv', nrow=4)
+```
+* 访问  
+一般情况下, Series 的两种访问方式均可, 即`ufo.City`和`ufo['City']`, 但是三种情况下只允许第二种访问方式:
+    - 列名中包含空格
+    - 列名与内置属性冲突
+    - 在 DataFrame 中创建一个新的列
+
+* 列重命名  
+```python
+ufo.rename(
+    colomns={
+        'Color Reported': 'Color_Reported',
+        'Shape Reported': 'Shape_Reported'
+    }
+    inplace=True # 执行此操作
+)
+```
+
+* 移除列  
+```python
+# 移除指定列
+ufo.drop('Colors Reported', axis=1, inplace=True)
+ufo.drop(['City', 'State'], axis=1, inplace=True)
+# 移除指定行(依据行号)
+ufo.drop(labels=[0, 1, 2], axis=0, inplace=True)
+```
+
+* 过滤  
+```python
+# 单一条件
+movies[movies.duration >= 200]
+# 多条件(注意这里的操作符写法, 括号不可省略)
+movies[(movies.duration >= 200) & (movies.genre == 'Drama')]
+movies.genre.isin(['Crime', 'Drama', 'Action'])
+```
+
+* 排序  
+```python
+# ascending 默认是 True; 表示升序; 不改变 moives; 只显示排序列
+movies.duration.sort_values(ascending=False)
+# 同上, 显示所有列
+movies.sort_values('title')
+# 设置多个排序标准
+movies.sort_values(['content_rating', 'duration'])
+
+```
+
+* axis 使用  
+`axis=0`(操作 row), `axis=1`(操作 column)
+
+* 字符串方法(文档中搜索`string handling`)  
+```python
+orders.item_name.str.upper()
+# 包含指定字符串
+orders.item_name.str.contains('Chicken')
+orders[orders.item_name.str.contains('Chicken')]
+# 替换
+orders.choice_description.str.replace('[', '').str.replace(']', '')
+# 正则
+orders.choice_description.str.replace('[\[\]]', '')
+```
+
+* 其他一些技巧
+    - 选取指定类型的数据
+    - 迭代 Series 和 DataFrame
+
 3. Missing Data Processing (丢失值处理)
 4. Merge & Reshape (数据融合和形状定义)
 5. Time Series & Graph & Files (时间序列和图形绘制, 文件操作)

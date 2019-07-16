@@ -161,9 +161,9 @@ echo ${movie[*]}
 /etc/bashrc # 修改命令提示符
 ```
 环境变量加载路径，正常输入用户名密码时:  
-![normal.png](./normal_login.png)
+![normal.png](./img/normal_login.png)
 从su用户切换到当前用户时：
-![switch_to_login](./switch_to_login.png)
+![switch_to_login](./img/switch_to_login.png)
 **图片中的`/etc/sysconfig/i18n`是原先的语系配置文件，现在是语系的配置文件是`/etc/locale.conf`**
 
 ### 功能

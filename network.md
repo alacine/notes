@@ -6,10 +6,10 @@
 DNS 查询 -> TCP 握手 -> HTTP 请求 -> 反向代理 Nginx -> uwsgi/gunicorn -> web app 响应 -> TCP 挥手
 
 TCP 三次握手过程, 状态转换
-![tcp_handshake](./tcp_handshake.png)
+![tcp_handshake](./img/tcp_handshake.png)
 
 TCP 四次挥手, 状态转换
-![tcp_wave](./tcp_wave.png)
+![tcp_wave](./img/tcp_wave.png)
 
 TCP/UDP 的区别
 * TCP 面向连接, 可靠的, 基于字节流
@@ -68,7 +68,7 @@ TCP/UDP socket 编程; HTTP 编程
     - HTTP 建立在 TCP 基础之上
     - HTTP 是基于文本的协议
 
-![tcp_socket](./tcp_socket.png)
+![tcp_socket](./img/tcp_socket.png)
 
 Unix 网络编程中提到了5种网络模型
 * Blocking IO(阻塞式)

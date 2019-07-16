@@ -570,7 +570,7 @@ rpm 安装服务和源码包安装服务的区别就是安装位置的不同
 * 通过修改配置文件的方式可以使得源码包安装的服务能够被rpm包服务的管理方式识别
 
 这里放一张大致的图  
-![service](./screenshot_service.png)
+![service](./img/screenshot_service.png)
 
 ## 系统管理
 

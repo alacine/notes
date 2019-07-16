@@ -136,7 +136,7 @@ auth = GithubAuth('xxxxxxxxxxxxxxxxxx')
 response = requests.get(url, auth=auth)
 ```
 
-![OAuth](./oauth.png)
+![OAuth](./img/oauth.png)
 
 Proxy 代理
 1. 终端代理

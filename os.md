@@ -2,13 +2,13 @@
 * 程序的逻辑地址划分为固定大小的页(Page)
 * 物理地址划分为同样大小的帧(Frame)
 * 通过页表对应逻辑地址和物理地址
-* ![paging](./paging.png)
+* ![paging](./img/paging.png)
 
 分段机制(为了满足代码的一些逻辑需求)
 * 数据共享, 数据保护, 动态链接等
 * 通过段实现逻辑地址和物理地址的映射关系
 * 每个段内部是连续内存分配, 段和段之间是离散分配
-* ![segmentation](segmentation.png)
+* ![segmentation](./img/segmentation.png)
 
 分页 vs 分段
 * 页是处于内存利用率的角度提出的离散分配机制

@@ -22,6 +22,17 @@ set t_Co=256
 set ignorecase
 set clipboard=unnamed
 "set foldmethod=indent
+"set undofile=~/.vim/undodir
+
+" 色彩问题 (注意: 这里的^[是按下C-v再按Esc得到的)
+if has("termguicolors")
+    " fix bug for vim
+    set t_8f=[38;2;%lu;%lu;%lum
+    set t_8b=[48;2;%lu;%lu;%lum
+
+    " enable true color
+    set termguicolors
+endif
 
 inoremap ( ()<LEFT>
 inoremap [ []<LEFT>
@@ -42,6 +53,43 @@ nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> [n :bnext<CR>
 " sudo to write
 cnoremap w!! w !sudo tee % >/dev/null
+
+" Indent Python in the Google way.
+
+setlocal indentexpr=GetGooglePythonIndent(v:lnum)
+
+let s:maxoff = 50 " maximum number of lines to look backwards.
+
+function GetGooglePythonIndent(lnum)
+
+  " Indent inside parens.
+  " Align with the open paren unless it is at the end of the line.
+  " E.g.
+  "   open_paren_not_at_EOL(100,
+  "                         (200,
+  "                          300),
+  "                         400)
+  "   open_paren_at_EOL(
+  "       100, 200, 300, 400)
+  call cursor(a:lnum, 1)
+  let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
+        \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
+        \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
+        \ . " =~ '\\(Comment\\|String\\)$'")
+  if par_line > 0
+    call cursor(par_line, 1)
+    if par_col != col("$") - 1
+      return par_col
+    endif
+  endif
+
+  " Delegate the rest to the original function.
+  return GetPythonIndent(a:lnum)
+
+endfunction
+
+let pyindent_nested_paren="&sw*2"
+let pyindent_open_paren="&sw*2"
 
 " --------------------------------------------------------------------------------
 set nocompatible              " be iMproved, required
@@ -74,12 +122,12 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Plugin 'ascenator/L9', {'name': 'newL9'}
 
 " add Plugin here
-Plugin 'rakr/vim-one.git'
-Plugin 'scrooloose/nerdtree.git'
-Plugin 'Xuyuanp/nerdtree-git-plugin.git'
-Plugin 'airblade/vim-gitgutter.git'
+Plugin 'rakr/vim-one'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'flazz/vim-colorschemes'
-"Plugin 'iamcco/mathjax-support-for-mkdp'
+Plugin 'iamcco/mathjax-support-for-mkdp'
 Plugin 'iamcco/markdown-preview.vim'
 Plugin 'Yggdroot/indentLine'
 Plugin 'mhinz/vim-startify'
@@ -87,7 +135,8 @@ Plugin 'tpope/vim-surround'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Shougo/denite.nvim'
-Plugin 'w0ng/vim-hybrid'
+"Plugin 'w0ng/vim-hybrid'
+Plugin 'kristijanhusak/vim-hybrid-material'
 Plugin 'majutsushi/tagbar'
 Plugin 'lfv89/vim-interestingwords'
 Plugin 'rking/ag.vim'
@@ -108,6 +157,14 @@ Plugin 'jpalardy/vim-slime'
 Plugin 'fatih/vim-go'
 Plugin 'mattn/emmet-vim'
 Plugin 'pangloss/vim-javascript'
+Plugin 'mbbill/undotree'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
+Plugin 'itchyny/vim-cursorword'
+Plugin 'chrisbra/csv.vim'
+" maybe will use one day
+"Plugin 'idanarye/vim-vebugger'
+
 " end of my Plugins
 
 " All of your Plugins must be added before the following line
@@ -129,7 +186,7 @@ filetype plugin indent on    " required
 " ----------vim-one-----------
 if (empty($TMUX))
   if (has("nvim"))
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   endif
   if (has("termguicolors"))
     set termguicolors
@@ -151,6 +208,17 @@ let g:airline_theme='one'
 "colorscheme hybrid
 "au ColorScheme hybrid hi Normal ctermbg=None
 "au ColorScheme hybrid_reverse hi Normal ctermbg=None
+"if (has("nvim"))
+  "let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"endif
+"if (has("termguicolors"))
+  "set termguicolors
+"endif
+"set background=dark
+"colorscheme hybrid_reverse
+"let g:enable_italic_font = 1
+"let g:airline_theme = 'hybrid'
+"let g:hybrid_transparent_background = 1
 
 " --------indnetline---------
 " 取消 indentline 在 markdown 和 latex 文件中的异常行为
@@ -219,6 +287,10 @@ let g:ycm_filetype_whitelist = { '*': 1 }
 let g:ycm_key_invoke_completion = '<C-Space>'
 let g:ycm_show_diagnostics_ui = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_semantic_triggers =  {
+			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+			\ 'cs,lua,javascript': ['re!\w{2}'],
+			\ }
 
 nnoremap <Leader>gd :YcmCompleter GoTo<CR>
 " ---------airline----------
@@ -232,11 +304,17 @@ let g:airline_right_alt_sep = ''
 "let g:airline_theme = 'hybridline'
 
 " -------pymode---------
-let g:pymode_python = 'python3'
+"let g:pymode_python = 'python3'
+let g:pymode_motion = 1
+let pymode_lint_cwindow = 0
+let g:pymode_breakpoint_bind = '<leader>b'
+let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe']
+"let g:pymode_lint = 0
 
 " ---------ale------------
 let g:ale_python_pylint_options = '--load-plugins pylint_django'
 let g:ale_python_pylint_options = '--extension-pkg-whitelist=cv2'
+let g:ale_linters = {'python': ['pyflakes', 'pep8', 'mccabe']}
 let g:ale_set_highlights = 0
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚡'
@@ -250,3 +328,9 @@ augroup javascript_folding
     au!
     au FileType javascript setlocal foldmethod=syntax
 augroup END
+
+" ---------undotree---------
+nnoremap <Leader>u :UndotreeToggle<CR>
+
+" ----------vim-session----------------
+let g:session_autosave = 'no'

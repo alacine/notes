@@ -177,7 +177,7 @@ ufo = pandas.read_csv('ufo.csv', nrow=4)
 * 列重命名  
 ```python
 ufo.rename(
-    colomns={
+    columns={
         'Color Reported': 'Color_Reported',
         'Shape Reported': 'Shape_Reported'
     }

@@ -1,4 +1,7 @@
 ## GIT
+
+[Git 分支教程](https://learngitbranching.js.org/)
+
 ### GIT 结构和状态
 
 * GIT的三层结构

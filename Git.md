@@ -57,7 +57,10 @@ git config
 git config --global user.name name
 git config --global user.email email
 git config --list
-地址~/.gitconfig
+# 全局配置文件
+~/.gitconfig
+# 单个项目配置文件
+project/.git/config
 ```
 
 * 撤销操作
@@ -135,7 +138,7 @@ git stash drop stash@num    //git stash apply 只是运用存储信息,并不�
   git remote rename oldname newname
   git fetch
   ```
-  
+ 
 * Git ssh 免密登陆
 
    ```sh
@@ -148,3 +151,4 @@ git stash drop stash@num    //git stash apply 只是运用存储信息,并不�
      - git help
      - git help command
      - [官方文档地址](https://git-scm.com/docs)
+     - [Git 分支操作联系](https://learngitbranching.js.org/)

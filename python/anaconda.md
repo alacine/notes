@@ -24,3 +24,8 @@ conda activate env_py
 ```
 conda decactivate
 ```
+
+取消自动激活 conda 环境
+```
+conda config --set auto_activate_base false
+```

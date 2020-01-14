@@ -194,6 +194,22 @@
 * scp [-r] 用户名@ip:文件路径 本地路径 (下载)
 * scp [-r] 本地路径 用户名@ip:上传路径 (上传)
 
+* curl
+    - -A 指定 User-Agentv
+    - -X 指定请求方法
+    - -b 指定 Cookie (可以手写也可以指定文件)
+    - -c 将服务器的 http 回应所设置的 Cookie 写入一个文件
+    - -d 指定 POST 请求中的 data  
+        `curl -d 'name=user' -X POST http://...` 或 `curl -d '@data.txt' -X POST http://...`
+    - --data-urlencode 同上, 但是会进行 URL 编码
+    - -F 上传二进制文件
+    - -H 指定 Header
+    - -i 打印出服务器的响应头, 空一行, 打印网页源码
+    - -I 仅打印响应头(等同于--head)
+    - -k 跳过 SSL 检测
+    - -o 响应结果保存为文件, 相当于 wget
+    - -O 响应结果保存为文件, 同时将 url 最后部分作为文件名
+    - -x 指定代理
 
 ## 软件安装
 

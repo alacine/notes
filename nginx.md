@@ -5,7 +5,7 @@
 转发 neo4j 端口
 ```
 location /neo4j {
-    proxy_pass http://127.0.0.1:7474:7474/browser;
+    proxy_pass http://127.0.0.1:7474/browser;
 }
 ```
 

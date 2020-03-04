@@ -52,3 +52,72 @@ func (e ErrNegativeSqrt) Error() string {
 	return fmt.Sprintf("cannot Sqrt negative number: %v", float64(e))
 }
 ```
+
+结构体排序
+```go
+type Man struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+}
+people := []Man{
+    {3, "b"},
+    {1, "a"},
+    {6, "3"},
+}
+sort.Slice(people, func(i, j int) bool { return people[i].Id < people[j].Id })
+```
+
+二维数组排序
+```go
+// 第一种
+type In2 [][]int
+
+func (in2 In2) Len() int {
+	return len(in2)
+}
+
+func (in2 In2) Less(i, j int) bool {
+	for k := 0; k < len(in2[i]); k++ {
+		if in2[i][k] < in2[j][k] {
+			return true
+		} else if in2[i][k] > in2[j][k] {
+			return false
+		}
+	}
+	return true
+}
+
+func (in2 In2) Swap(i, j int) {
+	in2[i], in2[j] = in2[j], in2[i]
+}
+
+w := In2{
+    {1, 2, 3, 4},
+    {4, 5, 3, 3},
+    {3, 4, 5, 2},
+    {1, 2},
+}
+
+sort.Sort(w)
+sort.Sort(sort.Reverse(w)) // 逆序
+
+// 第二种
+w := [][]int{
+    {1, 2, 3, 4},
+    {4, 5, 3, 3},
+    {3, 4, 5, 2},
+    {1, 2},
+}
+
+sort.Slice(w, func(i, j int) bool {
+    for k := 0; k < len(w[i]); k++ {
+        if w[i][k] < w[j][k] {
+            return true
+        } else if w[i][k] > w[j][k] {
+            return false
+        }
+    }
+    return true
+})
+```
+

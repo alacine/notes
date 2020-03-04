@@ -67,7 +67,7 @@ people := []Man{
 sort.Slice(people, func(i, j int) bool { return people[i].Id < people[j].Id })
 ```
 
-二维数组排序
+二维切片排序
 ```go
 // 第一种
 type In2 [][]int
@@ -119,3 +119,34 @@ sort.Slice(w, func(i, j int) bool {
 })
 ```
 
+**如果是对数组排序, 那么必须使用指针, 切片是引用类型, 本身就自带指针指向原来的数组, 而数组在调用方法时是拷贝的**
+```go
+type In2 [3][]int
+
+func (in2 *In2) Len() int {
+	return len(in2)
+}
+
+func (in2 *In2) Less(i, j int) bool {
+	for k := 0; k < len(in2[i]); k++ {
+		if in2[i][k] < in2[j][k] {
+			return true
+		} else if in2[i][k] > in2[j][k] {
+			return false
+		}
+	}
+	return true
+}
+
+func (in2 *In2) Swap(i, j int) {
+	in2[i], in2[j] = in2[j], in2[i]
+}
+
+w := In2{
+    {1, 2, 3, 4},
+    {4, 5, 3, 3},
+    {3, 4, 5, 2},
+}
+
+sort.Sort(&w)
+```

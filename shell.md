@@ -17,9 +17,9 @@ env # 查看环境变量
 
 设置环境变量
 ```bash
-export x=1 #
+export x=1 # 直接设置
 y=1
-export y # 
+export y # 先声明再设置
 ```
 
 `$PS1`提示符变量

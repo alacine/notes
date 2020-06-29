@@ -124,9 +124,9 @@ Python 性能分析与优化，GIL常考
 * Cpython 室友简单的锁机制避免多个线程同时执行字节码
 
 GIL 影响(限制了程序的多核执行)
-* 同一个时间只能有一个线程执行字节码
+* 同一个时间只能有一个线程执行字节码(无法将多个线程映射到多个 cpu 上执行)
 * CPU 密集程序难以利用多核优势
-* IO 期间会释放 GIL, 对IO密集程序影响不大
+* 根据执行的字节码行数以及时间片释放 GIL, 同时 IO 期间会释放 GIL, 对IO密集程序影响不大
 
 如何规避 GIL 影响(区分 CPU 和 IO 密集程序)
 * CPU 密集可以使用多进程+进程池
@@ -705,6 +705,24 @@ with open('/path/to/file', 'r', encoding='gbk') as f:
 
 for line in readlines():
     print(line.strip()) # 去掉行末的'\n'
+
+# 读取大文件的方法
+def myreadlines(fn, newline):
+    buf, pre_size = '', 4096
+    while True:
+        while newline in buf:
+            pos = buf.index(newline)
+            yield buf[:pos]
+            buf = buf[pos + len(newline):]
+        chunk = fn.read(pre_size)
+        if not chunk:
+            yield buf
+            break
+        buf += chunk
+
+with open('large_input.txt', 'r') as fn:
+    for line in myreadlines(fn, '\n'):
+        print(line)
 ```
 
 * 操作文件和目录(`import os`)

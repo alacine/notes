@@ -19,6 +19,17 @@
         + 函数形式`Benchmark`开头
         + benchmark 的 case 一般会跑 b.N(`func BenchmarkXXX(b *testing.B)`) 次，而且每次执行都会如此，在执行过程中会根据实际 case 的执行时间是否稳定会增加 b.N 的次数以达到稳态
 
+### go mod
+
+* `go mod download`: 下载依赖的 module 到本地 cache (默认是`$GOPATH/pkg/mod`)
+* `go mod edit`: 编辑`go.mod`文件
+* `go mod graph`: 打印模块依赖图
+* `go mod init`: 初始化当前文件夹，创建`go.mod`文件
+* `go mod tidy`: 增加缺少的 module，删除无用的 module
+* `go mod vendor`: 将依赖复制到 vendor 下
+* `go mod verify`: 校验依赖
+* `go mod why`: 解释为什么需要依赖
+
 [练习: 错误](https://tour.go-zh.org/methods/20)
 
 其中

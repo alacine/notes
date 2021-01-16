@@ -152,3 +152,10 @@ git stash drop stash@num    //git stash apply 只是运用存储信息,并不�
      - git help command
      - [官方文档地址](https://git-scm.com/docs)
      - [Git 分支操作联系](https://learngitbranching.js.org/)
+
+
+### 遇到的问题
+
+* 在本地做了 rebase 操作后 push，被远程拒接（在 GitExtension 工具中提示信息为落后远程分支）  
+[Git push rejected after feature branch rebase](https://stackoverflow.com/questions/8939977/git-push-rejected-after-feature-branch-rebase#comment27945592_8940299)
+

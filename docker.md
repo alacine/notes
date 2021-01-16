@@ -4,10 +4,15 @@
 
 > 镜像`Image`和容器`Container`的关系，就像是面向对象程序设计中的`类`和`实例`一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。
 
+* image
+
 查看本地所有 images
 ```
 docker images
+docker image ls
 ```
+
+> docker images: Alias for docker image ls
 
 获取 image
 ```
@@ -19,11 +24,19 @@ docker pull
 docker build
 ```
 
+* container
+
 启动一个 container
 ```
 docker run CONTAINER_ID
 docker run -p 8888:80 -d nginx  # -p 80 端口映射到 8888, -d 将此程序作为守护进程运行
+docker run -it
 ```
+
+> -i: 以交互模式运行容器
+> -t: 分配一个伪输入终端
+
+> docker container run: Alias for docker run
 
 停止
 ```
@@ -44,6 +57,8 @@ docker ps
 ```
 docker ps -a
 ```
+
+> docker ps: Alias for docker container ls.
 
 删除 container
 ```
@@ -86,3 +101,22 @@ Dockerfile 中的内容是只读的, 生成 images 后, images 中的内容是�
 ### Volume
 
 提供独立于容器之外的持久化存储
+
+## docker-compose
+
+多容器 app
+
+* 启动, -d: 守护进程
+```
+docker-compose up -d
+```
+
+* 停止
+```
+docker-compose stop
+```
+
+* 删除容器
+```
+docker-compose rm
+```

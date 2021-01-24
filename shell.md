@@ -648,3 +648,15 @@ until [ $i -gt 100 ]; do
 done
 echo "The sum is: $s"
 ```
+
+
+## 其他
+
+单引号和双引号区别，单引号会保留字符的字面值，包括反斜杠
+
+```
+$ echo "$(echo "upg") \""
+upg "
+$ echo '$(echo "upg") \"'
+$(echo "upg") \"
+```

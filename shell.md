@@ -660,3 +660,7 @@ upg "
 $ echo '$(echo "upg") \"'
 $(echo "upg") \"
 ```
+
+## 快捷键
+
+https://ss64.com/bash/syntax-keyboard.html

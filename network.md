@@ -127,11 +127,64 @@ nmap
 | `-sT` TCP connect() 扫描 | TCP 全开放扫描 | 真实、结果可靠         |
 | `-sU` UDP 扫描           | UDP 协议扫描   | 有效透过防火墙策略     |
 
-ncat
+ncat ([用好你的瑞士军刀/netcat - 韦易笑的文章 - 知乎](https://zhuanlan.zhihu.com/p/83959309))
 
-* `-w` 设置的超过时间
-* `-z` 一个输入输出模式
-* `-v` 显示命令执行过程
+使用样例
+```bash
+$ nc -vz 127.0.0.1 8080
+localhost [127.0.0.1] 8080 (http-alt) open
+```
+`v`表示显示详细信息，`z`表示不发送数据。
+
+范围扫描，`-w3`设置 3 秒超时
+```bash
+$ nc -v -v -w3 -z 127.0.0.1 8075-8085
+localhost [127.0.0.1] 8075: Connection refused
+localhost [127.0.0.1] 8076: Connection refused
+localhost [127.0.0.1] 8077 (mles): Connection refused
+localhost [127.0.0.1] 8078: Connection refused
+localhost [127.0.0.1] 8079: Connection refused
+localhost [127.0.0.1] 8080 (http-alt) open
+localhost [127.0.0.1] 8081 (sunproxyadmin): Connection refused
+localhost [127.0.0.1] 8082 (us-cli): Connection refused
+localhost [127.0.0.1] 8083 (us-srv): Connection refused
+localhost [127.0.0.1] 8084 (websnp): Connection refused
+localhost [127.0.0.1] 8085: Connection refused
+Total received bytes: 0
+Total sent bytes: 0
+
+$ nc -v -w3 -z 127.0.0.1 8075-8085
+localhost [127.0.0.1] 8080 (http-alt) open
+```
+
+启动端口监听
+```bash
+nc -l -p 8000
+```
+连接
+```bash
+nc 127.0.0.1 8000
+```
+
+测试 udp 会话
+```bash
+nc -u -l -p 8000
+```
+连接
+```bash
+nc -u 127.0.0.1 8000
+```
+
+文件传输
+
+A主机
+```bash
+nc -l -p 8000 > image.png
+```
+B主机
+```bash
+nc 127.0.0.1 8000 < image.png
+```
 
 方式:
 1. 基于tcp协议(默认) nc -v -z -w2 127.0.0.1 1-50

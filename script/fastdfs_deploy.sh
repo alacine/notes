@@ -1,6 +1,8 @@
 #!/bin/bash
+
 # install fastdfs without root
-# not finished yet
+# 这个是 fastdfs 安装部署的脚本，请在使用前阅读 https://github.com/alacine/notes/blob/master/fastdfs.md
+# 这个脚本默认假设有两台 tracker，如果不是，你需要自行做修改
 
 #set -x
 
@@ -12,8 +14,8 @@ fi
 base_path=$(echo ${base_path} | sed 's/\//\\\//g')
 
 tracker_port=22122
-tracker_addr[0]="192.168.56.11:${tracker_port}"
-tracker_addr[1]="192.168.56.12:${tracker_port}"
+tracker_addr[0]="xx.xx.xx.xx:${tracker_port}"
+tracker_addr[1]="xx.xx.xx.xx:${tracker_port}"
 tracker_base_path="${base_path}\/tracker"
 
 storage_port=23000
@@ -127,7 +129,7 @@ export LIBRARY_PATH=/app/fastdfs/target/usr/lib64
 cd /app/fastdfs
 tar -zxf nginx-1.18.0.tar.gz
 cd /app/fastdfs/nginx-1.18.0/
-./configure --prefix=/approot/nginx --add-module=/app/fastdfs/fastdfs-nginx-module-1.22/src
+./configure --prefix=/app/nginx --add-module=/app/fastdfs/fastdfs-nginx-module-1.22/src
 make && make install
 cp /app/fastdfs/fastdfs-nginx-module-1.22/src/mod_fastdfs.conf /app/fastdfs/target/etc/fdfs/
 

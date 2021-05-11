@@ -44,6 +44,9 @@ re.subn()
 
 # 分割
 re.spilit()
+
+# 编译
+re.complie()
 ```
 不写例子了，还是直接看文档更好
 

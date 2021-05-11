@@ -1,9 +1,27 @@
+OSI 七层 vs TCP/IP 四层
+
+遇到了两种不同的对应关系，
+下图为大部分的网络上的对应关系图
+![osi_to_tcpip1.png](img/osi_to_tcpip1.png)
+
+下图是在[斯坦福大学CS144课程](https://www.bilibili.com/video/BV1e5411c7aY?p=3)
+大概从 11:40 开始
+![osi_to_tcpip2](img/osi_to_tcpip2.png)
+
+然后在[维基百科](https://en.wikipedia.org/wiki/OSI_model#Comparison_with_TCP.2FIP_model)
+上查到了下面的这个描述
+> * The Internet application layer maps to the OSI application layer, presentation layer, and most of the session layer.
+> * **The TCP/IP transport layer maps to the graceful close function of the OSI session layer as well as the OSI transport layer.**
+> * The internet layer performs functions as those in a subset of the OSI network layer.
+> * The link layer corresponds to the OSI data link layer and may include similar functions as the physical layer, as well as some protocols of the OSI's network layer.
+
 浏览器输入一个url中间经历的过程
 * 中间涉及到了哪些过程
 * 包含哪些网络协议
 * 每个协议都干了什么
 
-DNS 查询 -> TCP 握手 -> HTTP 请求 -> 反向代理 Nginx -> uwsgi/gunicorn -> web app 响应 -> TCP 挥手
+DNS 查询 -> TCP 握手 -> HTTP 请求 -> 反向代理 Nginx -> uwsgi/gunicorn ->
+web app 响应 -> TCP 挥手
 
 TCP 三次握手过程, 状态转换
 ![tcp_handshake](./img/tcp_handshake.png)

@@ -2,6 +2,9 @@
 
 * `build`: compile packeages and dependencies
     - 编译 go 文件，跨平台编译: `env GOOS=linux GOPATH=amd64 go build`
+        ```bash
+        go build -o ch1/echo1 ch1/echo1/main.go
+        ```
 * `install`: compile and install packeages and dependencies
     - 编译，与 build 最大的区别是编译后会将输出文件打包成库放在 pkg 下
 * `get`: download and install packages and dependencies

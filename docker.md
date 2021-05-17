@@ -120,3 +120,7 @@ docker-compose stop
 ```
 docker-compose rm
 ```
+
+### 其他问题
+
+[如何判断当前是否在容器内部](https://stackoverflow.com/questions/20010199/how-to-determine-if-a-process-runs-inside-lxc-docker)

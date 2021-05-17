@@ -19,3 +19,10 @@ Content-Dispostion: attachment;filename*=utf-8'zh_cn'a.txt
 Content-Dispostion: attachment;filename="a.txt"
 ```
 
+RFC 文档中有关与这部分的描述在[rfc6266 4.3-5](https://datatracker.ietf.org/doc/html/rfc6266#section-4.3)
+
+在源码的注释中可以看到确实是不支持`filename*=`这种方式的解析
+[src/tool_cb_hdr.c](https://github.com/curl/curl/blob/904b27d18da1f7310f38b5117a0916d8b96d130c/src/tool_cb_hdr.c#L137)
+
+至于为什么 curl 没有支持这种方式，在 curl 的 issue 区里面翻到了这个，下面这个，
+可以参考着看一下 [#1995](https://github.com/curl/curl/pull/1995)

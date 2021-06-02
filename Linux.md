@@ -600,6 +600,23 @@ rpm 安装服务和源码包安装服务的区别就是安装位置的不同
 
 ### 进程管理
 
+获取某个进程的路径
+```
+readlink -f /proc/PID/exe
+```
+获取进程的当前工作路径
+```
+pwdx PID
+```
+获取进程使用的环境变量
+```
+cat /proc/PID/environ
+```
+或者用`strings`(一些字符在`cat`不能正常输出, 这里用`strings`可以输出换行)
+```
+strings /proc/PID/environ
+```
+
 1. 进程管理作用  
     * 判断服务器的健康状态
     * 查看系统中所有的进程

@@ -21,6 +21,14 @@
     - `benchmark` (`go test -bench=.`, 同样受到`TestMain`限制)
         + 函数形式`Benchmark`开头
         + benchmark 的 case 一般会跑 b.N(`func BenchmarkXXX(b *testing.B)`) 次，而且每次执行都会如此，在执行过程中会根据实际 case 的执行时间是否稳定会增加 b.N 的次数以达到稳态
+        + `go test -bench=BenchmarkXXX -benchmem`: 同时给出`BenchmarkXXX`的内存分配情况
+    - `go test -coverprofile=c.out`: 生成测试覆盖率报告, `go tool cover -html=c.out`: 生成 html 并用浏览器打开查看此报告
+        + `-cpuprofile`: cpu 性能分析
+        + `-memprofile`: 内存性能分析
+        + `-blockprofile`: goroutine 阻塞分析
+* `list`: `go list -m -u -json`
+* `clean`: `go clean -i -cache -x`
+* `go tool pprof`: 用来读取`go test`生成的一些报告
 
 ### go mod
 

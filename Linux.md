@@ -24,3 +24,9 @@ cat /proc/PID/environ
 strings /proc/PID/environ
 ```
 
+### Tips
+
+文件的详细信息
+```bash
+stat filename
+```

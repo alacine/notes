@@ -1,3 +1,8 @@
+## 收藏链接
+
+* [Unix as IDE](https://blog.sanctum.geek.nz/series/unix-as-ide/)
+* [Bash shell expansion](https://blog.sanctum.geek.nz/bash-shell-expansion/)
+
 ## 环境变量
 
 | 变量                                    | 作用 | 说明                              |
@@ -29,4 +34,12 @@ strings /proc/PID/environ
 文件的详细信息
 ```bash
 stat filename
+```
+
+Makefile 中递归 wildcard 实现
+```
+rwildcard = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
+
+target: $(call rwildcard,./,*.go)
+    commands
 ```

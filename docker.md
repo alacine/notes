@@ -77,20 +77,20 @@ docker commit -m 'message' CONTAINER_ID nginx
 
 ### Docerfile 语法
 
-| 命令       | 用途                                                                |
-|------------|---------------------------------------------------------------------|
-| FROM       | base image                                                          |
-| RUN        | 执行命令                                                            |
-| ADD        | 添加文件(可以添加远程文件, 如添加 ftp 服务器上的文件)               |
-| COPY       | 拷贝文件                                                            |
-| CMD        | 执行命令                                                            |
-| EXPOSE     | 暴露端口                                                            |
-| WORKDIR    | 指定命令执行路径                                                    |
-| MAINTAINER | 维护者                                                              |
-| ENV        | 设定环境变量                                                        |
-| ENTRYPOINT | 容器入口(如果指定, 那么 CMD 所指定的字符串将变为 ENTRYPOINT 的参数) |
-| USER       | 指定执行命令用户                                                    |
-| VOLUME     | mount point(挂载卷)                                                 |
+| 命令       | 用途                                                                                                                                                |
+|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| FROM       | base image                                                                                                                                          |
+| RUN        | 执行命令                                                                                                                                            |
+| COPY       | 拷贝文件(仅限本地文件)                                                                                                                              |
+| ADD        | 添加文件(可以添加远程文件, 如添加 ftp 服务器上的文件, 隐式地做压缩包的解压操作, 例如`ADD a.tar /app`会直接将`a.tar`中的内容解压到镜像内的`/app`目录 |
+| CMD        | 执行命令                                                                                                                                            |
+| EXPOSE     | 暴露端口                                                                                                                                            |
+| WORKDIR    | 指定命令执行路径                                                                                                                                    |
+| MAINTAINER | 维护者                                                                                                                                              |
+| ENV        | 设定环境变量                                                                                                                                        |
+| ENTRYPOINT | 容器入口(如果指定, 那么 CMD 所指定的字符串将变为 ENTRYPOINT 的参数)                                                                                 |
+| USER       | 指定执行命令用户                                                                                                                                    |
+| VOLUME     | mount point(挂载卷)                                                                                                                                 |
 
 ### 镜像分层
 
@@ -124,3 +124,6 @@ docker-compose rm
 ### 其他问题
 
 [如何判断当前是否在容器内部](https://stackoverflow.com/questions/20010199/how-to-determine-if-a-process-runs-inside-lxc-docker)
+
+[alpine 中创建用户](https://stackoverflow.com/questions/49955097/how-do-i-add-a-user-when-im-using-alpine-as-a-base-image)
+在 alpine 中没有`useradd`，但有`busybox`，其中包含`adduser`，还有注意这个和 Debian/Ubuntu 中的`adduser`略有不同

@@ -106,24 +106,53 @@ Dockerfile 中的内容是只读的, 生成 images 后, images 中的内容是�
 
 多容器 app
 
-* 启动, -d: 守护进程
+* 构建
+```bash
+docker-compose build
 ```
+
+* 启动
+```bash
+# -d: 守护进程
 docker-compose up -d
+# --build: 重新构建
+docker-compose up --build
 ```
 
 * 停止
-```
+```bash
 docker-compose stop
 ```
 
-* 删除容器
-```
+* 删除生成的容器
+```bash
+# 这个不会删除生成网络
 docker-compose rm
+# 这个会删除网络
+docker-compose down
 ```
 
 ### 其他问题
 
-[如何判断当前是否在容器内部](https://stackoverflow.com/questions/20010199/how-to-determine-if-a-process-runs-inside-lxc-docker)
+##### [如何判断当前是否在容器内部](https://stackoverflow.com/questions/20010199/how-to-determine-if-a-process-runs-inside-lxc-docker)
 
-[alpine 中创建用户](https://stackoverflow.com/questions/49955097/how-do-i-add-a-user-when-im-using-alpine-as-a-base-image)
+##### [alpine 中创建用户](https://stackoverflow.com/questions/49955097/how-do-i-add-a-user-when-im-using-alpine-as-a-base-image)
+
 在 alpine 中没有`useradd`，但有`busybox`，其中包含`adduser`，还有注意这个和 Debian/Ubuntu 中的`adduser`略有不同
+
+##### go build 后的二进制文件直接放在 alpine 中启动报错
+```
+standard_init_linux.go:228: exec user process caused: no such file or directory
+```
+默认情况下`CGO_ENABLED=1`会使得编译出的二进制文件依赖的是`/lib64/ld-linux-x86-64.so.2`，
+如果`CGO_ENABLED=0`则不会，因此下面这样编译使得不依赖这个库
+```bash
+CGO_ENABLED=0 go build
+```
+当然，也可以直接安装`go`，这会把依赖直接安装上
+
+还有一个比较简单的方法，[原文链接](https://stackoverflow.com/questions/34729748/installed-go-binary-not-found-in-path-on-alpine-linux-docker)
+```
+RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
+```
+

@@ -104,6 +104,8 @@ Dockerfile 中的内容是只读的, 生成 images 后, images 中的内容是�
 
 ## docker-compose
 
+compose.yml 中各个字段的意义要参考[这个](https://github.com/compose-spec/compose-spec/blob/master/spec.md)
+
 多容器 app
 
 * 构建
@@ -156,3 +158,25 @@ CGO_ENABLED=0 go build
 RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
 ```
 
+##### docker-compose 中指定 volumes 后，容器内部文件的写入操作出现`permission denied`
+
+这里同时要注意 volumes 是把 host 中的内容挂载到 container 中
+
+前提：
+1. 容器内启动这个写入进程使用的用户不是 root
+2. compose 中某个 service 在指定 volumes
+```yaml
+volumes:
+  - ./local-cache/path/to/dir:/path/to/dir
+```
+
+当 host 中没有 `./local-cache/path/to/dir`这个目录时，docker-compose 会创建它，
+但是并不知道该目录的归属者应该是谁，因此默认会指定 docker deamon 进程的所属者
+作为该目录的所属用户。而在容器内部，由于启动进程的用户不是 root，看到文件或目
+录所有者是 root，自然也就没有权限向里面写入内容、创建文件等。
+
+解决：
+在启动容器之前先手动创建目录，同时记下 host 当前用户的 UID、GID，在 Dockerfile
+中创建用户时，更改 UID 和 GID 和外部的相同，以此达到容器内外用户一致的目的。
+
+[参考链接](https://github.com/docker/compose/issues/5507)

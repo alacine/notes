@@ -56,7 +56,26 @@
 * `go mod verify`: 校验依赖
 * `go mod why`: 解释为什么需要依赖
 
-[练习: 错误](https://tour.go-zh.org/methods/20)
+#### [import local module](https://golang.org/doc/tutorial/call-module-code)
+
+假设写好了一个 module: chu，想在 chudemo 中 import，目录结构如下
+```
+chu
+├── chu.go
+├── chu_test.go
+└── go.mod
+chudemo
+├── go.mod
+└── main.go
+```
+那么在`chudemo`中
+```bash
+go mod init chudemo
+go mod edit -replace example.com/chu=../chu
+go mod tidy
+```
+
+### [练习: 错误](https://tour.go-zh.org/methods/20)
 
 其中
 > **注意**: 在 `Error` 方法内调用 `fmt.Sprint(e)` 会让程序陷入死循环。可以通过先转换 `e` 来避免这个问题：`fmt.Sprint(float64(e))`。这是为什么呢？
@@ -90,7 +109,7 @@ func (e ErrNegativeSqrt) Error() string {
 }
 ```
 
-结构体排序
+### 结构体排序
 ```go
 type Man struct {
 	Id   int    `json:"id"`

@@ -30,6 +30,21 @@
 * `clean`: `go clean -i -cache -x`
 * `go tool pprof`: 用来读取`go test`生成的一些报告
 
+*QA*
+
+1. 执行一个特定的 `xxx_test.go` 文件的时候，例如`go test xxx_test.go`，即使`xxx_test.go`和
+`xxx.go`中都申明了`package xxx`，却还是找不到`xxx.go`中的方法。
+
+> 运行时需要把 `xxx.go` 也带上，例如`go test xxx.go xxx_test.go`，同理，如果`xxx`
+> 包中还有其他的文件如 `xxxa.go` 如果用到了也得带上
+
+2. 执行特定的某个 `TestXXX` 函数时，实际执行了多个函数，例如`go test -run TestXXX`
+但实际却执行了`TestXXXa`、`TestXXXb`、`TestXXX`、`TestTestXXX`……等
+
+> `-run`flag 会匹配一个正则表达式，改为 `go test -run "^TestXXX$"` 就可以了
+
+1 和 2 参考[回答](https://stackoverflow.com/a/16936314/8461712)
+
 ### go mod
 
 * `go mod download`: 下载依赖的 module 到本地 cache (默认是`$GOPATH/pkg/mod`)

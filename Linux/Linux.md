@@ -29,6 +29,11 @@ cat /proc/PID/environ
 strings /proc/PID/environ
 ```
 
+当前启动的自定义的内核参数
+```bash
+cat /proc/cmdline
+```
+
 ### Tips
 
 文件的详细信息

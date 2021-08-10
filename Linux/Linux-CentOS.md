@@ -166,7 +166,11 @@
 | \\   | 转义符                                                                                      |
 
 ### 网络
-* ifconifg 查看与配置网络状态
+
+**不要用这个了，用新的 iproute2 中的 ip、ss 命令代替 ifconfig 和 netstat，
+查看 [cli-tools.md](./cli-tools.md)**
+
+* ifconfig 查看与配置网络状态
 * ifdown 网卡设备  
 禁用该网卡设备
 * ifup 网卡设备  

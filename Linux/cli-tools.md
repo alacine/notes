@@ -1,0 +1,120 @@
+## ip
+
+包含在软件包`iproute2`中，替换`net-tools`中的`ifconfig`
+
+```bash
+ip addr
+ip -brief a
+
+ip route
+ip r
+```
+
+## ss
+
+包含在软件包`iproute2`中，替换`net-tools`中的`netstat`
+
+```bash
+ss -tlp src :1080
+ss -t dst 192.168.2.1:80
+```
+
+## fping 
+
+批量主机扫描
+
+* -a 只显示存活的主机(相反参数 -u)
+* -g 支持主机段的方式 192.168.1.1 192.168.1.255 192.168.1.0/24
+* -f filename 通过读取一个文件中的IP内容
+
+## hping 
+
+主机扫描
+
+特点: 支持使用的TCP/IP数据包组装、分析工具
+
+* -p 端口
+* -S 设置TCP模式SYN包
+* -a 伪造IP地址
+
+## traceroute
+
+* 默认使用的是UDP协议(30000上的端口)
+* `-T` 使用TCP协议
+* `-p` 指定端口
+* `-I` 使用ICMP协议介绍
+
+
+## nmap
+
+| 扫描类型                 | 描述           | 特点                   |
+|--------------------------|----------------|------------------------|
+| `-P` ICMP 协议类型       | ping 扫描      | 简单、快速、有效       |
+| `-sS` TCP SYN 扫描       | TCP 半开放扫描 | 高效、不易被检测、通用 |
+| `-sT` TCP connect() 扫描 | TCP 全开放扫描 | 真实、结果可靠         |
+| `-sU` UDP 扫描           | UDP 协议扫描   | 有效透过防火墙策略     |
+
+## ncat(nc, netcat)
+
+ncat ([用好你的瑞士军刀/netcat - 韦易笑的文章 - 知乎](https://zhuanlan.zhihu.com/p/83959309))
+
+使用样例
+```bash
+$ nc -vz 127.0.0.1 8080
+localhost [127.0.0.1] 8080 (http-alt) open
+```
+`v`表示显示详细信息，`z`表示不发送数据。
+
+范围扫描，`-w3`设置 3 秒超时
+```bash
+$ nc -v -v -w3 -z 127.0.0.1 8075-8085
+localhost [127.0.0.1] 8075: Connection refused
+localhost [127.0.0.1] 8076: Connection refused
+localhost [127.0.0.1] 8077 (mles): Connection refused
+localhost [127.0.0.1] 8078: Connection refused
+localhost [127.0.0.1] 8079: Connection refused
+localhost [127.0.0.1] 8080 (http-alt) open
+localhost [127.0.0.1] 8081 (sunproxyadmin): Connection refused
+localhost [127.0.0.1] 8082 (us-cli): Connection refused
+localhost [127.0.0.1] 8083 (us-srv): Connection refused
+localhost [127.0.0.1] 8084 (websnp): Connection refused
+localhost [127.0.0.1] 8085: Connection refused
+Total received bytes: 0
+Total sent bytes: 0
+
+$ nc -v -w3 -z 127.0.0.1 8075-8085
+localhost [127.0.0.1] 8080 (http-alt) open
+```
+
+启动端口监听
+```bash
+nc -l -p 8000
+```
+连接
+```bash
+nc 127.0.0.1 8000
+```
+
+测试 udp 会话
+```bash
+nc -u -l -p 8000
+```
+连接
+```bash
+nc -u 127.0.0.1 8000
+```
+
+文件传输
+
+A主机
+```bash
+nc -l -p 8000 > image.png
+```
+B主机
+```bash
+nc 127.0.0.1 8000 < image.png
+```
+
+方式:
+1. 基于tcp协议(默认) nc -v -z -w2 127.0.0.1 1-50
+2. 基于udp协议-v nc -v -u -z -w2 127.0.0.1 1-50

@@ -58,3 +58,11 @@ qemu-system-x86_64 \
 
 需要安装 libvirt、ebtables，同时启动 libvirtd 的守护进程，还要把当前用户添加到 
 libvirt 的用户组里面
+
+### plantuml
+
+goplantuml 用生成 go 项目的结构，plantuml 用来生成图片
+```bash
+goplantuml . > a.puml
+plantuml a.puml
+```

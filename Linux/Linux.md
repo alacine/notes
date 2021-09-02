@@ -77,3 +77,11 @@ amdgpu.backlight=0
 xrandr --output eDP --brightness 0.8
 ```
 
+默认浏览器
+
+在 DE 自带的设置里修改外，还有一个需要改(需要重新登录)
+
+```bash
+xdg-settings get default-web-browser
+xdg-settings set default-web-browser firefox.desktop
+```

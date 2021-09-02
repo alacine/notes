@@ -26,3 +26,10 @@ RFC 文档中有关与这部分的描述在[rfc6266 4.3-5](https://datatracker.i
 
 至于为什么 curl 没有支持这种方式，在 curl 的 issue 区里面翻到了这个，下面这个，
 可以参考着看一下 [#1995](https://github.com/curl/curl/pull/1995)
+
+----
+
+HTTP 协议中，GET 其实也可以带 body，但按规范来是不允许的，看看这里的例子
+![Form data in GET and POST](https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form_data)
+用 HTML 来作发送表单时，用 GET 方法会自动把表单内容转化为 URL 中的请求参数，
+用 POST 方法发送时，则会把表单放在 Body 中。

@@ -1,3 +1,17 @@
+## exec
+
+调用子进程，并替换当前进程
+
+例如，在 zsh 中直接执行
+```bash
+bash
+```
+会进入 bash 中，但是退出后，会回到 zsh 中。
+而下面的命令执行进入 bash 后，退出则不会回到 zsh 中。
+```bash
+exec bash
+```
+
 ## ip
 
 包含在软件包`iproute2`中，替换`net-tools`中的`ifconfig`
@@ -121,3 +135,4 @@ nc 127.0.0.1 8000 < image.png
 
 
 ## wrk wrk2 hey
+

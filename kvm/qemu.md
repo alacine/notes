@@ -4,7 +4,7 @@
 [QEMU: A proper guide!](https://www.youtube.com/watch?v=AAfFewePE7c&t=601s)
 [Arch Wiki](https://wiki.archlinux.org/title/QEMU_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
-基本步骤
+### 基本步骤
 
 首先创建一个用于存储的硬盘镜像，两种格式`qcow2`(动态分配)，`raw`(固定
 大小)，`-f`指定格式
@@ -33,7 +33,6 @@ qemu-system-x86_64 \
 
 这是第一次安装启动，系统安装完成后，`-cdrom`就可以不再使用了
 
-图形化界面 virt-manager
+### qemu-guest-agent
 
-需要安装 libvirt、ebtables，同时启动 libvirtd 的守护进程，还要把当前用户添加到 
-libvirt 的用户组里面
+vm 内安装 qemu-guest-agent 软件包以及启用同名 systemd 服务

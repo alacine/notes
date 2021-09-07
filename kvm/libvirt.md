@@ -153,6 +153,7 @@ virt-install --connect qemu:///system \
 > （[参考维基百科](https://zh.wikipedia.org/wiki/Initrd)）
 
 > 参数解释 console=ttyS0,115200n8: https://elinux.org/Serial_console
+>
 > 更多内核参数: https://www.kernel.org/doc/html/v5.0/admin-guide/kernel-parameters.html
 
 另外注意，使用`--location`依赖`isoinfo`和`cpio`这两个工具，分别属于软件包`genisoimage`

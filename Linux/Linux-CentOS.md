@@ -282,6 +282,19 @@
         * -d: 还原时自动新建目录
         * -v: 显示还原过程
 
+
+### DNF
+
+这两天用 centos-stream，发现最小化安装中默认就有安装了 yum 和 dnf，顺便用
+了一下，似乎和yum 用法上差不多。
+
+摘自 dnf man page
+```
+DNF  is  the  next upcoming major version of YUM, a package manager for
+RPM-based Linux distributions. It roughly maintains  CLI  compatibility
+with YUM and defines a strict API for extensions and plugins.
+```
+
 ### YUM
 
 Yum 源文件`/etc/yum.repos.d/CentOS-Base.repo`

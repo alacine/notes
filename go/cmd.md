@@ -51,7 +51,15 @@ go get example.com/pkg@v1.2.3
 
 # 仅删除 go.mod 中的依赖，这不会删除 $GOPATH 里的文件
 go get example.com/pkg@none
+
+# -d 表示只下载，不做编译的安装
+go get -d github.com/go-sql-driver/mysql
 ```
+
+另外，不要用`go get`来做安装操作，根据[这篇文档](https://docs.studygolang.com/doc/go-get-install-deprecation)，
+从 Go 1.17 开始，`go get`、`go install`将做语义上的区分，之后`get`将不会做 build 
+包的操作，只用来添加、更新、删除 go.mod 中的依赖，且`get`的 flag `-d`将会默认
+启用。
 
 #### clean 删除
 

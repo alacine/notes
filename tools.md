@@ -21,11 +21,11 @@ echo hello | qrencode -t UTF8
 
 ### qemu
 
-预计内容较多，单开一页 [qemu.md](./kvm/qemu.md)
+预计内容较多，单开一页 [qemu.md](./vm/qemu.md)
 
 ### libvirt
 
-预计内容较多，单开一页 [libvirt.md](./kvm/libvirt.md)
+预计内容较多，单开一页 [libvirt.md](./vm/libvirt.md)
 
 ### plantuml
 

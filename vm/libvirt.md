@@ -39,32 +39,32 @@ export LIBVIRT_DEFAULT_URI="qemu:///system"
 ```
  Id   Name            State
 --------------------------------
- -    cent-ks         shut off
+ -    fedora          shut off
 ```
 
 gracefully shutdown
 ```bash
-virsh shutdown cent-ks
+virsh shutdown fedora
 ```
 
 stop(power off)
 ```bash
-virsh destroy cent-ks
+virsh destroy fedora
 ```
 
 delete
 ```bash
-virsh undefine cent-ks
-virsh undefine cent-ks --remove-all-storage
+virsh undefine fedora
+virsh undefine fedora --remove-all-storage
 ```
 第一个删除是删除该虚拟机的信息，不会实际删除虚拟机文件，
 第二个会删文件
 
 要删除文件也可直接`rm`，要自己找到文件位置
 ```bash
-virsh domblklist cent-ks  --details
+virsh domblklist fedora  --details
 
-virsh dumpxml cent-ks
+virsh dumpxml fedora
 ```
 
 2. 网络
@@ -83,19 +83,19 @@ virsh net-dhcp-leases default
 
 查看虚拟机 ip，这里是 domain 对应 ip
 ```bash
-virsh domifaddr cent-ks
+virsh domifaddr fedora
 ```
 
 如果发现 domain 存在但是输出是空的，说明当前虚拟机管理程序无法通过`lease`获取
 网络信息（默认`--source 为 lease`），可换用`arp`或`agent`获取。其中`agent`
 需要 vm 内安装配置并启用相关 guest agent 的服务，（尤其是qemu，对应 qemu-guest-agent 
-软件包及同名服务，本文安装使用的 cent-ks 已经默认安装并启用了该服务。）。
+软件包及同名服务，本文安装使用的 fedora 已经默认安装并启用了该服务。）。
 
 ```bash
 # 通过 guest agent 获取
-virsh domifaddr cent-ks --source agent
+virsh domifaddr fedora --source agent
 # 通过 arp 获取
-virsh domifaddr cent-ks --source arp
+virsh domifaddr fedora --source arp
 ```
 
 #### virt-install(CLI)
@@ -103,13 +103,13 @@ virsh domifaddr cent-ks --source arp
 ```bash
 virt-install --connect qemu:///system \
              --hvm \
-             --name=cent-ks \
-             --vcpus=1 \
-             --ram=1536 \
+             --name=fedora \
+             --vcpus=2 \
+             --ram=2000 \
              --disk size=20,format=qcow2,bus=virtio,cache=writeback \
-             --os-variant=auto \
+             --os-variant=fedora34 \
              --accelerate \
-             --cdrom=/home/ryan/Qemu/cent-ks-8-x86_64-latest-dvd1.iso \
+             --cdrom=/home/ryan/Qemu/Fedora-Server-dvd-x86_64-34-1.2.iso \
              --network bridge=virbr0,model=virtio \
              --vnc \
              --vnclisten=0.0.0.0
@@ -117,6 +117,8 @@ virt-install --connect qemu:///system \
 
 `--cdrom`选项表示从光盘启动，用于安装，安装完成之后，CDROM 会依就保留关联在 VM 上，
 但实际使用的 ISO 文件路径会弹出。
+
+`-vnc`+`--vnclisten`可以默认开启 vnc，暴露并且映射到主机的端口（默认 5900）。
 
 `--location`与`--cdrom`使用上类似，不过可以额外添加启动的内核参数及`initrd`，例如
 
@@ -128,7 +130,7 @@ virt-install --connect qemu:///system \
              --ram=${RAM} \
              --disk size=${SIZE},format=qcow2,bus=virtio,cache=writeback \
              --os-type=linux \
-             --os-variant=auto \
+             --os-variant=fedora34 \
              --accelerate \
              --nographics \
              --noautoconsole \
@@ -137,6 +139,12 @@ virt-install --connect qemu:///system \
              --network bridge=virbr0,model=virtio \
              --initrd-inject ${KS_CFG} \
              --extra-args "inst.ks=file:/ks.cfg console=tty0 console=ttyS0,115200n8"
+```
+
+`--os-variant`指定系统类型，这样会有对应的优化，非常建议加上。具体要怎么写，可
+以用命令来查看。没有的话就写`auto`了。
+```bash
+osinfo-query os
 ```
 
 `--nographics`字面意思，无图形界面启动，用了这个当前终端默认会连入 vm 内；
@@ -188,5 +196,5 @@ make clean
 
 除了 GUI 操作外，之前通过`virt-install`安装的虚拟机也可以使用下面的方法连接打开
 ```bash
-virt-manager -c qemu:///system --show-domain-console cent-ks
+virt-manager -c qemu:///system --show-domain-console fedora
 ```

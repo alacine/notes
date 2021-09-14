@@ -9,7 +9,30 @@
 #### 集群
 
 * Master 调度整个集群
-* Nodes 负责运行应用
+    - API Server: 对外暴露的 API 接口服务，对应`kube-apiserver`
+    - Scheduler: 观测，调度每个 node 上可用的资源，对应`kube-scheduler`
+    - Controller Manager: 监控管理 Node 上的所有控制器，
+      对应`kube-controller-manager`
+* Node 负责运行应用
+    - 控制器: 对应`kubelet`
+
+以 minikube 为例子，Master 上运行的相关进程有
+```
+/var/lib/minikube/binaries/v1.22.1/kubelet
+kube-controller-manager
+kube-apiserver
+kube-scheduler
+etcd
+/usr/local/bin/kube-proxy
+```
+
+Node 上运行的相关进程有
+```
+/var/lib/minikube/binaries/v1.22.1/kubelet
+/usr/local/bin/kube-proxy
+```
+
+当然不止这些进程，结果做了`grep kube`，
 
 Master 负责管理整个集群。Master 协调集群中的所有活动，例如调度应用、维护应用的
 所需状态、应用扩容以及推出新的更新。
@@ -30,10 +53,16 @@ Node 是一个虚拟机或者物理机，它在 Kubernetes 集群中充当工作
 两个容器功能不一样，也不太可能由同一个团队开发，但是这两个服务一起工作才能提供
 一个完整的服务；这种情况下，就可以组合成一个为服务。
 
-我遇到的 Pod 内多个容器的一种情况是这样的：最终运行时对外服务只有一个容器在运
-行，但是在这个容器运行之前，会先启动另一个用来做初始化的容器，这个容器会对统一
-挂载的存储目录做一些权限修改的操作，这个是公司内的标准，这么做可以确保一些统一
-的操作方便执行，比如日志采集。
+> 我遇到的 Pod 内多个容器的一种情况是这样的：最终运行时对外服务只有一个容器在运
+> 行，但是在这个容器运行之前，会先启动另一个用来做初始化的容器，这个容器会对统一
+> 挂载的存储目录做一些权限修改的操作，这个是公司内的标准，这么做可以确保一些统一
+> 的操作方便执行，比如日志采集。
+
+POD 内所有容器共享同一个网络[命名空间](../Linux/namespace.md)，即`Network`、
+`UTS`、`IPC`共享，其它隔离。
+
+每个 POD 有标签，通过标签选择器(Lable Selector)来找到符合条件的 POD。并不是只有
+POD 才有标签，其他的资源也有标签。
 
 **副本控制器 RC**
 

@@ -203,7 +203,29 @@ go vet main.go
 go vet ./...
 ```
 
-### 第三方
+### 其它
+
+#### errcheck
+
+检查函数返回的 err 是否被检查
+
+```bash
+errcheck ./...
+```
+
+#### revive
+
+golint 代替
+
+```bash
+revive ./...
+```
+
+#### golangci-lint
+
+```bash
+golangci-lint run
+```
 
 #### goplantuml
 

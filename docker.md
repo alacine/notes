@@ -140,7 +140,8 @@ docker-compose down
 
 ##### [alpine 中创建用户](https://stackoverflow.com/questions/49955097/how-do-i-add-a-user-when-im-using-alpine-as-a-base-image)
 
-在 alpine 中没有`useradd`，但有`busybox`，其中包含`adduser`，还有注意这个和 Debian/Ubuntu 中的`adduser`略有不同
+在 alpine 中没有`useradd`，但有`busybox`，其中包含`adduser`，还有注意这个和
+Debian/Ubuntu 中的`adduser`略有不同
 
 ##### go build 后的二进制文件直接放在 alpine 中启动报错
 ```
@@ -180,3 +181,16 @@ volumes:
 中创建用户时，更改 UID 和 GID 和外部的相同，以此达到容器内外用户一致的目的。
 
 [参考链接](https://github.com/docker/compose/issues/5507)
+
+##### 镜像启动失败，简单 debug 方法
+
+启动但不是用镜像本身的`ENTRYPOINT`或`CMD`，换成`/bin/sh`
+```bash
+docker run --rm -it ${Image} /bin/sh
+```
+
+进入运行中的容器
+```bash
+docker exec -it ${container_id} /bin/sh
+docker exec -it ${container_name} /bin/sh
+```

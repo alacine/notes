@@ -136,3 +136,54 @@ nc 127.0.0.1 8000 < image.png
 
 ## wrk wrk2 hey
 
+*待补充*
+
+## yq jq
+
+yaml, json cli 输出美化
+
+example.json
+```json
+{
+    "a": 1,
+    "b": {
+        "c": true,
+        "d": ["hello"]
+    }
+}
+```
+
+```bash
+cat example.json | jq
+# 或，注意这里的'.'表示筛选
+jq . example.json
+```
+
+输出为
+```json
+{
+    "a": 1,
+    "b": {
+        "c": true,
+        "d": ["hello"]
+    }
+}
+```
+
+```bash
+jq .b.d example.json
+```
+
+输出为
+```json
+[
+  "hello"
+]
+```
+
+yq
+```bash
+cat a.yaml | yq
+# 或
+yq . a.yaml
+```

@@ -15,6 +15,8 @@
       对应`kube-controller-manager`
 * Node 负责运行应用
     - 控制器: 对应`kubelet`
+    - 容器运行时: 对应`docker`
+    - 
 
 以 minikube 为例子，Master 上运行的相关进程有
 ```
@@ -77,7 +79,19 @@ Replica Set；新型 RC，支持更多的匹配模式，不会单独使用，作
 
 **Deployment**
 
-表示一次 Kubernetes 集群的更新操作，可以是新增一个服务，也可以是更新一个服务
+表示一次 Kubernetes 集群的更新操作，可以是新增一个服务，也可以是更新一个服务。
+只能用于无状态
+
+> 无状态应用是不将数据或应用状态存储到集群或永久性存储空间的应用。相反，
+> 该应用将数据和应用状态保留在客户端，从而使无状态应用更具可伸缩性。
+
+**StatefulSet**
+
+有状态应用
+
+**DaemonSet**
+
+**Job, Cronjob**
 
 ### kubectl 基本使用
 
@@ -92,7 +106,12 @@ Replica Set；新型 RC，支持更多的匹配模式，不会单独使用，作
 
 ```bash
 minikube start --drive=kvm2 --nodes=2
+# ssh，默认第一个节点
+minikube ssh
+minikube ssh -n minikube-m02
 ```
+
+手动 ssh 的用户名称和密码是`docker`和`tcuser`
 
 #### 用法
 

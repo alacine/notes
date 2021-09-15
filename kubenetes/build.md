@@ -4,7 +4,8 @@
 
 ### kubeadm
 
-这里先放一个带了环境配置的虚拟机，当前目录 make 可生成。
+这里先放一个带了环境配置的虚拟机，当前目录 make 可生成，之后可以直接用
+`kubeadm init`开始练习着用。
 
 大概要安装哪些包，要做哪些操作，在[fedora-kube.cfg](./fedora-kube.cfg)
 这个 kickstart 自动化安装配置中写了脚本，更细致段过程以后再写吧。

@@ -1,9 +1,9 @@
 VCPUS = 2
 RAM = 2048
 SIZE = 20
-KS_DIR = ./
+KS_DIR = .
 
-DOMAIN = fedora2
+DOMAIN = fedora
 OS_VARIANT = fedora34
 ISO = /home/ryan/Qemu/Fedora-Server-dvd-x86_64-34-1.2.iso
 KS_NAME = fedora-kube.cfg

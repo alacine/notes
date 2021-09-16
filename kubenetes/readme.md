@@ -95,6 +95,8 @@ Replica Set；新型 RC，支持更多的匹配模式，不会单独使用，作
 
 ### kubectl 基本使用
 
+[官方常用命令整理](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
+
 #### 使用之前
 
 安装`minikube`、`kubectl`软件包（Arch Linux `kubernetes-tools`组中包含了

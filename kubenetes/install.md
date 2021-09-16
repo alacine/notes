@@ -4,7 +4,7 @@
 
 ### kubeadm
 
-这里先放一个带了环境配置的虚拟机，当前目录 make 可生成，之后可以直接用
+这里先放一个带了环境配置的虚拟机，当前目录 make 可生成，之后进了虚拟机可以直接用
 `kubeadm init`开始练习着用。
 
 大概要安装哪些包，要做哪些操作，在[fedora-kube.cfg](./fedora-kube.cfg)
@@ -61,3 +61,41 @@ error execution phase preflight: [preflight] Some fatal errors occurred:
 
 似乎可以先手动拉一个镜像，然后重新打一个 tag，[参考](https://github.com/kubernetes/minikube/issues/12021)，
 不过我还是直接路由器走代理用默认的了。
+
+3. NotReady
+
+```bash
+kubectl get nodes
+```
+输出，注意其中的状态是`NotReady`
+```
+NAME            STATUS     ROLES                  AGE   VERSION
+fedora-master   NotReady   control-plane,master   65m   v1.22.1
+fedora-node     NotReady   <none>                 64m   v1.22.1
+```
+查看日志
+```bash
+journalctl -u kubelet
+```
+有以下信息
+```
+"Container runtime network not ready" networkReady="NetworkReady=false reason:NetworkPluginNotReady message:docker: network plugin is not ready: cni config uninitialized"
+```
+
+kubeadm 在设计上并没有安装网络的解决方案，需要用户自行安装第三方符合 CNI 
+(Container Network Interface)要求的网络解决方案，如 [flannel](https://github.com/flannel-io/flannel#deploying-flannel-manually)。
+```bash
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
+
+使用 flannel 时，记得在集群初始化的时候额外加参数(cidr: Classless Inter-Domain
+Routing, 无类别域间路由)
+```bash
+kubeadm init --pot-network-cidr=10.244.0.0/16
+```
+忘了加，记得手动配置文件(/etc/kubernetes/manifests/kube-controller-manager.yaml)
+里面加些配置并且重启一下 kubelet，[参考](https://github.com/flannel-io/flannel/issues/728#issuecomment-325347810)
+```
+--allocate-node-cidrs=true
+--cluster-cidr=10.244.0.0/16
+```

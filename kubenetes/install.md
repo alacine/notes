@@ -91,7 +91,7 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documen
 使用 flannel 时，记得在集群初始化的时候额外加参数(cidr: Classless Inter-Domain
 Routing, 无类别域间路由)
 ```bash
-kubeadm init --pot-network-cidr=10.244.0.0/16
+kubeadm init --pod-network-cidr=10.244.0.0/16
 ```
 忘了加，记得手动配置文件(/etc/kubernetes/manifests/kube-controller-manager.yaml)
 里面加些配置并且重启一下 kubelet，[参考](https://github.com/flannel-io/flannel/issues/728#issuecomment-325347810)
@@ -99,3 +99,7 @@ kubeadm init --pot-network-cidr=10.244.0.0/16
 --allocate-node-cidrs=true
 --cluster-cidr=10.244.0.0/16
 ```
+
+另外还有一个类似的`--service-cidr`，不过它有默认值
+
+更细致的参数查看[kubeadm 文档](https://kubernetes.io/zh/docs/reference/setup-tools/kubeadm/kubeadm-init/)

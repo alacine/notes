@@ -9,14 +9,16 @@
 #### 集群
 
 * Master 调度整个集群
-    - API Server: 对外暴露的 API 接口服务，对应`kube-apiserver`
+    - API Server(对应`kube-apiserver`): 对外暴露的 API 接口服务，存储 kube-proxy
+      上传上来的信息（不是存储在内存中，存储在共享存储 etcd 中）
     - Scheduler: 观测，调度每个 node 上可用的资源，对应`kube-scheduler`
     - Controller Manager: 监控管理 Node 上的所有控制器，
       对应`kube-controller-manager`
+    - etcd: key-value 存储系统
 * Node 负责运行应用
     - 控制器: 对应`kubelet`
     - 容器运行时: 对应`docker`
-    - 
+    - kube-proxy: 当 Pod 发生变化，与 master 的 API Server 通信
 
 以 minikube 为例子，Master 上运行的相关进程有
 ```
@@ -42,6 +44,12 @@ Master 负责管理整个集群。Master 协调集群中的所有活动，例如
 Node 是一个虚拟机或者物理机，它在 Kubernetes 集群中充当工作机器的角色，每个 Node
 都有 Kubelet，它管理 Node 同时也是 Node 和 Master 通信的代理。Node 还有处理容器
 操作的工具，例如 Docker 或者 rkt。处理生产级流量的集群至少有三个 Node。
+
+#### 组件
+
+1. Pod 及其抽象层 Service
+2. 控制器
+3. 标签选择器
 
 #### API 对象
 
@@ -97,25 +105,11 @@ Replica Set；新型 RC，支持更多的匹配模式，不会单独使用，作
 
 [官方常用命令整理](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 
-#### 使用之前
-
-安装`minikube`、`kubectl`软件包（Arch Linux `kubernetes-tools`组中包含了
-软件包`crictl`、`critest`、`kubeadm`、`kubectl`，也可以直接装这个）
-
-快速搭建一个可用的环境，这里使用[minikube kvm2](https://minikube.sigs.k8s.io/docs/drivers/kvm2/)
-的方式创建了一个 Kubernetes 集群。minikube 在创建完成之后，会自动修改 kubectl 
-的配置信息与其相连。
-
-```bash
-minikube start --drive=kvm2 --nodes=2
-# ssh，默认第一个节点
-minikube ssh
-minikube ssh -n minikube-m02
-```
-
-手动 ssh 的用户名称和密码是`docker`和`tcuser`
 
 #### 用法
+
+按照[官方教程](https://kubernetes.io/zh/docs/tutorials/)本地使用 minikube
+过一遍，[看这个](./tutorial.md)
 
 一般作用类似命令的用法是类似的，可以尝试着试试把一个命令的用法参数照搬到
 另一个上去试试看，不行了再看文档

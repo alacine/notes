@@ -1,3 +1,21 @@
+## Tips
+
+Bash Process Substitution
+```bash
+<(list)
+```
+这个会被当作一个文件名，举个例子
+```bash
+echo '{"a":1}' > a.json
+cat a.json | jq .
+
+# 可以这么写
+jq . <(echo '{"a":1}')
+
+# 命令需要多个文件名参数也可以这样用
+diff <(echo "1\n1") <(echo "1\n2")
+```
+
 ## shell 变量
 变量叠加
 ```bash

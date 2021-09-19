@@ -75,6 +75,12 @@ docker cp xxx CONTAINER_ID://path/to/file
 docker commit -m 'message' CONTAINER_ID nginx
 ```
 
+容器详细信息
+```bash
+# 查看 IP 地址，有些镜像中可能没有安装网络工具，可以通过这种方式查看
+docker inspect CONTAINER_ID -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
+```
+
 ### Docerfile 语法
 
 | 命令       | 用途                                                                                                                                                |

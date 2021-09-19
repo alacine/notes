@@ -127,25 +127,25 @@ $$
 
 三角运算符
 
-| 符号        | 代码        |
-|-------------|-------------|
-| $\bot$ | `\bot` |
+| 符号     | 代码     |
+|----------|----------|
+| $\bot$   | `\bot`   |
 | $\angle$ | `\angle` |
-| $\sin$ | `\sin` |
-| $\cos$ | `\cos` |
-| $\tan$ | `\tan` |
+| $\sin$   | `\sin`   |
+| $\cos$   | `\cos`   |
+| $\tan$   | `\tan`   |
 
 微积分运算符
 
-| 符号        | 代码        |
-|-------------|-------------|
-| $\prime$ | `\prime` |
-| $\int$ | `\int` |
-| $\iint$ | `\iint` |
-| $\iiint$ | `\iiint` |
-| $\iiiint$ | `\iiiint` |
-| $\oint$ | `\oint` |
-| $\lim$ | `\lim` |
-| $\infty$ | `\infty` |
-| $\nabla$ | `\nabla` |
+| 符号         | 代码         |
+|--------------|--------------|
+| $\prime$     | `\prime`     |
+| $\int$       | `\int`       |
+| $\iint$      | `\iint`      |
+| $\iiint$     | `\iiint`     |
+| $\iiiint$    | `\iiiint`    |
+| $\oint$      | `\oint`      |
+| $\lim$       | `\lim`       |
+| $\infty$     | `\infty`     |
+| $\nabla$     | `\nabla`     |
 | $\mathrm{d}$ | `\mathrm{d}` |

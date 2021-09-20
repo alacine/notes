@@ -12,5 +12,7 @@
 * markdown.md: markdown 中稍微高级一点的语法, 比如数学公式
 * docker.md: 日常使用及问题
 * work/: 工作开发时的问题
-* kvm/: 主要包涵 qemu 和 libvirt 的使用
+* vm/: 虚拟机相关内容，主要包涵 qemu 和 libvirt 的使用
 * go/
+* kubernetes/: kubernetes 中的一些基本概念和用法
+* make/: Makefile 写法(未开始)

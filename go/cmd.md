@@ -189,6 +189,49 @@ go mod why
 
 ### Go Tool
 
+#### trace
+
+在代码中加入 trace，并且把错误信息输出到标准错误输出（和标准输出区分开来）
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+	"runtime/trace"
+	"sync"
+)
+
+func main() {
+    // ==== trace ====
+	trace.Start(os.Stderr)
+	defer trace.Stop()
+    // ===============
+
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	go func() {
+		fmt.Println("hello")
+		wg.Done()
+	}()
+
+	go func() {
+		fmt.Println("world")
+		wg.Done()
+	}()
+
+	wg.Wait()
+}
+```
+
+然后把 trace 信息保留下来
+```bash
+go run main.go 2> trace.out
+go tool trace ./trace.out
+```
+此时会打开浏览器，会有可视化的分析
+
 #### objdump 反汇编
 
 ```bash

@@ -16,6 +16,16 @@ jq . <(echo '{"a":1}')
 diff <(echo "1\n1") <(echo "1\n2")
 ```
 
+还有一种
+```bash
+>(list)
+```
+这个我不知道怎么解释，看看例子，由于前面一个命令中编译优化的输出是在标准错误
+输出里面的，直接管道 + grep 是拿的标准输出
+```bash
+go run -gcflags '-m -l' escape.go 2> >(grep 'moved to' | wc)
+```
+
 ## shell 变量
 变量叠加
 ```bash

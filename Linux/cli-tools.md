@@ -1,3 +1,16 @@
+## strace
+
+观察系统调用
+```bash
+strace ./main
+
+# 表格输出统计信息
+strace -c ./main
+
+# 持续输出
+strace -f ./main
+```
+
 ## exec
 
 调用子进程，并替换当前进程
@@ -6,6 +19,7 @@
 ```bash
 bash
 ```
+
 会进入 bash 中，但是退出后，会回到 zsh 中。
 而下面的命令执行进入 bash 后，退出则不会回到 zsh 中。
 ```bash

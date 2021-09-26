@@ -232,11 +232,48 @@ go tool trace ./trace.out
 ```
 此时会打开浏览器，会有可视化的分析
 
+#### compile 编译
+
+```go
+package main
+
+func main() {
+	var a = "hello"
+	var b = []byte(a)
+	println(b)
+}
+```
+
+比如上面这份代码，想要知道如何找到 string -> []byte 的实现
+
+```bash
+go tool compile -S main.go | grep "main.go:5"
+```
+
+输出
+```
+        0x0014 00020 (./main.go:5)      LEAQ    ""..autotmp_2+40(SP), AX
+        0x0019 00025 (./main.go:5)      LEAQ    go.string."hello"(SB), BX
+        0x0020 00032 (./main.go:5)      MOVL    $5, CX
+        0x0025 00037 (./main.go:5)      PCDATA  $1, $0
+        0x0025 00037 (./main.go:5)      CALL    runtime.stringtoslicebyte(SB)
+```
+
+这样可以知道用的是 runtime 中的 stringtoslicebyte()，然后再去 runtime 里面搜索
+就可以了。
+
+同样可以用这样的方法来找 make 的实现
+
 #### objdump 反汇编
 
 ```bash
 # 将可执行二进制文件 binary 反汇编
 go tool objdump binary
+```
+
+用前面 compile 的例子
+```bash
+go build main.go && go tool objdump ./main | grep -E "main.go:5"
 ```
 
 #### vet 静态检查

@@ -178,7 +178,7 @@ alloc_test.go:24:3: moved to heap: local <----------- 分配到了堆
                                    |---------| r  |
                                              +----+
 
- var x struct{ f, g *int }        +----+  0   +----+
+ var x struct{ f, g *int }        +----+  1   +----+
  var y struct{ a, b **int }       | x  |----->| y  |
  x.f = *y.b                       +----+      +----+
 ```

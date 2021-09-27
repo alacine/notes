@@ -283,6 +283,32 @@ go vet main.go
 go vet ./...
 ```
 
+#### pprof
+
+导入即可，不过要启动一个 HTTP 服务
+```go
+import (
+	"net/http"
+    _ "net/http/pprof"
+)
+
+func main() {
+	http.ListenAndServe(":8080", nil)
+}
+```
+访问`localhost:8080/debug/pprof`
+
+```bash
+# 获取到本地并且进入 pprof cli 工具
+go tool pprof http://localhost:8080/debug/pprof/heap
+
+# 生成页面
+go tool pprof -web http://localhost:8080/debug/pprof/heap
+
+# 使用已有的 pprof 文件，可以看前面 test 中的样例
+go tool pprof -web cpu.prof
+```
+
 ### 其它
 
 #### errcheck

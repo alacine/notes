@@ -12,6 +12,9 @@ echo hello | qrencode -t UTF8
 
 数据库图形化连接工具
 
+如果出现类似`publickey retrieval not allowed`的问题，记得在连接设置里面把
+`驱动属性`里面的`allowPublicKeyRetrieval`改为`TRUE`
+
 ### zeal
 
 文档查询

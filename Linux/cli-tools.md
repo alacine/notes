@@ -9,6 +9,10 @@ strace -c ./main
 
 # 持续输出
 strace -f ./main
+
+# 日志输出到 tlog.{PID} 中，-ff 表示同时追踪 fork 并且把 ./main 和
+# strace 的输出分开
+strace -o tlog -ff ./main
 ```
 
 ## exec
@@ -45,6 +49,22 @@ ip r
 ```bash
 ss -tlp src :1080
 ss -t dst 192.168.2.1:80
+```
+
+## tcpdump
+
+TCP 抓包，需要`sudo`或者用 root
+```bash
+# -S 表示使用绝对序号，而不是使用相对序号
+#    (区别是什么可以抓个三次握手的包观察 seq 和 ack 的值看看)
+# -n 表示使用 ip 地址和端口号而不是域名和对应服务
+# -i 指定网卡
+tcpdump -Sn -i wlp3s0 host www.baidu.com
+
+# -X 表示输出包中的具体内容
+tcpdump -SXn -i wlp3s0 host www.baidu.com
+
+tcpdump -nn -i wlp3s0 dst www.baidu.com and dst port 80
 ```
 
 ## fping 

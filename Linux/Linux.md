@@ -16,10 +16,12 @@
 ```
 readlink -f /proc/PID/exe
 ```
+
 获取进程的当前工作路径
 ```
 pwdx PID
 ```
+
 获取进程使用的环境变量
 ```
 cat /proc/PID/environ
@@ -29,6 +31,16 @@ cat /proc/PID/environ
 strings /proc/PID/environ
 ```
 
+进程打开的文件描述符
+```bash
+ls /proc/PID/fd
+```
+
+进程启动的线程
+```bash
+ls /proc/PID/task
+```
+
 当前启动的自定义的内核参数
 ```bash
 cat /proc/cmdline
@@ -36,10 +48,14 @@ cat /proc/cmdline
 
 ### Tips
 
+-----
+
 文件的详细信息
 ```bash
 stat filename
 ```
+
+-----
 
 Makefile 中递归 wildcard 实现
 ```
@@ -48,6 +64,8 @@ rwildcard = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2
 target: $(call rwildcard,./,*.go)
     commands
 ```
+
+-----
 
 `--`表示停止接受 flag 参数，后续出现的参数一律视为文件名称和普通的参数，例如在
 `oh-my-zsh`中，会把`-`作为`cd -`的别名，具体做法如下
@@ -59,7 +77,30 @@ alias -- -='cd -'
 alias -- -
 ```
 
+-----
+
 shell 获取上个命令的最后一个参数`ALT+.`
+
+-----
+
+用 SSH 连接的时候出现的问题
+```
+no matching host key type found. Their offer: ssh-rsa
+```
+
+解决方法就是指定加上对应的加密算法了
+```bash
+ssh -o HostKeyAlgorithms=+ssh-rsa xxx@xxx
+```
+
+如果要写在`.ssh/config`中的话，也是加上一行对应的内容，比如这样
+```
+Host miwifi
+    User root
+    Hostname 192.168.31.1
+    Port 22
+    HostkeyAlgorithms +ssh-rsa
+```
 
 ## GUI 相关
 

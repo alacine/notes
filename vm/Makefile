@@ -10,7 +10,7 @@ KS_NAME = fedora-ks.cfg
 #DOMAIN = "centos"
 #OS_VARIANT = centos-stream8
 #ISO = "/home/ryan/Qemu/CentOS-Stream-8-x86_64-latest-dvd1.iso"
-#KS_NAME = centos-ks.cfg
+#KS_CFG = "./centos-ks/ks.cfg"
 
 KS_CFG := ${KS_DIR}/${KS_NAME}
 

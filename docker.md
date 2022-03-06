@@ -200,3 +200,10 @@ docker run --rm -it ${Image} /bin/sh
 docker exec -it ${container_id} /bin/sh
 docker exec -it ${container_name} /bin/sh
 ```
+
+##### [容器构建镜像的 tag 怎么取](https://stevelasker.blog/2018/03/01/docker-tagging-best-practices-for-tagging-and-versioning-docker-images/)
+
+#### [容器镜像构建 bitnami 最佳实践](https://docs.bitnami.com/tutorials/bitnami-best-practices-hardening-containers/)
+#### [Dockerfiel bitnami 最佳实践](https://engineering.bitnami.com/articles/best-practices-writing-a-dockerfile.html)
+
+/etc/hosts 这个文件是启动后生成的，不是一开始就有的(在 minideb 上面试的)

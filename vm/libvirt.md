@@ -198,3 +198,11 @@ make clean
 ```bash
 virt-manager -c qemu:///system --show-domain-console fedora
 ```
+
+
+### QA
+
+如何使用桥接网络
+
+使用无线网络的时候似乎不能使用桥接模式，使用有线模式下面的文章看起来靠谱
+[[Debian10]使用KVM虚拟机并配置桥接网络](https://www.cnblogs.com/DouglasLuo/p/12731591.html)

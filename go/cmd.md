@@ -18,7 +18,7 @@ go env -w GO111MODULE=on
 
 ```bash
 # 编译指定环境
-env GOOS=linux GOPATH=amd64 go build
+env GOOS=linux GOARCH=amd64 go build
 # 指定输出位置
 go build -o ch1/echo1 ch1/echo1/main.go
 ```

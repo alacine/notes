@@ -102,6 +102,23 @@ Host miwifi
     HostkeyAlgorithms +ssh-rsa
 ```
 
+-----
+
+Swapfile
+- [ArchWiki Swap](https://wiki.archlinux.org/title/Swap#Swap_file_creation)
+- [ArchWiki Btrfs](https://wiki.archlinux.org/title/Btrfs#Swap_file)
+```bash
+# btrfs 需要先做一下操作
+truncate -s 0 /swapfile
+chattr +C /swapfile
+btrfs property set /swapfile compression none
+# 常规创建 swapfile 的方式
+fallocate -l 16G /swapfile
+chmod 0600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+```
+
 ## GUI 相关
 
 使用 AMD 显卡时，DE 自带的亮度调节无效

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # install fastdfs without root
-# 这个是 fastdfs 安装部署的脚本，请在使用前阅读 https://github.com/alacine/notes/blob/master/fastdfs.md
+# 这个是 fastdfs 安装部署的脚本，请在使用前阅读 https://github.com/alacine/notes/blob/master/work/fastdfs.md
 # 这个脚本默认假设有两台 tracker，如果不是，你需要自行做修改
 
 #set -x

@@ -221,3 +221,10 @@ cat a.yaml | yq
 # 或
 yq . a.yaml
 ```
+
+## sshpass
+
+```bash
+sshpass -p password ssh demo@192.168.122.116
+sshpass -p password rsync
+```

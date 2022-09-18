@@ -1,0 +1,22 @@
+- hosts: demo
+  vars:
+    filename: demoinfo
+  tasks:
+    - name: distribute
+      file:
+        path: "{{ filename }}"
+        state: touch
+    - name: echo some information
+      lineinfile:
+        path: "{{ filename }}"
+        line: |
+          {{ ansible_connection }}
+          {{ ansible_play_hosts }}
+          {{ ansible_default_ipv4.address }}
+          {{ ansible_distribution }}
+      register: res
+    - name: debug info
+      debug:
+        msg: "{{ res }}"
+    - name: cat
+      shell: cat {{ filename }}

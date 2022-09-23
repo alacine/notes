@@ -27,9 +27,7 @@ Namespaces types
 ls -l /proc/$$/ns
 ```
 
-## container(未完成)
-
-利用 namespace 手动创建容器
+## 利用 namespace 手动创建容器
 
 1. 使用 unshare 来做隔离操作
 2. 由于直接使用 unshare 隔离出来的网络不能访问外部，因此网络的 namespace 单独创建
@@ -149,8 +147,9 @@ echo "+cpuset" >> /sys/fs/cgroup/demo/cgroup.subtree_control
 mkdir /sys/fs/cgroup/demo/abc
 ```
 
-限制 cpu 核心数量和 cpu 的负载(man cpuset)
+限制 cpu 资源
 ```bash
+# 限制一个 cpu
 echo "1" > /sys/fs/cgroup/demo/abc/cpuset.cpus
 # 表示在 1000000 ms 的时间周期内可占用 200000 ms 的时间
 echo "200000 1000000" > /sys/fs/cgroup/demo/abc/cpu.max
@@ -168,6 +167,44 @@ echo 2345 > /sys/fs/cgroup/demo/abc/cgroup.procs
 2345
 ```
 
+写入后立即生效
+
+这里用一个会占两个线程的死循环来跑满 cpu 验证
+```go
+package main
+
+func deadLoop() {
+	for i := 0; ; i++ {
+	}
+}
+
+func main() {
+	go deadLoop()
+	deadLoop()
+}
+```
+
+```bash
+go build -o main main.go
+./main &
+```
+
+运行起来后用 top 观察 main 进程的 cpu 使用情况
+```
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+     48 root      20   0  710316    908    624 R 199.0   0.0   0:26.65 main
+```
+
+```bash
+echo $(pgrep main) > /sys/fs/cgroup/demo/abc/cgroup.procs
+```
+
+```
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+     48 root      20   0  710316    908    624 R  24.3   0.0   1:03.37 main
+```
+> 使用 ps -pu $(pgre main) 来查看，是缓慢从 200% 降到 20 % 的，但是 top 和 htop 
+> 立刻能观察到下降到 20% 左右，不清楚原因
 
 #### 4. 准备运行环境
 
@@ -176,7 +213,7 @@ echo 2345 > /sys/fs/cgroup/demo/abc/cgroup.procs
 借用 docker 来创建一个包含工具的最底层文件系统
 (当然也可以直接拷贝宿主操作系统的二进制文件，但可能会遇到需要缺少依赖的链接库的
 问题，也需要手动拷贝这些依赖的内容，这里偷懒直接借用 docker 来做这件事了，当然，
-后面的 namespace 隔离的部分不会使用 docker)
+网络、cgroup 这些 namespace 隔离的部分不会使用 docker)
 
 ```dockerfile
 FROM ubuntu
@@ -220,9 +257,11 @@ root           1  0.0  0.2   5044  4028 ?        S    08:23   0:00 /bin/bash --l
 root           8  0.0  0.1   7480  3280 ?        R+   08:30   0:00 ps aux
 ```
 
-
 #### 5. 验证
-进入容器
+
+1. 验证网络
+
+启动容器(已经启动可以通过 nsenter 进入容器)
 ```bash
 ip netns exec ns0 unshare -muip -f chroot ./rootfs usr/bin/bash
 ```
@@ -245,6 +284,49 @@ EOF
 rm -f /dev/null; mknod -m 666 /dev/null c 1 3
 ```
 
+2. 验证 pid
+
+查看当前进程
+```bash
+ps aux
+```
+```
+Error, do this: mount -t proc proc /proc
+```
+按照提示信息执行相应命令即可
+```
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.1   4624  3912 ?        S    23:13   0:00 usr/bin/bash
+root           6  0.0  0.0   7060  1548 ?        R+   23:17   0:00 ps aux
+```
+
+3. 验证 cpu 资源控制
+
+把前面用到的死循环程序复制到 chroot 后的 `/root/` 目录里面执行
+
+```bash
+ip netns exec ns0 unshare -muip -f chroot ./rootfs /root/main &
+```
+
+依旧使用 top 来观察
+```
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   5827 root      20   0  710572    912    624 R 199.7   0.0   0:20.98 main
+```
+```
+cat /proc/5872/cgroup
+0::/user.slice/user-1000.slice/session-8.scope
+```
+
+写入 cgroup 后
+```
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   5827 root      20   0  710572    912    624 R  20.0   0.0   1:33.66 main
+```
+```
+cat /proc/5872/cgroup
+0::/demo/abc
+```
 
 #### 参考
 - [namespaces man page](https://man7.org/linux/man-pages/man7/namespaces.7.html)

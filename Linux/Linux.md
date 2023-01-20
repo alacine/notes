@@ -119,6 +119,15 @@ mkswap /swapfile
 swapon /swapfile
 ```
 
+---
+
+关闭系统响铃
+
+`/etc/modprobe.d/nobeep.conf` 写入
+```
+blacklist pcspkr
+```
+
 ## GUI 相关
 
 使用 AMD 显卡时，DE 自带的亮度调节无效
@@ -134,6 +143,8 @@ amdgpu.backlight=0
 xrandr --output eDP --brightness 0.8
 ```
 
+---
+
 默认浏览器
 
 在 DE 自带的设置里修改外，还有一个需要改(需要重新登录)
@@ -141,4 +152,38 @@ xrandr --output eDP --brightness 0.8
 ```bash
 xdg-settings get default-web-browser
 xdg-settings set default-web-browser firefox.desktop
+```
+
+---
+
+[wayland 无鼠标问题](https://gitlab.freedesktop.org/wlroots/wlroots/-/issues/3189)
+```
+Failed to render cursor bufferit failed (pageflip): Device or resource busyvariab
+```
+设置环境变量即可
+```bash
+WLR_NO_HARDWARE_CURSORS=1 sway
+```
+
+---
+
+[键盘 Fn 按键问题(Keychron)](https://venthur.de/2021-04-30-keychron-c1-on-linux.html)
+
+以我的键盘中 F11 对应的媒体功能是音量+，无论按下 Fn + F11 还是单独按 F11，实际
+表现出来的效果都是音量+
+
+临时解决方案
+```bash
+# as root:
+echo 2 > /sys/module/hid_apple/parameters/fnmode
+```
+
+永久方案 `/etc/modprobe.d/hid_apple.conf` 写入
+```
+options hid_apple fnmode=2
+```
+然后执行
+```bash
+# as root
+update-initramfs -u -k all
 ```
